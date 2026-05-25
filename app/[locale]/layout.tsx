@@ -137,6 +137,10 @@ export default async function RootLayout({
           .goog-te-combo {
             position: relative !important;
           }
+          /* 保护带notranslate类的元素不被翻译 */
+          .notranslate {
+            font-family: inherit;
+          }
         `}} />
       </head>
       <body className="font-sans antialiased">

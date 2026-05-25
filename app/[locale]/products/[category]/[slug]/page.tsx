@@ -10,7 +10,7 @@ import { CATEGORY_INFO, type Product } from "@/lib/supabase/types"
 import ImageGallerySwitch from "./ImageGallerySwitch"
 
 interface PageProps {
-  params: Promise<{ category: string; slug: string }>
+  params: Promise<{ category: string; slug: string; locale: string }>
 }
 
 export async function generateMetadata({ params }: PageProps) {
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { category, slug } = await params
+  const { category, slug, locale } = await params
   const product = await getProductBySlug(slug)
 
   // ✅ 产品找不到才404（正常）
@@ -56,15 +56,15 @@ export default async function Page({ params }: PageProps) {
       <section className="pt-28 pb-4 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
+            <Link href={`/${locale}`} className="hover:text-foreground transition-colors">Home</Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href="/products" className="hover:text-foreground transition-colors">Products</Link>
+            <Link href={`/${locale}/products`} className="hover:text-foreground transition-colors">Products</Link>
             <ChevronRight className="w-4 h-4" />
             
-            {/* ✅ 修复：分类不存在时不显示链接，避免崩溃 */}
+            {/* 修复：分类不存在时不显示链接，避免崩溃 */}
             {categoryInfo ? (
               <>
-                <Link href={`/products/${realCategorySlug}`} className="hover:text-foreground transition-colors">
+                <Link href={`/${locale}/products/${realCategorySlug}`} className="hover:text-foreground transition-colors">
                   {categoryInfo.name}
                 </Link>
                 <ChevronRight className="w-4 h-4" />
@@ -88,13 +88,13 @@ export default async function Page({ params }: PageProps) {
 
             <div className="space-y-6">
               <div>
-                {/* ✅ 安全判断 */}
+                {/* 安全判断 */}
                 {categoryInfo && (
-                  <Link href={`/products/${realCategorySlug}`} className="text-sm text-primary">
+                  <Link href={`/${locale}/products/${realCategorySlug}`} className="text-sm text-primary">
                     {categoryInfo.name}
                   </Link>
                 )}
-                <h1 className="text-3xl md:text-4xl font-bold text-foreground mt-2">{product.name}</h1>
+                <h1 className="text-3xl md:text-4xl font-bold text-foreground mt-2 notranslate" translate="no">{product.name}</h1>
               </div>
 
               {product.price && (
@@ -104,7 +104,7 @@ export default async function Page({ params }: PageProps) {
               )}
 
               {product.description && (
-                <p className="text-muted-foreground">{product.description}</p>
+                <p className="text-muted-foreground notranslate" translate="no">{product.description}</p>
               )}
 
               <div className="grid grid-cols-2 gap-4">
@@ -125,7 +125,7 @@ export default async function Page({ params }: PageProps) {
                     {product.features.map((item, i) => (
                       <li key={i} className="flex items-start gap-2">
                         <Check className="w-5 h-5 text-green-500 mt-0.5" />
-                        <span>{item}</span>
+                        <span className="notranslate" translate="no">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -133,7 +133,7 @@ export default async function Page({ params }: PageProps) {
               )}
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Link href="/contact" className="flex-1 bg-primary text-white text-center py-3 rounded-xl">
+                <Link href={`/${locale}/contact`} className="flex-1 bg-primary text-white text-center py-3 rounded-xl">
                   Request Quote
                 </Link>
                 <a 
@@ -167,8 +167,8 @@ export default async function Page({ params }: PageProps) {
                 <tbody>
                   {Object.entries(product.specifications).map(([key, value]) => (
                     <tr key={key} className="border-b last:border-0">
-                      <td className="py-3 font-medium w-1/3">{key.replace(/_/g, " ")}</td>
-                      <td className="py-3 text-muted-foreground">{value}</td>
+                      <td className="py-3 font-medium w-1/3 notranslate" translate="no">{key.replace(/_/g, " ")}</td>
+                      <td className="py-3 text-muted-foreground notranslate" translate="no">{value}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -183,7 +183,7 @@ export default async function Page({ params }: PageProps) {
                 {relatedProducts.map((item) => (
                   <Link
                     key={item.id}
-                    href={`/products/${realCategorySlug}/${item.slug}`}
+                    href={`/${locale}/products/${realCategorySlug}/${item.slug}`}
                     className="group border rounded-xl overflow-hidden transition-shadow hover:shadow-lg"
                   >
                     {item.main_image && (
@@ -192,7 +192,7 @@ export default async function Page({ params }: PageProps) {
                       </div>
                     )}
                     <div className="p-4">
-                      <h3 className="font-medium truncate">{item.name}</h3>
+                      <h3 className="font-medium truncate notranslate" translate="no">{item.name}</h3>
                       {item.price && <p className="text-primary mt-1">${item.price.toFixed(2)}</p>}
                     </div>
                   </Link>

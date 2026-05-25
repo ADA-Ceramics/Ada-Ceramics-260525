@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Calendar, User, Tag, ArrowLeft, Share2 } from "lucide-react"
 import type { BlogPostDetail, NotionBlock } from "@/lib/notion"
 import { QuoteForm } from "@/components/shared/quote-form"
@@ -11,6 +12,8 @@ interface BlogDetailProps {
 }
 
 export function BlogDetail({ post }: BlogDetailProps) {
+  const pathname = usePathname()
+  const locale = pathname.split('/')[1] || 'en'
 
   const formattedDate = new Date(post.publishedAt).toLocaleDateString("en-US", {
     year: "numeric",
@@ -42,7 +45,7 @@ export function BlogDetail({ post }: BlogDetailProps) {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back Link */}
           <Link
-            href="/blog"
+            href={`/${locale}/blog`}
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />

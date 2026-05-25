@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 interface Product {
   id: string;
@@ -17,6 +18,9 @@ interface ProductsClientProps {
 }
 
 export function ProductsClient({ products, activeCat }: ProductsClientProps) {
+  const pathname = usePathname()
+  // 从路径中提取语言代码，默认为en
+  const locale = pathname.split('/')[1] || 'en'
 
   const fixedCategories = [
     { slug: "all", name: "All Products" },
@@ -49,7 +53,7 @@ export function ProductsClient({ products, activeCat }: ProductsClientProps) {
                 {fixedCategories.map((cat) => (
                   <li key={cat.slug}>
                     <Link
-                      href={`/products?cat=${cat.slug}`}
+                      href={`/${locale}/products?cat=${cat.slug}`}
                       className={`block w-full text-left py-2 px-3 rounded hover:bg-gray-100 ${
                         activeCat === cat.slug ? "bg-gray-200 font-medium" : ""
                       }`}
@@ -65,10 +69,13 @@ export function ProductsClient({ products, activeCat }: ProductsClientProps) {
               {products.length === 0 ? (
                 <div className="col-span-full text-center py-12 text-gray-500">No products found</div>
               ) : (
-                products.map((product) => (
+                products.map((product) => {
+                  // 处理category_slug为空的情况，使用默认分类
+                  const categorySlug = product.category_slug || 'high-temperature-white-porcelain'
+                  return (
                   <Link
                     key={product.id}
-                    href={`/products/${product.category_slug}/${product.slug}`}
+                    href={`/${locale}/products/${categorySlug}/${product.slug}`}
                     className="group border rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col"
                   >
                     <div className="w-full p-2 bg-white relative aspect-square">
@@ -81,10 +88,11 @@ export function ProductsClient({ products, activeCat }: ProductsClientProps) {
                       />
                     </div>
                     <div className="p-4 mt-auto">
-                      <h3 className="text-lg font-semibold">{product.name}</h3>
+                      <h3 className="text-lg font-semibold notranslate" translate="no">{product.name}</h3>
                     </div>
                   </Link>
-                ))
+                  )
+                })
               )}
             </div>
           </div>

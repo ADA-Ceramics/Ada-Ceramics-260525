@@ -8,7 +8,7 @@ import { getProductsByCategory } from "@/lib/supabase/products"
 import { CATEGORY_INFO, type Product } from "@/lib/supabase/types"
 
 interface PageProps {
-  params: Promise<{ category: string }>
+  params: Promise<{ category: string; locale: string }>
 }
 
 // SEO 元数据（优化版：符合谷歌 50-60字符 + 150字符标准）
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function CategoryProductsPage({ params }: PageProps) {
-  const { category: categorySlug } = await params
+  const { category: categorySlug, locale } = await params
   const products = await getProductsByCategory(categorySlug)
   const categoryInfo = CATEGORY_INFO[categorySlug]
 
@@ -44,9 +44,9 @@ export default async function CategoryProductsPage({ params }: PageProps) {
       <section className="pt-28 pb-4 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
+            <Link href={`/${locale}`} className="hover:text-foreground transition-colors">Home</Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href="/products" className="hover:text-foreground transition-colors">Products</Link>
+            <Link href={`/${locale}/products`} className="hover:text-foreground transition-colors">Products</Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-foreground">{categoryInfo.name}</span>
           </nav>
@@ -68,7 +68,7 @@ export default async function CategoryProductsPage({ params }: PageProps) {
               {products.map((product: Product) => (
                 <Link
                   key={product.id}
-                  href={`/products/${categorySlug}/${product.slug}`}
+                  href={`/${locale}/products/${categorySlug}/${product.slug}`}
                   className="group bg-card rounded-xl overflow-hidden border border-border hover:shadow-lg transition-all duration-300"
                 >
                   <div className="aspect-square bg-gradient-to-br from-muted to-muted/50 relative overflow-hidden">
@@ -88,7 +88,7 @@ export default async function CategoryProductsPage({ params }: PageProps) {
                     )}
                   </div>
                   <div className="p-4">
-                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2">
+                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2 notranslate" translate="no">
                       {product.name}
                     </h3>
                     {product.price && (

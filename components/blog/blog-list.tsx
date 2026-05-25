@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { AlertCircle } from "lucide-react"
 import type { BlogPost } from "@/lib/notion"
 
@@ -10,6 +11,8 @@ interface BlogListProps {
 }
 
 export function BlogList({ posts, error }: BlogListProps) {
+  const pathname = usePathname()
+  const locale = pathname.split('/')[1] || 'en'
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -78,7 +81,7 @@ export function BlogList({ posts, error }: BlogListProps) {
               {posts.map((post) => (
                 <li key={post.id}>
                   <Link
-                    href={`/blog/${post.slug}`}
+                    href={`/${locale}/blog/${post.slug}`}
                     className="block py-5 hover:bg-muted/30 -mx-4 px-4 transition-colors"
                   >
                     <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
