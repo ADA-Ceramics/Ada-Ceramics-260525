@@ -163,8 +163,9 @@ Details: ${formData.details}`;
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">Product Category *</label>
+                      <label htmlFor="contact-product-category" className="block text-sm font-medium text-foreground mb-2">Product Category *</label>
                       <select
+                        id="contact-product-category"
                         required
                         value={formData.category}
                         onChange={(e) => setFormData({ ...formData, category: e.target.value })}
