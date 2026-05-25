@@ -399,10 +399,11 @@ Details: ${formData.details}`;
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
                 <div>
-                  <label className="block text-sm font-medium text-[#1a1a1a] mb-2">
+                  <label htmlFor="home-product-category" className="block text-sm font-medium text-[#1a1a1a] mb-2">
                     Product Category <span className="text-red-500">*</span>
                   </label>
                   <select
+                    id="home-product-category"
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-200 rounded-md text-sm text-gray-500 bg-white cursor-pointer"
