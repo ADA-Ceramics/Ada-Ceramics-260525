@@ -1,0 +1,459 @@
+"use client"
+
+import Link from "next/link"
+import Image from "next/image"
+import { useState } from "react"
+import { Footer } from "@/components/layout/footer"
+import {
+  ArrowRight,
+  Shield,
+  Award,
+  Truck,
+  Package,
+  Mail,
+  Phone,
+  MapPin,
+  Globe,
+  Pen,
+  Palette,
+  Box,
+  Check,
+  Send,
+} from "lucide-react"
+
+interface CategoryData {
+  slug: string
+  name: string
+  description: string
+  image: string | null
+  alt: string
+}
+
+interface HomeClientProps {
+  categories: CategoryData[]
+}
+
+export function HomeClient({ categories }: HomeClientProps) {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    company: "",
+    email: "",
+    phone: "",
+    category: "",
+    quantity: "",
+    details: "",
+  })
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+    } catch (error) {
+      console.log("邮件发送失败：", error);
+    }
+
+    setIsSubmitting(false);
+    setShowSuccessModal(true);
+
+    // 2秒后跳转WhatsApp
+    setTimeout(() => {
+      const whatsappMessage = `Hi, I'm ${formData.fullName} from ${formData.company}. 
+Email: ${formData.email}
+Phone: ${formData.phone}
+Product Category: ${formData.category}
+Quantity: ${formData.quantity}
+Details: ${formData.details}`;
+      
+      window.open(
+        `https://wa.me/8615919512131?text=${encodeURIComponent(whatsappMessage)}`,
+        "_blank"
+      );
+      setShowSuccessModal(false);
+    }, 2000);
+  };
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* 成功提示弹窗 */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-xl p-8 max-w-md mx-4 text-center shadow-2xl">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Check className="w-8 h-8 text-green-600" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Message Sent Successfully!</h3>
+            <p className="text-gray-600">Thank you for contacting us. We will get back to you within 24 hours.</p>
+            <p className="text-sm text-gray-400 mt-4">Redirecting to WhatsApp...</p>
+          </div>
+        </div>
+      )}
+
+      <section className="relative min-h-screen flex items-center justify-center pt-[72px] bg-[#f5f3ef] overflow-hidden">
+        <div className="absolute inset-0 bg-[#f5f3ef]">
+          {/* 背景图替换为 Next.js Image */}
+          <Image
+            src="/bg.webp"
+            alt="Wholesale ceramic tableware & porcelain dinnerware bulk export supplier"
+            fill
+            priority
+            className="object-cover object-top opacity-60"
+          />
+        </div>
+
+        <div className="relative z-10 text-center px-6 py-20 max-w-[900px] mx-auto">
+          <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-5 py-2 mb-8">
+            <div className="w-2 h-2 rounded-full border border-gray-500"></div>
+            <span className="text-sm text-gray-600">Wholesale & Custom Ceramic</span>
+          </div>
+
+          <h1 className="mb-6">
+            <span className="block font-serif text-[56px] text-[#1a1a1a] leading-tight tracking-tight">
+              Premium Ceramic Tableware
+            </span>
+            <span className="block font-serif text-[56px] text-[#8b7355] leading-tight tracking-tight mt-2">
+              for Global Horeca & Retail
+            </span>
+          </h1>
+
+          <p className="text-[17px] text-gray-600 leading-relaxed max-w-[640px] mx-auto mb-10">
+            Professional ceramic manufacturer offering FDA/LFGB certified dinnerware, custom OEM/ODM solutions, and worldwide shipping.
+          </p>
+
+          <div className="flex items-center justify-center flex-wrap gap-4 mb-12">
+            <Link
+              href="#contact"
+              className="inline-flex items-center gap-2 bg-gray-800 text-white px-7 py-3 rounded-lg text-sm font-medium no-underline"
+            >
+              Request Quote
+              <ArrowRight size={16} />
+            </Link>
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-2 bg-white text-gray-800 border border-gray-300 px-7 py-3 rounded-lg text-sm font-medium no-underline"
+            >
+              View Products
+            </Link>
+          </div>
+
+          <div className="flex items-center justify-center flex-wrap gap-8">
+            <div className="flex items-center gap-2">
+              <Shield size={18} className="text-gray-500" />
+              <span className="text-sm text-gray-500">FDA Certified</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Shield size={18} className="text-gray-500" />
+              <span className="text-sm text-gray-500">LFGB Certified</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Globe size={18} className="text-gray-500" />
+              <span className="text-sm text-gray-500">Global Shipping</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-white">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-[#8b7355] text-sm font-semibold uppercase tracking-wider mb-3">Our Collections</p>
+            <h2 className="font-serif text-[56px] text-[#1a1a1a] mb-4">Product Categories</h2>
+            <p className="text-gray-600 text-base max-w-[600px] mx-auto leading-relaxed">
+              Explore our wide range of high-quality ceramic products, designed for both everyday use and special occasions.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {categories.map((category) => (
+              <Link key={category.slug} href={`/products?category=${category.slug}`} className="no-underline block">
+                <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 transition-all">
+                  <div className="relative aspect-[4/3] bg-gray-100">
+                    {category.image ? (
+                      // 产品卡片图片替换为 Next.js Image
+                      <Image 
+                        src={category.image} 
+                        alt={category.alt} 
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400">
+                        <Package size={48} />
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-[#1a1a1a] mb-2">{category.name}</h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">{category.description}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-white">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div>
+              <p className="text-[#8b7355] text-sm font-semibold uppercase tracking-wider mb-3">Our Facility</p>
+              <h2 className="font-serif text-4xl text-[#1a1a1a] mb-6">State-of-the-Art Manufacturing</h2>
+              <p className="text-gray-600 text-base mb-8 leading-relaxed">
+                Our 30,000 sqm facility combines traditional craftsmanship with modern technology, featuring 8+ production lines and a dedicated team of 200+ skilled workers.
+              </p>
+              
+              <div className="grid grid-cols-2 gap-5">
+                <div className="bg-gray-50 rounded-xl p-5 text-center">
+                  <div className="font-serif text-3xl text-[#1a1a1a] mb-1">30,000</div>
+                  <div className="text-gray-600 text-sm">sqm Factory</div>
+                </div>
+                <div className="bg-gray-50 rounded-xl p-5 text-center">
+                  <div className="font-serif text-3xl text-[#1a1a1a] mb-1">200+</div>
+                  <div className="text-gray-600 text-sm">Skilled Workers</div>
+                </div>
+                <div className="bg-gray-50 rounded-xl p-5 text-center">
+                  <div className="font-serif text-3xl text-[#1a1a1a] mb-1">8+</div>
+                  <div className="text-gray-600 text-sm">Production Lines</div>
+                </div>
+                <div className="bg-gray-50 rounded-xl p-5 text-center">
+                  <div className="font-serif text-3xl text-[#1a1a1a] mb-1">98%</div>
+                  <div className="text-gray-600 text-sm">Quality Rate</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100">
+              {/* 工厂图片替换为 Next.js Image */}
+              <Image 
+                src="/factory.webp" 
+                alt="ADA Ceramics factory workshop - Professional ceramic tableware production line" 
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <div className="text-center mb-12">
+            <p className="text-[#8b7355] text-xs font-medium uppercase tracking-widest mb-4">Why Choose Us</p>
+            <h2 className="font-serif text-[56px] text-[#1a1a1a] mb-5 leading-tight">Trusted Ceramic Manufacturer</h2>
+            <p className="text-gray-400 text-base max-w-[680px] mx-auto leading-relaxed">
+              We are a trusted ceramic manufacturer with years of experience in the industry.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
+            <div className="bg-white rounded-xl p-7 border border-gray-200">
+              <div className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center mb-6">
+                <Award size={24} className="text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-[#1a1a1a] mb-3 leading-snug">20+ Years Experience</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">Decades of expertise in ceramic production and quality control.</p>
+            </div>
+            <div className="bg-white rounded-xl p-7 border border-gray-200">
+              <div className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center mb-6">
+                <Shield size={24} className="text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-[#1a1a1a] mb-3 leading-snug">Certified Products</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">All products meet FDA, LFGB and international food safety standards.</p>
+            </div>
+            <div className="bg-white rounded-xl p-7 border border-gray-200">
+              <div className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center mb-6">
+                <Package size={24} className="text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-[#1a1a1a] mb-3 leading-snug">Flexible MOQ</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">Low minimum order quantities to support small businesses.</p>
+            </div>
+            <div className="bg-white rounded-xl p-7 border border-gray-200">
+              <div className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center mb-6">
+                <Globe size={24} className="text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-[#1a1a1a] mb-3 leading-snug">Global Shipping</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">Reliable worldwide shipping to meet your delivery needs.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="py-20 bg-white">
+        <div className="max-w-[1200px] mx-auto px-6">
+          <div className="text-center mb-12">
+            <p className="text-[#8b7355] text-xs font-medium uppercase tracking-[0.15em] mb-4">GET IN TOUCH</p>
+            <h2 className="font-serif text-4xl italic text-[#1a1a1a] mb-4 leading-tight">Request a Quote</h2>
+            <p className="text-gray-400 text-base max-w-[600px] mx-auto leading-relaxed">
+              Ready to start your project? Fill out the form below and our team will get back to you within 24 hours.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+            <div>
+              <h3 className="font-serif text-xl text-[#1a1a1a] mb-7">Contact Information</h3>
+
+              <div className="flex flex-col gap-6 mb-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-gray-50 rounded-full border border-gray-200 flex items-center justify-center shrink-0">
+                    <Mail size={18} className="text-gray-500" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400 mb-1">Email</p>
+                    <p className="text-sm font-medium text-[#1a1a1a]">sukichoi@adaceramics.com</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-gray-50 rounded-full border border-gray-200 flex items-center justify-center shrink-0">
+                    <Phone size={18} className="text-gray-500" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400 mb-1">Phone / WhatsApp</p>
+                    <p className="text-sm font-medium text-[#1a1a1a]">+86 15919512131</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-gray-50 rounded-full border border-gray-200 flex items-center justify-center shrink-0">
+                    <MapPin size={18} className="text-gray-500" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400 mb-1">Factory Address</p>
+                    <p className="text-sm font-medium text-[#1a1a1a] leading-relaxed">
+                      Tangbian, Shuanggang Village, Fengtang Town<br />
+                      Chao'an District, Chaozhou, Guangdong Province<br />
+                      China 515646
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+                <div>
+                  <label className="block text-sm font-medium text-[#1a1a1a] mb-2">
+                    Full Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.fullName}
+                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-md text-sm text-[#1a1a1a] bg-white"
+                    placeholder="John Smith"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1a1a1a] mb-2">
+                    Company Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.company}
+                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-md text-sm text-[#1a1a1a] bg-white"
+                    placeholder="Your Company Ltd."
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+                <div>
+                  <label className="block text-sm font-medium text-[#1a1a1a] mb-2">
+                    Email Address <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-md text-sm text-[#1a1a1a] bg-white"
+                    placeholder="john@company.com"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1a1a1a] mb-2">
+                    Phone / WhatsApp
+                  </label>
+                  <input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-md text-sm text-[#1a1a1a] bg-white"
+                    placeholder="+1 234 567 8900"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+                <div>
+                  <label className="block text-sm font-medium text-[#1a1a1a] mb-2">
+                    Product Category <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-md text-sm text-gray-500 bg-white cursor-pointer"
+                  >
+                    <option value="">Select product category</option>
+                    <option value="white-porcelain">White High-temp Porcelain</option>
+                    <option value="color-glaze">Color Glaze Ceramic</option>
+                    <option value="kiln-change">Kiln Change Ceramic</option>
+                    <option value="custom">Custom Design</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1a1a1a] mb-2">
+                    Estimated Quantity
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.quantity}
+                    onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-md text-sm text-[#1a1a1a] bg-white"
+                    placeholder="e.g., 5,000 pieces"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-[#1a1a1a] mb-2">
+                  Project Details <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  rows={4}
+                  value={formData.details}
+                  onChange={(e) => setFormData({ ...formData, details: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-md text-sm text-[#1a1a1a] bg-white resize-y"
+                  placeholder="Please describe your requirements, including product specifications, customization needs, target price, etc."
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                className="inline-flex items-center gap-2 bg-gray-800 text-white px-6 py-3 rounded-md text-sm font-medium border-none cursor-pointer"
+              >
+                Send Inquiry
+                <Send size={16} />
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  )
+}
