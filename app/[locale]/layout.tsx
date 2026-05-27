@@ -73,6 +73,19 @@ export default async function RootLayout({
   return (
     <html lang={locale} className={`${inter.variable} bg-background`} suppressHydrationWarning>
       <head>
+        {/* Google Analytics (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-9EC22P07Z6"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-9EC22P07Z6');
+            `,
+          }}
+        />
+
         {/* 隐藏Google翻译默认UI但保留功能 */}
         <style dangerouslySetInnerHTML={{ __html: `
           /* 隐藏Google翻译顶部横幅 */
