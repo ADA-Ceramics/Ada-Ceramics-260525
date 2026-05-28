@@ -10,7 +10,7 @@ import { CATEGORY_INFO, type Product } from "@/lib/supabase/types"
 import ImageGallerySwitch from "./ImageGallerySwitch"
 
 interface PageProps {
-  params: Promise<{ category: string; slug: string; locale: string }>
+  params: Promise<{ subcategory: string; slug: string; locale: string }>
 }
 
 export async function generateMetadata({ params }: PageProps) {
@@ -30,13 +30,13 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { category, slug, locale } = await params
+  const { subcategory, slug, locale } = await params
   const product = await getProductBySlug(slug)
 
   // ✅ 产品找不到才404（正常）
   if (!product) notFound()
 
-  const realCategorySlug = product.category_slug || category
+  const realCategorySlug = product.category_slug || subcategory
   const categoryInfo = CATEGORY_INFO[realCategorySlug]
 
   // ==============================
