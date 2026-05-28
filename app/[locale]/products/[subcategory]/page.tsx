@@ -2,10 +2,48 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { ChevronRight, ChevronDown, Package } from "lucide-react"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
+
+// ============================================================
+// 【保留原 Supabase 数据调用结构 - 等布局确认后联调】
+// ============================================================
+// import { notFound } from "next/navigation"
+// import { getProductsByCategory } from "@/lib/supabase/products"
+// import { CATEGORY_INFO, type Product } from "@/lib/supabase/types"
+//
+// interface PageProps {
+//   params: Promise<{ subcategory: string; locale: string }>
+// }
+//
+// export async function generateMetadata({ params }: PageProps) {
+//   const { subcategory } = await params
+//   const categoryInfo = CATEGORY_INFO[subcategory]
+//   
+//   if (!categoryInfo) {
+//     return { title: "Category Not Found | ADA Ceramics" }
+//   }
+//
+//   return {
+//     title: `${categoryInfo.name} | ADA Ceramics`,
+//     description: `Wholesale high-quality ${categoryInfo.name} ceramic tableware. Bulk orders & custom OEM/ODM available.`,
+//   }
+// }
+//
+// export default async function SubcategoryPage({ params }: PageProps) {
+//   const { subcategory: categorySlug, locale } = await params
+//   const products = await getProductsByCategory(categorySlug)
+//   const categoryInfo = CATEGORY_INFO[categorySlug]
+//
+//   if (!categoryInfo) {
+//     notFound()
+//   }
+//   // ... 使用 products 数据渲染
+// }
+// ============================================================
 
 // 树状分类数据结构
 const categoryTree = [
@@ -62,16 +100,16 @@ const categoryTree = [
   },
 ]
 
-// 静态占位产品数据
+// 静态占位产品数据（联调时替换为 Supabase 数据）
 const placeholderProducts = [
-  { id: 1, name: "Classic Round Plate", sku: "CRP-001" },
-  { id: 2, name: "Elegant Rim Plate", sku: "ERP-002" },
-  { id: 3, name: "Coupe Style Plate", sku: "CSP-003" },
-  { id: 4, name: "Square Modern Plate", sku: "SMP-004" },
-  { id: 5, name: "Oval Serving Platter", sku: "OSP-005" },
-  { id: 6, name: "Deep Soup Plate", sku: "DSP-006" },
-  { id: 7, name: "Dessert Side Plate", sku: "DSP-007" },
-  { id: 8, name: "Charger Plate Large", sku: "CPL-008" },
+  { id: 1, name: "Classic Round Plate", sku: "CRP-001", slug: "classic-round-plate" },
+  { id: 2, name: "Elegant Rim Plate", sku: "ERP-002", slug: "elegant-rim-plate" },
+  { id: 3, name: "Coupe Style Plate", sku: "CSP-003", slug: "coupe-style-plate" },
+  { id: 4, name: "Square Modern Plate", sku: "SMP-004", slug: "square-modern-plate" },
+  { id: 5, name: "Oval Serving Platter", sku: "OSP-005", slug: "oval-serving-platter" },
+  { id: 6, name: "Deep Soup Plate", sku: "DSP-006", slug: "deep-soup-plate" },
+  { id: 7, name: "Dessert Side Plate", sku: "DSP-007", slug: "dessert-side-plate" },
+  { id: 8, name: "Charger Plate Large", sku: "CPL-008", slug: "charger-plate-large" },
 ]
 
 export default function SubcategoryPage() {
@@ -219,18 +257,34 @@ export default function SubcategoryPage() {
                 </p>
               </div>
 
-              {/* Product Grid */}
+              {/* Product Grid - 联调时替换为动态数据 */}
+              {/* {products.length === 0 ? (
+                <div className="text-center py-16">
+                  <p className="text-muted-foreground">No products found in this category.</p>
+                </div>
+              ) : ( */}
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 {placeholderProducts.map((product) => (
-                  <div
+                  <Link
                     key={product.id}
+                    href={`/${locale}/products/${currentSubcategory || 'plates'}/${product.slug}`}
                     className="group border border-[#e5e7eb] rounded-lg overflow-hidden bg-white hover:shadow-lg transition-all"
                   >
                     {/* Product Image Placeholder */}
                     <div className="aspect-square relative bg-[#f9fafb]">
+                      {/* 联调时替换为动态图片 */}
+                      {/* {product.main_image ? (
+                        <Image
+                          src={product.main_image}
+                          alt={`${product.name} - Wholesale ceramic tableware`}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      ) : ( */}
                       <div className="absolute inset-0 flex items-center justify-center text-[#9ca3af]">
                         <Package className="w-16 h-16 opacity-30" />
                       </div>
+                      {/* )} */}
                     </div>
                     
                     {/* Product Info */}
@@ -239,16 +293,14 @@ export default function SubcategoryPage() {
                       <h3 className="text-base font-medium text-[#1a1a1a] mb-4 group-hover:text-[#8b7355] transition-colors">
                         {product.name}
                       </h3>
-                      <Link
-                        href={`/${locale}/products/${currentSubcategory || 'plates'}/${product.sku.toLowerCase()}`}
-                        className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-[#8b7355] rounded-md hover:bg-[#6d5a43] transition-colors"
-                      >
+                      <span className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-[#8b7355] rounded-md group-hover:bg-[#6d5a43] transition-colors">
                         View Details
-                      </Link>
+                      </span>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
+              {/* )} */}
 
               {/* Load More (Placeholder) */}
               <div className="mt-10 text-center">
