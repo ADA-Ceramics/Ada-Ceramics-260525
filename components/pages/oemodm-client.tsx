@@ -13,6 +13,7 @@ import {
   ClipboardCheck,
   PenTool,
   Factory,
+  MessageCircle,
   ShieldCheck,
   Ship,
   CheckCircle2
@@ -364,6 +365,23 @@ export function OemOdmClient() {
                 </div>
               )
             })}
+          </div>
+          
+          {/* Talk To Our Experts 按钮 */}
+          <div className="mt-12 text-center">
+            <button
+              onClick={() => {
+                const message = "Hi, I'm interested in your OEM/ODM ceramic customization services. Could you tell me more about the process and pricing?";
+                window.open(
+                  `https://wa.me/8615919512131?text=${encodeURIComponent(message)}`,
+                  "_blank"
+                );
+              }}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[#8b7355] text-white text-lg font-medium rounded-lg hover:bg-[#6d5a43] transition-colors shadow-lg"
+            >
+              <MessageCircle className="w-5 h-5" />
+              Talk To Our Experts
+            </button>
           </div>
         </div>
       </section>
