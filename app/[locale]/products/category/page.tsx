@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Footer } from "@/components/layout/footer";
@@ -139,6 +139,34 @@ export function ProductsClient() {
   const locale = pathname.split('/')[1] || 'en'
   const [activeTab, setActiveTab] = useState("all");
 
+  // 监听 URL hash 变化，自动切换到对应分类
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith('#category-')) {
+        const categoryId = hash.replace('#category-', '');
+        const validTabs = categoryTabs.map(t => t.id);
+        if (validTabs.includes(categoryId)) {
+          setActiveTab(categoryId);
+          // 滚动到分类区块
+          setTimeout(() => {
+            const element = document.getElementById('category-tabs');
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 100);
+        }
+      }
+    };
+
+    // 页面加载时检查 hash
+    handleHashChange();
+    
+    // 监听 hash 变化
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   return (
     <main className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -171,11 +199,12 @@ export function ProductsClient() {
       {/* Category Tabs and Product Cards */}
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Category Tabs */}
-          <div className="flex flex-wrap justify-center gap-2 mb-10">
+          {/* Category Tabs - 每个分类区块的锚点 */}
+          <div id="category-tabs" className="flex flex-wrap justify-center gap-2 mb-10 scroll-mt-24">
             {categoryTabs.map((tab) => (
               <button
                 key={tab.id}
+                id={`category-${tab.id}`}
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-4 py-2.5 text-sm font-medium rounded-md transition-all ${
                   activeTab === tab.id

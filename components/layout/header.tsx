@@ -4,9 +4,17 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { Menu, X, ChevronDown } from "lucide-react"
-import { CATEGORY_INFO } from "@/lib/supabase/types"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
+
+// 产品分类数据 - 链接到 /products/category 页面的对应区块
+const PRODUCT_CATEGORIES = [
+  { id: "plates", name: "Wholesale Plates", description: "Dinner, dessert, soup & serving plates" },
+  { id: "bowls", name: "Wholesale Bowls", description: "Soup, salad, ramen & snack bowls" },
+  { id: "sets", name: "Wholesale Dinnerware Sets", description: "Daily & restaurant tableware sets" },
+  { id: "cups", name: "Wholesale Cups & Mugs", description: "Ceramic mugs, coffee cups & water cups" },
+  { id: "bakeware", name: "Wholesale Bakeware", description: "Baking dishes, ramekins & pie plates" },
+]
 
 // 严格对应你本地实际文件名
 const LANGUAGES = [
@@ -296,23 +304,24 @@ export function Header() {
                           <div className="px-4 py-2 border-b">
                             <p className="text-xs text-gray-500 uppercase">Product Categories</p>
                           </div>
-                          {Object.entries(CATEGORY_INFO).map(([slug, info]) => (
+                          {PRODUCT_CATEGORIES.map((category) => (
                             <Link
-                              key={slug}
-                              href={`/products/${slug}`}
+                              key={category.id}
+                              href={`/${currentLangCode}/products/category#category-${category.id}`}
                               className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50"
+                              onClick={() => setIsProductsOpen(false)}
                             >
                               <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center">
                                 <div className="w-6 h-6 rounded bg-primary/20"></div>
                               </div>
                               <div>
-                                <p className="text-sm">{info.name}</p>
-                                <p className="text-xs text-gray-400 line-clamp-1">{info.description}</p>
+                                <p className="text-sm">{category.name}</p>
+                                <p className="text-xs text-gray-400 line-clamp-1">{category.description}</p>
                               </div>
                             </Link>
                           ))}
                           <div className="border-t mt-2 pt-2 px-4">
-                            <Link href="/products" className="text-sm text-primary hover:underline">
+                            <Link href={`/${currentLangCode}/products/category`} className="text-sm text-primary hover:underline">
                               View All Products →
                             </Link>
                           </div>
@@ -458,18 +467,18 @@ export function Header() {
                   </button>
                   <div className={cn("overflow-hidden", isProductsOpen ? "max-h-96" : "max-h-0")}>
                     <div className="pl-4 pb-2 space-y-1">
-                      {Object.entries(CATEGORY_INFO).map(([slug, info]) => (
+                      {PRODUCT_CATEGORIES.map((category) => (
                         <Link
-                          key={slug}
-                          href={`/products/${slug}`}
+                          key={category.id}
+                          href={`/${currentLangCode}/products/category#category-${category.id}`}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="block px-3 py-2 text-sm text-gray-600"
                         >
-                          {info.name}
+                          {category.name}
                         </Link>
                       ))}
                       <Link
-                        href="/products"
+                        href={`/${currentLangCode}/products/category`}
                         onClick={() => setIsMobileMenuOpen(false)}
                         className="block px-3 py-2 text-sm text-primary"
                       >
