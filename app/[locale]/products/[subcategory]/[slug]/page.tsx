@@ -9,14 +9,14 @@ import { Footer } from "@/components/layout/footer"
 import { QuoteForm } from "@/components/shared/quote-form"
 
 // ============================================================
-// SEO Metadata - 谷歌SEO友好
+// SEO Metadata
 // ============================================================
 interface PageProps {
-  params: Promise<{ subcategory: string; slug: string; locale: string }>
+  params: Promise<{ locale: string; subcategory: string; slug: string }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug, locale } = await params
+  const { slug, locale, subcategory } = await params
   const product = await getProductBySlug(slug)
 
   if (!product) {
@@ -26,27 +26,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
-  // SEO优化的标题格式：产品名 | 类型 | 品牌
   const seoTitle = `${product.name} | Wholesale Ceramic Tableware | ADA Ceramics`
-  
-  // SEO优化的描述：包含关键词、产品特性、行动号召
-  const seoDescription = product.description 
+  const seoDescription = product.description
     ? `${product.description.slice(0, 120)}... Factory direct pricing, low MOQ, FDA/LFGB certified. Request a quote today!`
-    : `Wholesale ${product.name} from ADA Ceramics. Premium quality ceramic tableware for restaurants, hotels and catering. Factory direct with low MOQ and custom OEM/ODM available.`
+    : `Wholesale ${product.name} from ADA Ceramics. Premium quality ceramic tableware for restaurants, hotels and catering.`
 
   return {
     title: seoTitle,
     description: seoDescription,
-    keywords: [
-      product.name,
-      "wholesale ceramic",
-      "bulk tableware",
-      "restaurant supplies",
-      "hotel dinnerware",
-      "ceramic manufacturer",
-      "OEM ceramic",
-      "FDA certified tableware",
-    ].join(", "),
+    keywords: [product.name, "wholesale ceramic", "bulk tableware", "restaurant supplies", "hotel dinnerware"].join(", "),
     openGraph: {
       title: seoTitle,
       description: seoDescription,
@@ -54,13 +42,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       locale: locale === "zh" ? "zh_CN" : "en_US",
       images: product.main_image ? [{ url: product.main_image, width: 800, height: 800, alt: product.name }] : [],
     },
-    twitter: {
-      card: "summary_large_image",
-      title: seoTitle,
-      description: seoDescription,
-    },
     alternates: {
-      canonical: `https://adaceramics.com/${locale}/products/${product.category_slug}/${product.slug}`,
+      canonical: `https://adaceramics.com/${locale}/products/${subcategory}/${product.slug}`,
     },
   }
 }
@@ -69,20 +52,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 // 静态数据
 // ============================================================
 
-// 卖点图标（与分类页保持一致）
 const sellingPoints = [
-  { icon: Layers, title: "Low MOQ", description: "Minimum order from 100 pieces" },
-  { icon: ShieldCheck, title: "FDA/LFGB Certified", description: "Food-safe quality guaranteed" },
-  { icon: Settings, title: "Custom OEM/ODM", description: "Your logo & design welcome" },
-  { icon: Zap, title: "Fast Delivery", description: "15-30 days production time" },
+  { icon: Layers, title: "Low MOQ", description: "From 100 pieces" },
+  { icon: ShieldCheck, title: "FDA/LFGB Certified", description: "Food-safe quality" },
+  { icon: Settings, title: "Custom OEM/ODM", description: "Your design welcome" },
+  { icon: Zap, title: "Fast Delivery", description: "15-30 days" },
 ]
 
-// 分类树（用于左侧导航）
 const categoryTree = [
   {
-    id: "plates",
-    name: "Wholesale Plates",
-    slug: "plates",
+    id: "plates", name: "Wholesale Plates", slug: "plates",
     children: [
       { id: "dinner-plates", name: "Dinner Plates", slug: "dinner-plates" },
       { id: "dessert-side-plates", name: "Dessert & Side Plates", slug: "dessert-side-plates" },
@@ -91,9 +70,7 @@ const categoryTree = [
     ],
   },
   {
-    id: "bowls",
-    name: "Wholesale Bowls",
-    slug: "bowls",
+    id: "bowls", name: "Wholesale Bowls", slug: "bowls",
     children: [
       { id: "soup-bowls", name: "Soup Bowls", slug: "soup-bowls" },
       { id: "salad-bowls", name: "Salad Bowls", slug: "salad-bowls" },
@@ -102,18 +79,14 @@ const categoryTree = [
     ],
   },
   {
-    id: "dinnerware-sets",
-    name: "Wholesale Dinnerware Sets",
-    slug: "dinnerware-sets",
+    id: "dinnerware-sets", name: "Wholesale Dinnerware Sets", slug: "dinnerware-sets",
     children: [
       { id: "daily-tableware-sets", name: "Daily Tableware Sets", slug: "daily-tableware-sets" },
       { id: "restaurant-catering-sets", name: "Restaurant & Catering Sets", slug: "restaurant-catering-sets" },
     ],
   },
   {
-    id: "cups-mugs",
-    name: "Wholesale Cups & Mugs",
-    slug: "cups-mugs",
+    id: "cups-mugs", name: "Wholesale Cups & Mugs", slug: "cups-mugs",
     children: [
       { id: "ceramic-mugs", name: "Ceramic Mugs", slug: "ceramic-mugs" },
       { id: "coffee-cups-saucers", name: "Coffee Cups & Saucers", slug: "coffee-cups-saucers" },
@@ -121,9 +94,7 @@ const categoryTree = [
     ],
   },
   {
-    id: "bakeware",
-    name: "Wholesale Bakeware",
-    slug: "bakeware",
+    id: "bakeware", name: "Wholesale Bakeware", slug: "bakeware",
     children: [
       { id: "baking-dishes", name: "Baking Dishes", slug: "baking-dishes" },
       { id: "ramekins", name: "Ramekins", slug: "ramekins" },
@@ -136,9 +107,10 @@ const categoryTree = [
 // 页面组件
 // ============================================================
 export default async function ProductDetailPage({ params }: PageProps) {
-  const { subcategory, slug, locale } = await params
+  const { locale, subcategory, slug } = await params
   const product = await getProductBySlug(slug)
 
+  // 只在产品不存在时才 notFound
   if (!product) {
     notFound()
   }
@@ -154,17 +126,17 @@ export default async function ProductDetailPage({ params }: PageProps) {
         return { parent, child }
       }
     }
+    // 不存在的分类也不崩溃
     return { parent: categoryTree[0], child: null }
   }
 
   const { parent: currentParent, child: currentChild } = findCurrentCategory()
   const categoryName = currentChild?.name || currentParent?.name || "Products"
 
-  // 解析产品规格
   const specifications = product.specifications || {}
   const features = product.features || []
 
-  // 结构化数据 (JSON-LD) - 谷歌SEO
+  // JSON-LD 结构化数据
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -172,46 +144,25 @@ export default async function ProductDetailPage({ params }: PageProps) {
     description: product.description || `Wholesale ${product.name} from ADA Ceramics`,
     image: product.main_image || "",
     sku: product.id,
-    brand: {
-      "@type": "Brand",
-      name: "ADA Ceramics",
-    },
-    manufacturer: {
-      "@type": "Organization",
-      name: "ADA Ceramics",
-      url: "https://adaceramics.com",
-    },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "USD",
-      price: product.price || "Contact for pricing",
-      availability: "https://schema.org/InStock",
-      seller: {
-        "@type": "Organization",
-        name: "ADA Ceramics",
-      },
-    },
+    brand: { "@type": "Brand", name: "ADA Ceramics" },
+    manufacturer: { "@type": "Organization", name: "ADA Ceramics", url: "https://adaceramics.com" },
     category: categoryName,
   }
 
   return (
     <div className="min-h-screen bg-background">
-      {/* JSON-LD 结构化数据 */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <Header />
 
-      {/* Hero Section - 浅米色背景 */}
+      {/* Hero Section */}
       <section className="pt-32 pb-6 bg-[#f5f3ef]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Breadcrumb - SEO友好 */}
+          {/* Breadcrumb - 使用正确的链接格式 */}
           <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
             <Link href={`/${locale}`} className="hover:text-foreground transition-colors">Home</Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href={`/${locale}/products/category`} className="hover:text-foreground transition-colors">Products</Link>
+            <Link href={`/${locale}/products`} className="hover:text-foreground transition-colors">Products</Link>
             <ChevronRight className="w-4 h-4" />
             <Link href={`/${locale}/products/${currentParent.slug}`} className="hover:text-foreground transition-colors">
               {currentParent.name}
@@ -250,7 +201,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-8">
 
-            {/* Left Sidebar - Category Navigation */}
+            {/* Left Sidebar */}
             <aside className="w-full lg:w-64 flex-shrink-0 hidden lg:block">
               <div className="lg:sticky lg:top-28 bg-[#f9fafb] rounded-lg border border-[#e5e7eb] p-4">
                 <h2 className="text-base font-semibold text-[#1a1a1a] mb-4 pb-3 border-b border-[#e5e7eb]">
@@ -292,7 +243,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               </div>
             </aside>
 
-            {/* Right Content - Product Details */}
+            {/* Right Content */}
             <main className="flex-1">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
@@ -314,13 +265,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
                       </div>
                     )}
                   </div>
-                  {/* Thumbnail placeholders */}
                   <div className="flex gap-3">
                     {[1, 2, 3, 4].map((i) => (
-                      <div
-                        key={i}
-                        className="w-20 h-20 bg-[#f9fafb] rounded border border-[#e5e7eb] flex items-center justify-center"
-                      >
+                      <div key={i} className="w-20 h-20 bg-[#f9fafb] rounded border border-[#e5e7eb] flex items-center justify-center">
                         <Package className="w-8 h-8 text-[#d1d5db]" />
                       </div>
                     ))}
@@ -329,7 +276,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
                 {/* Product Info */}
                 <div className="space-y-6">
-                  {/* H1 Title - SEO关键 */}
                   <div>
                     <p className="text-sm text-[#8b7355] font-medium mb-2">{categoryName}</p>
                     <h1 className="text-2xl sm:text-3xl font-serif font-normal text-[#1a1a1a] mb-3">
@@ -338,22 +284,18 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     <p className="text-sm text-[#6b7280]">SKU: {product.id}</p>
                   </div>
 
-                  {/* Description - SEO重要 */}
                   {product.description && (
                     <div>
                       <h2 className="text-lg font-semibold text-[#1a1a1a] mb-2">Product Description</h2>
-                      <p className="text-[#4b5563] leading-relaxed">
-                        {product.description}
-                      </p>
+                      <p className="text-[#4b5563] leading-relaxed">{product.description}</p>
                     </div>
                   )}
 
-                  {/* Features */}
                   {features.length > 0 && (
                     <div>
                       <h2 className="text-lg font-semibold text-[#1a1a1a] mb-3">Key Features</h2>
                       <ul className="space-y-2">
-                        {features.map((feature, index) => (
+                        {features.map((feature: string, index: number) => (
                           <li key={index} className="flex items-start gap-2">
                             <Check className="w-5 h-5 text-[#8b7355] flex-shrink-0 mt-0.5" />
                             <span className="text-[#4b5563]">{feature}</span>
@@ -363,7 +305,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     </div>
                   )}
 
-                  {/* Specifications */}
                   {Object.keys(specifications).length > 0 && (
                     <div>
                       <h2 className="text-lg font-semibold text-[#1a1a1a] mb-3">Specifications</h2>
@@ -372,7 +313,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                           {Object.entries(specifications).map(([key, value]) => (
                             <div key={key} className="contents">
                               <dt className="text-[#6b7280]">{key}</dt>
-                              <dd className="text-[#1a1a1a] font-medium">{value}</dd>
+                              <dd className="text-[#1a1a1a] font-medium">{value as string}</dd>
                             </div>
                           ))}
                         </dl>
@@ -413,25 +354,19 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* Additional SEO Content Section */}
+              {/* SEO Content */}
               <div className="mt-12 pt-8 border-t border-[#e5e7eb]">
                 <h2 className="text-xl font-serif font-normal text-[#1a1a1a] mb-4">
                   Why Choose ADA Ceramics for Wholesale {categoryName}?
                 </h2>
                 <div className="prose prose-sm max-w-none text-[#4b5563]">
                   <p>
-                    As a leading ceramic tableware manufacturer in China, ADA Ceramics specializes in producing 
-                    high-quality {categoryName.toLowerCase()} for the global hospitality industry. Our products 
-                    are trusted by restaurants, hotels, and catering businesses worldwide.
+                    As a leading ceramic tableware manufacturer in China, ADA Ceramics specializes in producing
+                    high-quality {categoryName.toLowerCase()} for the global hospitality industry.
                   </p>
                   <p className="mt-3">
-                    All our ceramic products are FDA and LFGB certified, ensuring they meet the highest food 
-                    safety standards. We offer competitive factory-direct pricing with flexible MOQ options, 
-                    making it easy for businesses of all sizes to source premium tableware.
-                  </p>
-                  <p className="mt-3">
-                    Whether you need standard designs or custom OEM/ODM solutions with your logo and branding, 
-                    our experienced team is ready to support your project from concept to delivery.
+                    All our ceramic products are FDA and LFGB certified, ensuring they meet the highest food
+                    safety standards. We offer competitive factory-direct pricing with flexible MOQ options.
                   </p>
                 </div>
               </div>
@@ -440,7 +375,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* Quote Form Section */}
       <div id="quote-form">
         <QuoteForm />
       </div>
