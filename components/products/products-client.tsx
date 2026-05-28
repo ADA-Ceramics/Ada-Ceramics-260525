@@ -2,23 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { QuoteForm } from "@/components/shared/quote-form";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Clock, Award, Package, Truck, Layers, Gift, Settings, Zap } from "lucide-react";
-
-interface Product {
-  id: string;
-  name: string;
-  slug: string;
-  main_image: string;
-  category_slug: string;
-}
-
-interface ProductsClientProps {
-  products: Product[];
-}
 
 // Selling points data
 const sellingPoints = [
@@ -146,9 +132,7 @@ const faqItems = [
   },
 ];
 
-export function ProductsClient({ products }: ProductsClientProps) {
-  const pathname = usePathname()
-  const locale = pathname.split('/')[1] || 'en'
+export function ProductsClient() {
   const [activeTab, setActiveTab] = useState("all");
 
   return (
@@ -229,41 +213,6 @@ export function ProductsClient({ products }: ProductsClientProps) {
         </div>
       </section>
       
-      {/* Products Content */}
-      <section className="py-12 bg-[#f9fafb]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {products.length === 0 ? (
-              <div className="col-span-full text-center py-12 text-gray-500">No products found</div>
-            ) : (
-              products.map((product) => {
-                const categorySlug = product.category_slug || 'high-temperature-white-porcelain'
-                return (
-                <Link
-                  key={product.id}
-                  href={`/${locale}/products/${categorySlug}/${product.slug}`}
-                  className="group border rounded-lg overflow-hidden hover:shadow-lg transition-shadow flex flex-col bg-white"
-                >
-                  <div className="w-full p-2 bg-white relative aspect-square">
-                    <Image
-                      src={product.main_image}
-                      alt={product.name}
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  </div>
-                  <div className="p-4 mt-auto">
-                    <h3 className="text-lg font-semibold notranslate" translate="no">{product.name}</h3>
-                  </div>
-                </Link>
-                )
-              })
-            )}
-          </div>
-        </div>
-      </section>
-
       {/* Solutions For Your Business */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
