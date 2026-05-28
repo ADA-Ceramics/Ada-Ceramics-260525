@@ -507,23 +507,107 @@ export function OemOdmClient() {
         </div>
       </section>
 
-      {/* 9. 转化引导区 - 独立底色区块 */}
+      {/* 9. 转化引导区 - Get In Touch 表单 */}
       <section className="py-20 lg:py-28 bg-[#1a1a2e]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-serif font-normal text-white mb-6">
-            Ready to Start Your Custom Project?
-          </h2>
-          <p className="text-lg text-white/70 mb-10 max-w-2xl mx-auto">
-            Get a free quote within 24 hours. Our team is ready to help you 
-            bring your ceramic tableware vision to life.
-          </p>
-          <Link
-            href="/contact?type=quote"
-            className="inline-flex items-center justify-center px-10 py-5 text-xl font-medium text-[#1a1a2e] bg-white rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl sm:text-4xl font-serif font-normal text-white mb-4">
+              Get In Touch
+            </h2>
+            <p className="text-lg text-white/70 max-w-2xl mx-auto">
+              Tell us about your custom ceramic tableware needs. Our team will respond within 24 hours.
+            </p>
+          </div>
+          
+          {/* 联系表单 */}
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault()
+              const formData = new FormData(e.currentTarget)
+              const name = formData.get('name') as string
+              const email = formData.get('email') as string
+              const company = formData.get('company') as string
+              const message = formData.get('message') as string
+              
+              // 构建 WhatsApp 消息
+              const whatsappMessage = `Hi, I'm ${name} from ${company || 'N/A'}.\n\nEmail: ${email}\n\nMessage: ${message}`
+              window.open(
+                `https://wa.me/8615919512131?text=${encodeURIComponent(whatsappMessage)}`,
+                "_blank"
+              )
+            }}
+            className="bg-white rounded-2xl p-8 lg:p-10 shadow-xl"
           >
-            Get Custom Quote
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </Link>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* Name */}
+              <div>
+                <label htmlFor="cta-name" className="block text-sm font-medium text-[#1a1a2e] mb-2">
+                  Your Name *
+                </label>
+                <input
+                  type="text"
+                  id="cta-name"
+                  name="name"
+                  required
+                  placeholder="John Smith"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#8b7355] focus:border-transparent outline-none transition-all"
+                />
+              </div>
+              
+              {/* Email */}
+              <div>
+                <label htmlFor="cta-email" className="block text-sm font-medium text-[#1a1a2e] mb-2">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  id="cta-email"
+                  name="email"
+                  required
+                  placeholder="john@company.com"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#8b7355] focus:border-transparent outline-none transition-all"
+                />
+              </div>
+            </div>
+            
+            {/* Company */}
+            <div className="mb-6">
+              <label htmlFor="cta-company" className="block text-sm font-medium text-[#1a1a2e] mb-2">
+                Company Name
+              </label>
+              <input
+                type="text"
+                id="cta-company"
+                name="company"
+                placeholder="Your Company Ltd."
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#8b7355] focus:border-transparent outline-none transition-all"
+              />
+            </div>
+            
+            {/* Message */}
+            <div className="mb-8">
+              <label htmlFor="cta-message" className="block text-sm font-medium text-[#1a1a2e] mb-2">
+                Your Message *
+              </label>
+              <textarea
+                id="cta-message"
+                name="message"
+                required
+                rows={4}
+                placeholder="Tell us about your custom ceramic tableware requirements, quantity, design ideas..."
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#8b7355] focus:border-transparent outline-none transition-all resize-none"
+              />
+            </div>
+            
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full md:w-auto px-10 py-4 bg-[#8b7355] text-white text-lg font-medium rounded-lg hover:bg-[#6d5a43] transition-colors shadow-lg flex items-center justify-center gap-2 mx-auto"
+            >
+              Submit Inquiry
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </form>
         </div>
       </section>
 
