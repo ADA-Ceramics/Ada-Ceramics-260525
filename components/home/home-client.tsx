@@ -175,7 +175,11 @@ Details: ${formData.details}`;
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {categories.map((category) => (
-              <Link key={category.slug} href={`/products?category=${category.slug}`} className="no-underline block">
+              <Link 
+                key={category.slug} 
+                href={category.slug === "all" ? "/en/products" : `/en/products/${category.slug}`} 
+                className="no-underline block"
+              >
                 <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 transition-all">
                   <div className="relative aspect-[4/3] bg-gray-100">
                     {category.image ? (
