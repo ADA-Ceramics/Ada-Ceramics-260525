@@ -173,39 +173,10 @@ Details: ${formData.details}`;
             </p>
           </div>
 
-          {/* First row: 3 cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-6 md:mb-8">
-            {categories.slice(0, 3).map((category) => (
-              <Link key={category.slug} href={`/products?category=${category.slug}`} className="no-underline block">
-                <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 transition-all">
-                  <div className="relative aspect-[4/3] bg-gray-100">
-                    {category.image ? (
-                      <Image 
-                        src={category.image} 
-                        alt={category.alt} 
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">
-                        <Package size={48} />
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold text-[#1a1a1a] mb-2">{category.name}</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">{category.description}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {/* Second row: 2 cards centered */}
-          <div className="flex justify-center">
+          {/* First row: 2 cards centered */}
+          <div className="flex justify-center mb-6 md:mb-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 w-full lg:w-2/3">
-              {categories.slice(3, 5).map((category) => (
+              {categories.slice(0, 2).map((category) => (
                 <Link key={category.slug} href={`/products?category=${category.slug}`} className="no-underline block">
                   <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 transition-all">
                     <div className="relative aspect-[4/3] bg-gray-100">
@@ -231,6 +202,35 @@ Details: ${formData.details}`;
                 </Link>
               ))}
             </div>
+          </div>
+
+          {/* Second row: 3 cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {categories.slice(2, 5).map((category) => (
+              <Link key={category.slug} href={`/products?category=${category.slug}`} className="no-underline block">
+                <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 transition-all">
+                  <div className="relative aspect-[4/3] bg-gray-100">
+                    {category.image ? (
+                      <Image 
+                        src={category.image} 
+                        alt={category.alt} 
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400">
+                        <Package size={48} />
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-[#1a1a1a] mb-2">{category.name}</h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">{category.description}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
