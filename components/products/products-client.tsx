@@ -142,10 +142,10 @@ export function ProductsClient({ products, activeCat }: ProductsClientProps) {
       <section className="pt-32 pb-12 bg-[#f5f3ef]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl sm:text-4xl font-serif font-normal text-foreground mb-4">
-            Our Products
+            Wholesale Ceramic Tableware | Factory Direct Manufacturing
           </h1>
           <p className="text-muted-foreground">
-            Explore our full collection of premium ceramic tableware. Factory direct wholesale worldwide.
+            We are a professional ceramic factory supplying a full range of wholesale tableware. Our products include plates, bowls, coffee cup set & mugs and bakeware, all made with food-safe materials and durable glaze. We offer bulk orders, custom designs, low MOQ and fast delivery for global wholesalers.
           </p>
         </div>
       </section>
