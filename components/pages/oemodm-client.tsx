@@ -115,41 +115,43 @@ export function OemOdmClient() {
       {/* 1. 顶部导航栏 - 沿用现有 */}
       <Header />
       
-      {/* 2. 首屏横幅 - 全屏产品实景背景图 */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* 背景图 */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/alice.webp"
-            alt="Custom ceramic tableware manufacturing"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-black/50" />
-        </div>
-        
-        {/* 内容 */}
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-normal text-white mb-6 leading-tight text-balance">
-            Custom Ceramic Tableware
-            <br />
-            <span className="text-white/90">OEM & ODM Manufacturing</span>
+      {/* 2. 首屏横幅 - 简洁背景色风格 */}
+      <section className="bg-[#f5f5f0] pt-8 pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* 面包屑导航 */}
+          <nav className="mb-8" aria-label="Breadcrumb">
+            <ol className="flex items-center gap-2 text-sm">
+              <li>
+                <Link href="/en" className="text-[#8b7355] hover:underline">
+                  Home
+                </Link>
+              </li>
+              <li className="text-muted-foreground">&gt;</li>
+              <li className="text-muted-foreground">OEM/ODM</li>
+            </ol>
+          </nav>
+          
+          {/* 标题和描述 */}
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-normal text-[#1a1a2e] mb-6 leading-tight">
+            Custom Ceramic Tableware | OEM & ODM Manufacturing
           </h1>
-          <p className="text-lg sm:text-xl text-white/80 mb-10 max-w-3xl mx-auto leading-relaxed">
-            From concept to delivery — we bring your ceramic tableware ideas to life. 
-            15+ years of expertise serving global brands with quality custom solutions.
+          <p className="text-lg text-muted-foreground mb-10 max-w-4xl leading-relaxed">
+            We are a professional ceramic factory specializing in OEM and ODM manufacturing for ceramic tableware. 
+            From custom mugs and plates to complete dinnerware sets, we offer private label solutions with custom designs, 
+            logo printing, and packaging. Low MOQ from 500pcs, FDA certified, and fast delivery for global wholesalers.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          
+          {/* 按钮组 */}
+          <div className="flex flex-col sm:flex-row gap-4">
             <Link
               href="/contact?type=sample"
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-[#1a1a2e] bg-white rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+              className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-[#8b7355] rounded-lg hover:bg-[#6d5a43] transition-colors shadow-lg"
             >
               Get Free Samples
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white border-2 border-white rounded-lg hover:bg-white/10 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-[#8b7355] border-2 border-[#8b7355] rounded-lg hover:bg-[#8b7355] hover:text-white transition-colors"
             >
               Contact Us
             </Link>
