@@ -140,8 +140,9 @@ export default async function RootLayout({
             height: 1px !important;
             overflow: hidden !important;
           }
-          /* skiptranslate: 移到屏幕外而不是display:none */
-          .skiptranslate {
+          /* skiptranslate: 仅隐藏Google翻译相关元素 */
+          .skiptranslate.goog-te-gadget,
+          .skiptranslate iframe {
             position: fixed !important;
             left: -9999px !important;
             top: 0 !important;

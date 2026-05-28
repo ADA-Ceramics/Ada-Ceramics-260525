@@ -234,21 +234,19 @@ export function Header() {
       {/* 隐藏原生翻译控件，后台调度使用 */}
       <div id="google_translate_widget" className="hidden" style={{ display: 'none' }}></div>
       
-      {/* 隐藏Google翻译顶部栏 */}
+      {/* 隐藏Google翻译顶部栏 - 仅针对翻译相关元素 */}
       <style jsx global>{`
         .goog-te-banner-frame,
-        .skiptranslate,
         #goog-gt-tt,
         .goog-te-balloon-frame,
         div#goog-gt-,
-        .goog-text-highlight {
+        .goog-text-highlight,
+        .goog-te-gadget,
+        iframe.goog-te-banner-frame {
           display: none !important;
         }
         body {
           top: 0 !important;
-        }
-        .goog-te-gadget {
-          display: none !important;
         }
       `}</style>
 
