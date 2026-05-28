@@ -6,7 +6,7 @@ import { ChevronRight, Package, Layers, Gift, Settings, Zap } from "lucide-react
 import { Header } from "@/components/layout/header";
 import { QuoteForm } from "@/components/shared/quote-form";
 
-// 卖点数据
+// Selling points data
 const sellingPoints = [
   { icon: Layers, title: "Low MOQ" },
   { icon: Gift, title: "Free Samples" },
@@ -14,7 +14,7 @@ const sellingPoints = [
   { icon: Zap, title: "Fast Delivery" },
 ];
 
-// 完整的分类结构数据
+// Complete category structure - always fully expanded, never collapsed
 const categoryStructure = {
   plates: {
     name: "Wholesale Plates",
@@ -59,7 +59,7 @@ const categoryStructure = {
   },
 };
 
-// 二级分类的 H1 标题和描述配置
+// H1 titles and descriptions for each subcategory
 const subcategoryMeta: Record<string, { h1: string; description: string }> = {
   "dinner-plates": {
     h1: "Ceramic Plates Wholesale For Restaurants, Hotels",
@@ -127,7 +127,7 @@ const subcategoryMeta: Record<string, { h1: string; description: string }> = {
   },
 };
 
-// 模拟产品数据
+// Mock product data for each subcategory
 const productsBySubcategory: Record<string, { id: string; name: string; slug: string; image: string }[]> = {
   "dinner-plates": [
     { id: "dp-1", name: "Classic White Dinner Plate 10.5\"", slug: "classic-white-dinner-plate", image: "" },
@@ -235,15 +235,16 @@ export function SubcategoryClient({ primaryCategory, subcategory }: SubcategoryC
   const pathname = usePathname();
   const locale = pathname.split('/')[1] || 'en';
 
-  // 获取当前二级分类的产品
+  // Get products for current subcategory
   const products = productsBySubcategory[subcategory] || [];
   
-  // 获取当前二级分类的信息
+  // Get current category info
   const currentCategory = categoryStructure[primaryCategory as keyof typeof categoryStructure];
+  const currentSubcategoryName = currentCategory?.subcategories.find(sub => sub.slug === subcategory)?.name || subcategory;
   
-  // 获取 H1 和描述
+  // Get H1 and description
   const meta = subcategoryMeta[subcategory] || {
-    h1: currentCategory?.subcategories.find(sub => sub.slug === subcategory)?.name || "Products",
+    h1: currentSubcategoryName,
     description: "Browse our collection of premium ceramic products.",
   };
 
@@ -251,18 +252,18 @@ export function SubcategoryClient({ primaryCategory, subcategory }: SubcategoryC
     <main className="min-h-screen bg-background">
       <Header />
       
-      {/* Hero Section with H1 and Selling Points */}
-      <section className="pt-32 pb-12 bg-[#f5f3ef]">
+      {/* Hero Section - H1 Title, Description, Selling Points */}
+      <section className="pt-32 pb-10 bg-[#f5f3ef]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6 flex-wrap">
             <Link href={`/${locale}`} className="hover:text-foreground transition-colors">Home</Link>
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-4 h-4 flex-shrink-0" />
             <Link href={`/${locale}/products`} className="hover:text-foreground transition-colors">Products</Link>
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-4 h-4 flex-shrink-0" />
             <Link href={`/${locale}/products`} className="hover:text-foreground transition-colors">{currentCategory?.name}</Link>
-            <ChevronRight className="w-4 h-4" />
-            <span className="text-foreground">{currentCategory?.subcategories.find(sub => sub.slug === subcategory)?.name}</span>
+            <ChevronRight className="w-4 h-4 flex-shrink-0" />
+            <span className="text-foreground">{currentSubcategoryName}</span>
           </nav>
 
           {/* H1 Title */}
@@ -271,11 +272,11 @@ export function SubcategoryClient({ primaryCategory, subcategory }: SubcategoryC
           </h1>
           
           {/* Description */}
-          <p className="text-muted-foreground mb-8 max-w-4xl">
+          <p className="text-muted-foreground mb-10 max-w-4xl leading-relaxed">
             {meta.description}
           </p>
 
-          {/* Selling Points */}
+          {/* Selling Points - Same as main products page */}
           <div className="flex flex-wrap justify-center gap-8 sm:gap-12 lg:gap-16">
             {sellingPoints.map((point) => {
               const IconComponent = point.icon;
@@ -292,57 +293,55 @@ export function SubcategoryClient({ primaryCategory, subcategory }: SubcategoryC
         </div>
       </section>
 
-      {/* Main Content with Sidebar and Product Grid */}
+      {/* Two-Column Layout: Sidebar + Product Grid */}
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-8">
             
-            {/* Left Sidebar - Tree Structure Categories */}
-            <aside className="w-full lg:w-72 flex-shrink-0">
-              <div className="bg-white border border-[#e5e7eb] rounded-lg p-5 sticky top-28">
+            {/* Left Sidebar - Fixed Width, Tree Structure */}
+            <aside className="w-full lg:w-64 flex-shrink-0">
+              <div className="bg-white border border-[#e5e7eb] rounded-lg p-5 lg:sticky lg:top-28">
                 <h2 className="text-lg font-semibold text-[#1a1a1a] mb-5 pb-3 border-b border-[#e5e7eb]">
                   Product Categories
                 </h2>
                 
-                <div className="space-y-4">
+                {/* Tree Structure - Always Fully Expanded */}
+                <nav className="space-y-5">
                   {Object.entries(categoryStructure).map(([catId, category]) => (
                     <div key={catId}>
                       {/* Primary Category - Bold Dark Text */}
-                      <Link
-                        href={`/${locale}/products?cat=${catId}`}
-                        className="block text-[15px] font-semibold text-[#1a1a1a] mb-2 hover:text-[#8b7355] transition-colors"
-                      >
+                      <div className="text-[15px] font-semibold text-[#1a1a1a] mb-2">
                         {category.name}
-                      </Link>
+                      </div>
                       
-                      {/* Subcategories - Indented with Lighter Color */}
-                      <div className="ml-4 space-y-1">
+                      {/* Subcategories - Indented, Lighter Color */}
+                      <ul className="ml-3 space-y-1 border-l-2 border-[#e5e7eb] pl-3">
                         {category.subcategories.map((sub) => {
                           const isActive = catId === primaryCategory && sub.slug === subcategory;
                           return (
-                            <Link
-                              key={sub.slug}
-                              href={`/${locale}/products/${catId}/${sub.slug}`}
-                              className={`block px-3 py-2 text-sm rounded-md transition-colors ${
-                                isActive
-                                  ? "bg-[#8b7355] text-white font-medium"
-                                  : "text-[#6b7280] hover:text-[#1a1a1a] hover:bg-[#f5f3ef]"
-                              }`}
-                            >
-                              {sub.name}
-                            </Link>
+                            <li key={sub.slug}>
+                              <Link
+                                href={`/${locale}/products/${catId}/${sub.slug}`}
+                                className={`block px-3 py-2 text-sm rounded transition-colors ${
+                                  isActive
+                                    ? "bg-[#8b7355] text-white font-medium"
+                                    : "text-[#6b7280] hover:text-[#1a1a1a] hover:bg-[#f5f3ef]"
+                                }`}
+                              >
+                                {sub.name}
+                              </Link>
+                            </li>
                           );
                         })}
-                      </div>
+                      </ul>
                     </div>
                   ))}
-                </div>
+                </nav>
               </div>
             </aside>
 
-            {/* Right Content - Product Grid */}
-            <div className="flex-1">
-              {/* Product Grid - Same style as main products page */}
+            {/* Right Content - Product Cards Grid */}
+            <div className="flex-1 min-w-0">
               {products.length === 0 ? (
                 <div className="text-center py-16 bg-[#f9fafb] rounded-lg">
                   <Package className="w-16 h-16 text-[#9ca3af] mx-auto mb-4 opacity-50" />
@@ -350,12 +349,13 @@ export function SubcategoryClient({ primaryCategory, subcategory }: SubcategoryC
                   <p className="text-sm text-[#9ca3af] mt-2">Check back soon for new arrivals.</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                   {products.map((product) => (
                     <div
                       key={product.id}
-                      className="group border border-[#e5e7eb] rounded-lg overflow-hidden bg-white hover:shadow-lg transition-all"
+                      className="group border border-[#e5e7eb] rounded-lg overflow-hidden bg-white hover:shadow-lg transition-all duration-200"
                     >
+                      {/* Product Image */}
                       <div className="aspect-square relative bg-[#f9fafb]">
                         {product.image ? (
                           <img
@@ -369,8 +369,10 @@ export function SubcategoryClient({ primaryCategory, subcategory }: SubcategoryC
                           </div>
                         )}
                       </div>
+                      
+                      {/* Product Info */}
                       <div className="p-5">
-                        <h3 className="text-base font-medium text-[#1a1a1a] mb-4">
+                        <h3 className="text-base font-medium text-[#1a1a1a] mb-4 line-clamp-2">
                           {product.name}
                         </h3>
                         <Link
@@ -389,7 +391,7 @@ export function SubcategoryClient({ primaryCategory, subcategory }: SubcategoryC
         </div>
       </section>
 
-      {/* Get in Touch */}
+      {/* Get in Touch Form */}
       <QuoteForm />
     </main>
   );
