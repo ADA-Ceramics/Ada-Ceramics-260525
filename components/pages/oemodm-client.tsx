@@ -1,283 +1,436 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRight, Check, Paintbrush, Palette, Box, Truck, Clock, Award, Shield, Users } from "lucide-react"
+import Image from "next/image"
+import { 
+  ArrowRight, 
+  Check, 
+  Paintbrush, 
+  Palette, 
+  Box, 
+  Truck, 
+  ChevronDown,
+  ClipboardCheck,
+  PenTool,
+  Factory,
+  ShieldCheck,
+  Ship,
+  CheckCircle2
+} from "lucide-react"
+import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
+import { useState } from "react"
 
 export function OemOdmClient() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
 
-  const services = [
+  // 定制服务数据
+  const customServices = [
     {
       icon: Paintbrush,
       title: "Custom Design",
-      desc: "Professional design team to create unique ceramic products according to your requirements.",
-      features: [
-        "Free design consultation",
-        "Custom shape & structure",
-        "Logo and pattern customization",
-        "3D design preview"
-      ],
+      description: "Create unique shapes, sizes and styles tailored to your brand identity."
     },
     {
-      icon: Palette,
-      title: "Decoration & Glazing",
-      desc: "Various decoration techniques to meet different market needs and style preferences.",
-      features: [
-        "Custom color matching",
-        "Multiple glazing options",
-        "Decal & printing service",
-        "Gold & silver plating",
-        "Matte & glossy finish"
-      ],
+      icon: PenTool,
+      title: "Logo Printing",
+      description: "High-quality decal, screen printing and embossing for brand visibility."
     },
     {
       icon: Box,
-      title: "Custom Packaging",
-      desc: "Professional packaging solutions to protect products and enhance brand image.",
-      features: [
-        "Custom gift boxes",
-        "Logo printing on package",
-        "Safe shipping packaging",
-        "Eco-friendly materials"
-      ],
+      title: "Private Label",
+      description: "Complete white-label solutions with your branding and packaging."
     },
     {
-      icon: Truck,
-      title: "Logistics & Shipping",
-      desc: "Complete shipping service to deliver products safely to your destination.",
-      features: [
-        "Sea & air shipping",
-        "Door to door service",
-        "Customs clearance support",
-        "Full shipping insurance"
-      ],
-    },
+      icon: Palette,
+      title: "Custom Glazing",
+      description: "Exclusive colors, textures and finishes to match your vision."
+    }
   ]
 
+  // 定制流程数据
   const processSteps = [
-    { step: 1, title: "Inquiry & Consultation", desc: "Discuss your requirements and project details", duration: "1-2 days" },
-    { step: 2, title: "Design & Confirmation", desc: "Create design plan and get your approval", duration: "3-7 days" },
-    { step: 3, title: "Sample Making", desc: "Produce samples for your confirmation", duration: "7-15 days" },
-    { step: 4, title: "Final Approval", desc: "Confirm sample and place order", duration: "As needed" },
-    { step: 5, title: "Mass Production", desc: "Formal production process", duration: "35-45 days" },
-    { step: 6, title: "Quality Inspection", desc: "100% inspection before shipment", duration: "3-5 days" },
-    { step: 7, title: "Packaging", desc: "Safe and professional packaging", duration: "2-3 days" },
-    { step: 8, title: "Shipping", desc: "Deliver products to your destination", duration: "15-30 days" },
+    { step: 1, icon: ClipboardCheck, title: "Inquiry", description: "Share your requirements" },
+    { step: 2, icon: PenTool, title: "Design", description: "We create samples" },
+    { step: 3, icon: CheckCircle2, title: "Confirm", description: "Approve the samples" },
+    { step: 4, icon: Factory, title: "Production", description: "Mass manufacturing" },
+    { step: 5, icon: ShieldCheck, title: "QC Check", description: "Quality inspection" },
+    { step: 6, icon: Ship, title: "Delivery", description: "Ship to your door" }
   ]
 
-  const advantages = [
-    { icon: Clock, title: "20+ Years Experience", desc: "Professional OEM/ODM service for global brands" },
-    { icon: Users, title: "Professional Team", desc: "Experienced designers and skilled workers" },
-    { icon: Award, title: "Low MOQ", desc: "Accept small trial orders for new projects" },
-    { icon: Shield, title: "Strict Quality Control", desc: "Full inspection and certified materials" },
+  // 工厂优势数据
+  const factoryAdvantages = [
+    "15+ years of ceramic manufacturing experience",
+    "FDA, LFGB, CA65 certified production facility",
+    "In-house design team with 3D modeling capability",
+    "Flexible MOQ starting from 500 pieces",
+    "Strict quality control with AQL 2.5 standard",
+    "On-time delivery rate over 98%",
+    "Dedicated account manager for each client",
+    "Free sample development for qualified orders"
   ]
 
-  const faqs = [
-    { question: "What's your MOQ for OEM/ODM?", answer: "Our MOQ is 500pcs per design for custom orders." },
-    { question: "How long for sample making?", answer: "Sample lead time is 7-15 days after design confirmation." },
-    { question: "What's the production time?", answer: "Mass production takes 35-45 days after sample approval." },
-    { question: "Can you use our own designs?", answer: "Yes, we welcome customer designs and patterns." },
-    { question: "Do you sign confidentiality agreements?", answer: "Yes, we protect all customer designs and information." },
-    { question: "What certifications do you have?", answer: "We provide FDA, LFGB, CA65 certified ceramic products." },
+  // FAQ数据
+  const faqData = [
+    {
+      question: "What is your minimum order quantity (MOQ)?",
+      answer: "Our standard MOQ is 500 pieces per design for stock items. For fully custom designs, MOQ starts from 1,000 pieces. We offer flexible arrangements for trial orders."
+    },
+    {
+      question: "How long does sample development take?",
+      answer: "Standard samples take 7-10 business days. Custom mold samples require 15-20 days. We provide free samples for orders over $5,000 (shipping excluded)."
+    },
+    {
+      question: "What certifications do your products have?",
+      answer: "All our products are FDA, LFGB, and CA Prop 65 compliant. We can provide test reports from SGS, Intertek, or Bureau Veritas upon request."
+    },
+    {
+      question: "Can you match Pantone colors for custom glazes?",
+      answer: "Yes, we can match most Pantone colors. Please note that ceramic glazing may have slight variations due to the firing process. We always send color samples for approval first."
+    },
+    {
+      question: "What are your payment terms?",
+      answer: "We accept T/T, L/C, and PayPal. Standard terms are 30% deposit with order confirmation, 70% balance before shipment. Alibaba Trade Assurance is also available."
+    },
+    {
+      question: "How do you handle quality issues?",
+      answer: "We conduct 100% inspection before shipment. If defects are found upon delivery, we offer replacement or refund based on documented evidence. Our defect rate is consistently below 1%."
+    }
+  ]
+
+  // 案例展示图片
+  const showcaseImages = [
+    { src: "/alice.webp", alt: "Custom ceramic dinnerware set for hotel chain" },
+    { src: "/color-glaze.webp", alt: "Branded coffee mugs for corporate client" },
+    { src: "/kiln-transformation.webp", alt: "Private label ceramic bowls for retail" },
   ]
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-[#f5f3ef] relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-white/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl" />
+      {/* 1. 顶部导航栏 - 沿用现有 */}
+      <Header />
+      
+      {/* 2. 首屏横幅 - 全屏产品实景背景图 */}
+      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        {/* 背景图 */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/alice.webp"
+            alt="Custom ceramic tableware manufacturing"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-black/50" />
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              <span style={{ color: '#1a1a1a' }}>Professional OEM & ODM</span>
-              <span className="block" style={{ color: '#8b7355' }}>
-                Ceramic Custom Service
-              </span>
-            </h1>
-            <p className="text-lg md:text-xl leading-relaxed mb-8" style={{ color: '#6b7280' }}>
-              Custom ceramic tableware solutions with low MOQ, professional design, strict quality control, and full-service support.
-            </p>
+        
+        {/* 内容 */}
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-normal text-white mb-6 leading-tight text-balance">
+            Custom Ceramic Tableware
+            <br />
+            <span className="text-white/90">OEM & ODM Manufacturing</span>
+          </h1>
+          <p className="text-lg sm:text-xl text-white/80 mb-10 max-w-3xl mx-auto leading-relaxed">
+            From concept to delivery — we bring your ceramic tableware ideas to life. 
+            15+ years of expertise serving global brands with quality custom solutions.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/contact?type=sample"
+              className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-[#1a1a2e] bg-white rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+            >
+              Get Free Samples
+            </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 bg-[#1a1a2e] text-white px-8 py-4 rounded-xl font-semibold hover:bg-[#1a1a2e]/90 transition-all"
+              className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white border-2 border-white rounded-lg hover:bg-white/10 transition-colors"
             >
-              Start Custom Project
-              <ArrowRight className="w-5 h-5" />
+              Contact Us
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Services Grid */}
-      <section className="py-20">
+      {/* 3. 服务简介区 - 电脑端左右分栏 */}
+      <section className="py-20 lg:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <p className="text-primary font-semibold mb-2">Our Services</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-              Complete Custom Solutions
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {services.map((service, i) => (
-              <div key={i} className="bg-card rounded-2xl p-8 border border-border hover:shadow-lg transition-shadow">
-                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
-                  <service.icon className="w-7 h-7 text-primary" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* 左侧文字 */}
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-serif font-normal text-[#1a1a2e] mb-6">
+                Your Trusted Partner for Custom Ceramic Solutions
+              </h2>
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                ADA Ceramics specializes in OEM and ODM manufacturing for ceramic tableware. 
+                Whether you need custom mugs for your coffee shop chain, branded dinnerware 
+                for your hotel group, or private-label products for retail — we have the 
+                expertise and capacity to deliver.
+              </p>
+              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+                Our state-of-the-art facility in Chaozhou, China&apos;s ceramic capital, 
+                combines traditional craftsmanship with modern production technology. 
+                Every piece undergoes rigorous quality control to meet international standards.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <div className="flex items-center gap-2 text-[#8b7355]">
+                  <ShieldCheck className="w-5 h-5" />
+                  <span className="font-medium">FDA Certified</span>
                 </div>
-                <h3 className="text-2xl font-semibold text-foreground mb-3">{service.title}</h3>
-                <p className="text-muted-foreground mb-6">{service.desc}</p>
-                <ul className="space-y-2">
-                  {service.features.map((feature, j) => (
-                    <li key={j} className="flex items-center gap-2 text-sm text-foreground">
-                      <Check className="w-4 h-4 text-green-500" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+                <div className="flex items-center gap-2 text-[#8b7355]">
+                  <Factory className="w-5 h-5" />
+                  <span className="font-medium">Own Factory</span>
+                </div>
+                <div className="flex items-center gap-2 text-[#8b7355]">
+                  <Truck className="w-5 h-5" />
+                  <span className="font-medium">Global Shipping</span>
+                </div>
               </div>
-            ))}
+            </div>
+            
+            {/* 右侧图片 */}
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
+              <Image
+                src="/color-glaze.webp"
+                alt="ADA Ceramics OEM ODM service - custom ceramic tableware production"
+                fill
+                className="object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Process Timeline */}
-      <section className="py-20 bg-muted/30">
+      {/* 4. 定制服务板块 - 四列卡片网格 */}
+      <section className="py-20 lg:py-28 bg-[#f8f7f4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <p className="text-primary font-semibold mb-2">Production Flow</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Custom Order Process
+            <h2 className="text-3xl sm:text-4xl font-serif font-normal text-[#1a1a2e] mb-4">
+              Our Customization Services
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Clear and efficient workflow from design to delivery, ensuring project quality and timeline.
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              From simple logo printing to complete product development — we offer 
+              comprehensive customization options for every need.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {processSteps.map((step) => (
-              <div key={step.step} className="bg-card rounded-2xl p-6 border border-border relative">
-                <div className="absolute -top-4 left-6 w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold">
-                  {step.step}
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {customServices.map((service) => {
+              const IconComponent = service.icon
+              return (
+                <div 
+                  key={service.title}
+                  className="bg-white rounded-xl p-8 text-center shadow-sm hover:shadow-md transition-shadow"
+                >
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#8b7355]/10 flex items-center justify-center">
+                    <IconComponent className="w-8 h-8 text-[#8b7355]" strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-[#1a1a2e] mb-3">
+                    {service.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {service.description}
+                  </p>
                 </div>
-                <h3 className="font-semibold text-foreground mt-4 mb-2">{step.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{step.desc}</p>
-                <p className="text-xs text-primary font-medium">{step.duration}</p>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. 定制流程板块 - 横向时间轴 */}
+      <section className="py-20 lg:py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-serif font-normal text-[#1a1a2e] mb-4">
+              How It Works
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Our streamlined process ensures smooth collaboration from initial inquiry to final delivery.
+            </p>
+          </div>
+          
+          {/* 横向时间轴 - 桌面端 */}
+          <div className="hidden lg:block">
+            <div className="relative">
+              {/* 连接线 */}
+              <div className="absolute top-12 left-[8%] right-[8%] h-0.5 bg-[#8b7355]/20" />
+              
+              <div className="grid grid-cols-6 gap-4">
+                {processSteps.map((step) => {
+                  const IconComponent = step.icon
+                  return (
+                    <div key={step.step} className="relative text-center">
+                      {/* 圆形图标 */}
+                      <div className="relative z-10 w-24 h-24 mx-auto mb-6 rounded-full bg-white border-2 border-[#8b7355] flex items-center justify-center shadow-sm">
+                        <IconComponent className="w-10 h-10 text-[#8b7355]" strokeWidth={1.5} />
+                        {/* 步骤号 */}
+                        <div className="absolute -top-1 -right-1 w-7 h-7 rounded-full bg-[#8b7355] text-white text-sm font-bold flex items-center justify-center">
+                          {step.step}
+                        </div>
+                      </div>
+                      <h3 className="text-lg font-semibold text-[#1a1a2e] mb-2">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {step.description}
+                      </p>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+          
+          {/* 垂直列表 - 移动端 */}
+          <div className="lg:hidden space-y-6">
+            {processSteps.map((step) => {
+              const IconComponent = step.icon
+              return (
+                <div key={step.step} className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-14 h-14 rounded-full bg-[#8b7355]/10 flex items-center justify-center">
+                    <IconComponent className="w-7 h-7 text-[#8b7355]" strokeWidth={1.5} />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="w-6 h-6 rounded-full bg-[#8b7355] text-white text-xs font-bold flex items-center justify-center">
+                        {step.step}
+                      </span>
+                      <h3 className="text-lg font-semibold text-[#1a1a2e]">
+                        {step.title}
+                      </h3>
+                    </div>
+                    <p className="text-muted-foreground">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. 案例展示区 - 三列图片画廊 */}
+      <section className="py-20 lg:py-28 bg-[#f8f7f4]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-serif font-normal text-[#1a1a2e] mb-4">
+              Our Custom Projects
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              See how we&apos;ve helped brands worldwide create their perfect ceramic tableware.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {showcaseImages.map((image, index) => (
+              <div 
+                key={index}
+                className="relative aspect-square rounded-xl overflow-hidden group cursor-pointer"
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors" />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-20">
+      {/* 7. 工厂优势板块 - 左右分栏 */}
+      <section className="py-20 lg:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <p className="text-primary font-semibold mb-2">Our Advantages</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Why Choose Our OEM/ODM Service
-              </h2>
-              <p className="text-muted-foreground mb-8">
-                We provide reliable, professional, and flexible custom ceramic solutions for global clients.
-              </p>
-              <div className="space-y-6">
-                {advantages.map((item, i) => (
-                  <div key={i} className="flex gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
-                      <item.icon className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground mb-1">{item.title}</h3>
-                      <p className="text-sm text-muted-foreground">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* 左侧图片 */}
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl order-2 lg:order-1">
+              <Image
+                src="/kiln-transformation.webp"
+                alt="ADA Ceramics factory - modern ceramic production facility"
+                fill
+                className="object-cover"
+              />
             </div>
-            <div className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-3xl p-8 md:p-12">
-              <h3 className="text-2xl font-bold text-white mb-6">Quick Information</h3>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between py-4 border-b border-white/10">
-                  <span className="text-white/70">MOQ</span>
-                  <span className="text-white font-semibold">500 pcs</span>
-                </div>
-                <div className="flex items-center justify-between py-4 border-b border-white/10">
-                  <span className="text-white/70">Sample Time</span>
-                  <span className="text-white font-semibold">7-15 days</span>
-                </div>
-                <div className="flex items-center justify-between py-4 border-b border-white/10">
-                  <span className="text-white/70">Production Time</span>
-                  <span className="text-white font-semibold">35-45 days</span>
-                </div>
-                <div className="flex items-center justify-between py-4 border-b border-white/10">
-                  <span className="text-white/70">Design Revisions</span>
-                  <span className="text-white font-semibold">Unlimited</span>
-                </div>
-                <div className="flex items-center justify-between py-4">
-                  <span className="text-white/70">After Service</span>
-                  <span className="text-white font-semibold">Lifetime Support</span>
-                </div>
-              </div>
-              <Link
-                href="/contact"
-                className="w-full mt-8 inline-flex items-center justify-center gap-2 bg-white text-[#1a1a2e] px-8 py-4 rounded-xl font-semibold hover:bg-white/90 transition-all"
-              >
-                Get Started Now
-                <ArrowRight className="w-5 h-5" />
-              </Link>
+            
+            {/* 右侧优势列表 */}
+            <div className="order-1 lg:order-2">
+              <h2 className="text-3xl sm:text-4xl font-serif font-normal text-[#1a1a2e] mb-8">
+                Why Choose ADA Ceramics?
+              </h2>
+              <ul className="space-y-4">
+                {factoryAdvantages.map((advantage, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <CheckCircle2 className="w-6 h-6 text-[#8b7355] flex-shrink-0 mt-0.5" />
+                    <span className="text-lg text-[#1a1a2e]">{advantage}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 8. 常见问答区 - 折叠面板 */}
+      <section className="py-20 lg:py-28 bg-[#f8f7f4]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <p className="text-primary font-semibold mb-2">Common Questions</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+            <h2 className="text-3xl sm:text-4xl font-serif font-normal text-[#1a1a2e] mb-4">
               Frequently Asked Questions
             </h2>
+            <p className="text-lg text-muted-foreground">
+              Find answers to common questions about our OEM/ODM services.
+            </p>
           </div>
-          <div className="max-w-3xl mx-auto space-y-4">
-            {faqs.map((faq, i) => (
-              <div key={i} className="bg-card rounded-xl p-6 border border-border">
-                <h3 className="font-semibold text-foreground mb-2">{faq.question}</h3>
-                <p className="text-muted-foreground text-sm">{faq.answer}</p>
+          
+          <div className="space-y-4">
+            {faqData.map((faq, index) => (
+              <div 
+                key={index}
+                className="bg-white rounded-xl shadow-sm overflow-hidden"
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full flex items-center justify-between px-6 py-5 text-left text-lg font-medium text-[#1a1a2e] hover:bg-gray-50 transition-colors"
+                >
+                  <span>{faq.question}</span>
+                  <ChevronDown className={`w-5 h-5 text-[#8b7355] transition-transform ${openFaq === index ? 'rotate-180' : ''}`} />
+                </button>
+                {openFaq === index && (
+                  <div className="px-6 pb-5 text-muted-foreground leading-relaxed">
+                    {faq.answer}
+                  </div>
+                )}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f3460]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Start Your Custom Project Today
+      {/* 9. 转化引导区 - 独立底色区块 */}
+      <section className="py-20 lg:py-28 bg-[#1a1a2e]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-serif font-normal text-white mb-6">
+            Ready to Start Your Custom Project?
           </h2>
-          <p className="text-white/70 max-w-2xl mx-auto mb-8">
-            Contact us now to get professional OEM/ODM service and competitive quotation.
+          <p className="text-lg text-white/70 mb-10 max-w-2xl mx-auto">
+            Get a free quote within 24 hours. Our team is ready to help you 
+            bring your ceramic tableware vision to life.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 bg-white text-[#1a1a2e] px-8 py-4 rounded-xl font-semibold hover:bg-white/90 transition-all"
-            >
-              Contact Us Now
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link
-              href="/products"
-              className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/20 transition-all border border-white/20"
-            >
-              View Our Products
-            </Link>
-          </div>
+          <Link
+            href="/contact?type=quote"
+            className="inline-flex items-center justify-center px-10 py-5 text-xl font-medium text-[#1a1a2e] bg-white rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+          >
+            Get Custom Quote
+            <ArrowRight className="w-5 h-5 ml-2" />
+          </Link>
         </div>
       </section>
 
+      {/* 10. 页脚区域 - 沿用现有 */}
       <Footer />
     </div>
   )
