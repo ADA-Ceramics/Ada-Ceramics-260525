@@ -24,33 +24,44 @@ import { useState } from "react"
 export function OemOdmClient() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
-  // 定制服务数据 - 用图片展示定制效果
-  const customServices = [
-    {
-      title: "Custom Shape & Design",
-      description: "Unique shapes, sizes and styles tailored to your brand",
-      image: "/alice.webp",
-      features: ["3D modeling", "Prototype development", "Exclusive molds"]
-    },
-    {
-      title: "Logo & Pattern Printing",
-      description: "High-quality decal, screen printing and embossing",
-      image: "/color-glaze.webp",
-      features: ["Full-color printing", "Gold/silver accents", "Under-glaze safe"]
-    },
-    {
-      title: "Custom Colors & Glazes",
-      description: "Exclusive colors, textures and reactive glazes",
-      image: "/kiln-transformation.webp",
-      features: ["Pantone matching", "Matte/glossy finish", "Reactive glazes"]
-    },
-    {
-      title: "Private Label Packaging",
-      description: "Complete branding with custom packaging solutions",
-      image: "/alice.webp",
-      features: ["Gift boxes", "Retail packaging", "Bulk cartons"]
-    }
+  // 定制服务数据 - Tab切换 + 图片画廊展示
+  const [activeCustomTab, setActiveCustomTab] = useState("shape")
+  
+  const customTabs = [
+    { id: "shape", label: "Shape & Size" },
+    { id: "colors", label: "Custom Colors" },
+    { id: "design", label: "Pattern Design" },
+    { id: "glaze", label: "Various Glazes" },
+    { id: "logo", label: "Logo Printing" },
+    { id: "package", label: "Custom Package" },
   ]
+  
+  const customGalleryData: Record<string, { description: string; images: string[] }> = {
+    shape: {
+      description: "Create unique shapes and sizes tailored to your brand — from classic round plates to custom geometric designs.",
+      images: ["/alice.webp", "/color-glaze.webp", "/kiln-transformation.webp", "/alice.webp"]
+    },
+    colors: {
+      description: "Unlimited color options with Pantone matching. From elegant neutrals to vibrant custom hues for your brand identity.",
+      images: ["/color-glaze.webp", "/alice.webp", "/kiln-transformation.webp", "/color-glaze.webp"]
+    },
+    design: {
+      description: "Unique patterns and artwork applied through high-quality decal printing, hand-painting or embossing techniques.",
+      images: ["/kiln-transformation.webp", "/color-glaze.webp", "/alice.webp", "/kiln-transformation.webp"]
+    },
+    glaze: {
+      description: "Various glaze finishes including matte, glossy, reactive glazes and special texture effects for premium tableware.",
+      images: ["/alice.webp", "/kiln-transformation.webp", "/color-glaze.webp", "/alice.webp"]
+    },
+    logo: {
+      description: "Professional logo printing with multiple techniques — screen printing, pad printing, laser engraving and gold/silver accents.",
+      images: ["/color-glaze.webp", "/alice.webp", "/color-glaze.webp", "/kiln-transformation.webp"]
+    },
+    package: {
+      description: "Complete packaging solutions — gift boxes, retail displays, bulk cartons and custom inserts for perfect presentation.",
+      images: ["/kiln-transformation.webp", "/alice.webp", "/color-glaze.webp", "/alice.webp"]
+    }
+  }
 
   // 定制流程数据
   const processSteps = [
@@ -205,75 +216,72 @@ export function OemOdmClient() {
         </div>
       </section>
 
-      {/* 4. 定制服务板块 - 图片展示定制效果 */}
+      {/* 4. 定制服务板块 - Tab切换 + 图片画廊 */}
       <section className="py-20 lg:py-28 bg-[#f8f7f4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          {/* 标题 */}
+          <div className="text-center mb-10">
             <h2 className="text-3xl sm:text-4xl font-serif font-normal text-[#1a1a2e] mb-4">
-              Our Customization Services
+              Diverse Custom Dinnerware Options
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              From simple logo printing to complete product development — see what we can create for your brand.
-            </p>
           </div>
           
-          {/* 2x2 图片网格布局 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-            {customServices.map((service, index) => (
-              <div 
-                key={service.title}
-                className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+          {/* Tab 按钮组 */}
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            {customTabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveCustomTab(tab.id)}
+                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                  activeCustomTab === tab.id
+                    ? "bg-[#8b7355] text-white shadow-md"
+                    : "bg-white text-[#1a1a2e] border border-gray-200 hover:border-[#8b7355] hover:text-[#8b7355]"
+                }`}
               >
-                {/* 图片区域 */}
-                <div className="relative aspect-[16/10] overflow-hidden">
+                {tab.label}
+              </button>
+            ))}
+          </div>
+          
+          {/* 描述文字 */}
+          <p className="text-center text-muted-foreground max-w-3xl mx-auto mb-10">
+            {customGalleryData[activeCustomTab].description}
+          </p>
+          
+          {/* 图片画廊 - 左侧大图 + 右侧竖排小图 */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {/* 左侧大图 */}
+            <div className="lg:col-span-2 relative aspect-[4/3] rounded-2xl overflow-hidden group">
+              <Image
+                src={customGalleryData[activeCustomTab].images[0]}
+                alt={`${customTabs.find(t => t.id === activeCustomTab)?.label} example 1`}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            
+            {/* 右侧竖排小图 */}
+            <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
+              {customGalleryData[activeCustomTab].images.slice(1, 4).map((img, idx) => (
+                <div key={idx} className="relative aspect-[4/3] lg:aspect-[16/9] rounded-xl overflow-hidden group">
                   <Image
-                    src={service.image}
-                    alt={`${service.title} - ceramic customization example`}
+                    src={img}
+                    alt={`${customTabs.find(t => t.id === activeCustomTab)?.label} example ${idx + 2}`}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  {/* 渐变遮罩 */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                  
-                  {/* 序号标签 */}
-                  <div className="absolute top-4 left-4 w-10 h-10 rounded-full bg-[#8b7355] flex items-center justify-center text-white font-semibold text-lg">
-                    {index + 1}
-                  </div>
                 </div>
-                
-                {/* 内容区域 */}
-                <div className="p-6 lg:p-8">
-                  <h3 className="text-xl lg:text-2xl font-semibold text-[#1a1a2e] mb-3">
-                    {service.title}
-                  </h3>
-                  <p className="text-muted-foreground mb-5 leading-relaxed">
-                    {service.description}
-                  </p>
-                  
-                  {/* 特点标签 */}
-                  <div className="flex flex-wrap gap-2">
-                    {service.features.map((feature) => (
-                      <span 
-                        key={feature}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#8b7355]/10 text-[#8b7355] text-sm rounded-full"
-                      >
-                        <Check className="w-3.5 h-3.5" />
-                        {feature}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
           
           {/* 底部 CTA */}
           <div className="mt-12 text-center">
             <Link
               href="/contact?type=custom"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[#8b7355] text-white text-lg font-medium rounded-lg hover:bg-[#6d5a43] transition-colors shadow-lg"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[#8b7355] text-white text-lg font-medium rounded-full hover:bg-[#6d5a43] transition-colors shadow-lg"
             >
-              Start Your Custom Project
+              Start Your Custom Dinnerware Project
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
