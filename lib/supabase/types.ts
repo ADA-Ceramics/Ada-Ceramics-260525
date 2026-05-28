@@ -25,18 +25,26 @@ export interface ProductCategory {
   description: string
 }
 
-// 分类信息（已删除重复项，只剩下 3 个正确项目）
+// 分类信息（5个一级产品分类）
 export const CATEGORY_INFO: Record<string, { name: string; description: string }> = {
-  'high-temp-white-porcelain': {
-    name: 'High-Temperature White Porcelain',
-    description: 'Premium white porcelain fired at high temperatures for exceptional durability and elegant appearance.',
+  'plates': {
+    name: 'Wholesale Plates',
+    description: 'Premium ceramic plates for restaurants, hotels and retail. Dinner plates, dessert plates, soup plates and serving plates.',
   },
-  'color-glaze': {
-    name: 'Color Glaze Ceramic',
-    description: 'Vibrant color glazed ceramics with rich, lasting colors and unique finishes.',
+  'bowls': {
+    name: 'Wholesale Bowls',
+    description: 'High-quality ceramic bowls in various sizes. Soup bowls, salad bowls, ramen bowls and snack bowls.',
   },
-  'kiln-change-ceramic': {
-    name: 'Kiln Change Ceramic',
-    description: 'Artistic kiln transformation ceramics with natural, unpredictable color patterns.',
+  'dinnerware-sets': {
+    name: 'Wholesale Dinnerware Sets',
+    description: 'Complete ceramic dinnerware sets for daily use and restaurant catering. Customizable combinations available.',
+  },
+  'cups-mugs': {
+    name: 'Wholesale Cups & Mugs',
+    description: 'Ceramic mugs, coffee cups and saucers, water cups. Perfect for cafes, hotels and promotional gifts.',
+  },
+  'bakeware': {
+    name: 'Wholesale Bakeware',
+    description: 'Oven-safe ceramic bakeware including baking dishes, ramekins, pie plates and pizza plates.',
   },
 }

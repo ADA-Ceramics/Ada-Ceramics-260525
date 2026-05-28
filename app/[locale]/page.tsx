@@ -10,25 +10,39 @@ export const metadata: Metadata = {
 
 const fixedCategories = [
   {
-    name: "High-Temperature White Porcelain",
-    description: "Durable pure white porcelain for hotels & restaurants.",
+    name: "Wholesale Plates",
+    description: "Premium ceramic plates for restaurants, hotels and retail.",
     image: "/alice.webp",
-    alt: "wholesale white porcelain tableware for hotel restaurant",
-    slug: "high-temperature-white",
+    alt: "wholesale ceramic plates dinner plates dessert plates",
+    slug: "plates",
   },
   {
-    name: "Color Glaze Ceramics",
-    description: "Vibrant glazed finish, unique elegant tableware.",
+    name: "Wholesale Bowls",
+    description: "High-quality ceramic bowls in various sizes and styles.",
     image: "/color-glaze.webp",
-    alt: "custom printed ceramic mug wholesale bulk order",
-    slug: "color-glaze-ceramic",
+    alt: "wholesale ceramic bowls soup bowls salad bowls",
+    slug: "bowls",
   },
   {
-    name: "Kiln Change Ceramic",
-    description: "Natural kiln variation, artistic premium tableware.",
+    name: "Wholesale Dinnerware Sets",
+    description: "Complete ceramic dinnerware sets for daily use and catering.",
     image: "/kiln-transformation.webp",
-    alt: "kiln change artistic ceramic tableware supplier",
-    slug: "kiln-change-ceramic",
+    alt: "wholesale dinnerware sets ceramic tableware sets",
+    slug: "dinnerware-sets",
+  },
+  {
+    name: "Wholesale Cups & Mugs",
+    description: "Ceramic mugs, coffee cups and saucers for cafes and hotels.",
+    image: "/alice.webp",
+    alt: "wholesale ceramic mugs coffee cups saucers",
+    slug: "cups-mugs",
+  },
+  {
+    name: "Wholesale Bakeware",
+    description: "Oven-safe ceramic bakeware including dishes and ramekins.",
+    image: "/color-glaze.webp",
+    alt: "wholesale ceramic bakeware baking dishes ramekins",
+    slug: "bakeware",
   },
 ];
 
