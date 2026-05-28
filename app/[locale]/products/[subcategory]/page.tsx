@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { ChevronRight, ChevronDown, Package } from "lucide-react"
+import { ChevronRight, ChevronDown, Package, Layers, Gift, Settings, Zap } from "lucide-react"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 
@@ -44,6 +44,107 @@ import { Footer } from "@/components/layout/footer"
 //   // ... 使用 products 数据渲染
 // }
 // ============================================================
+
+// Selling points data (与一级分类页保持一致)
+const sellingPoints = [
+  { icon: Layers, title: "Low MOQ" },
+  { icon: Gift, title: "Free Samples" },
+  { icon: Settings, title: "Custom OEM/ODM" },
+  { icon: Zap, title: "Fast Delivery" },
+];
+
+// 二级分类页面的标题和描述配置
+const subcategoryContent: Record<string, { title: string; description: string }> = {
+  // Plates 子分类
+  "plates": {
+    title: "Wholesale Ceramic Plates For Bulk Food Service",
+    description: "We supply durable, food-safe dinner plates, soup plates and serving platters for restaurants and caterers. All products meet FDA/LFGB standards with custom designs available."
+  },
+  "dinner-plates": {
+    title: "Wholesale Dinner Plates | Bulk Ceramic Tableware",
+    description: "Premium quality ceramic dinner plates for restaurants, hotels and catering businesses. Available in various sizes, shapes and designs with low MOQ and fast delivery."
+  },
+  "dessert-side-plates": {
+    title: "Wholesale Dessert & Side Plates | Ceramic Tableware",
+    description: "Elegant dessert and side plates perfect for appetizers, salads and pastries. Food-safe ceramic with custom branding options for your business."
+  },
+  "soup-plates": {
+    title: "Wholesale Soup Plates | Deep Ceramic Bowls",
+    description: "Deep soup plates ideal for soups, pasta and risotto service. Durable ceramic construction with professional-grade quality for commercial kitchens."
+  },
+  "oval-serving-plates": {
+    title: "Wholesale Oval & Serving Platters | Ceramic",
+    description: "Large oval platters and serving dishes for family-style dining and buffet service. Available in multiple sizes with custom logo printing."
+  },
+  // Bowls 子分类
+  "bowls": {
+    title: "Wholesale Ceramic Bowls For Commercial Use",
+    description: "High-quality ceramic bowls for soup, salad, ramen and snacks. Perfect for restaurants, hotels and food service businesses with bulk pricing."
+  },
+  "soup-bowls": {
+    title: "Wholesale Soup Bowls | Ceramic Restaurant Ware",
+    description: "Deep ceramic soup bowls designed for commercial food service. Stackable, chip-resistant and dishwasher safe for high-volume use."
+  },
+  "salad-bowls": {
+    title: "Wholesale Salad Bowls | Fresh Food Service",
+    description: "Versatile ceramic salad bowls in various sizes for fresh food presentation. Ideal for restaurants, cafes and catering operations."
+  },
+  "ramen-bowls": {
+    title: "Wholesale Ramen Bowls | Asian Restaurant Supply",
+    description: "Traditional-style ramen bowls perfect for noodle dishes and Asian cuisine. Large capacity with authentic designs available."
+  },
+  "snack-bowls": {
+    title: "Wholesale Snack Bowls | Small Ceramic Dishes",
+    description: "Compact snack and dipping bowls for appetizers and condiments. Perfect for tapas, mezze and shared dining experiences."
+  },
+  // Dinnerware Sets 子分类
+  "dinnerware-sets": {
+    title: "Wholesale Dinnerware Sets | Complete Tableware Collections",
+    description: "Complete ceramic dinnerware sets for daily use and professional catering. Coordinated designs with plates, bowls and accessories."
+  },
+  "daily-tableware-sets": {
+    title: "Wholesale Daily Tableware Sets | Home & Hospitality",
+    description: "Everyday dinnerware sets for hotels, B&Bs and retail. Durable ceramic construction with elegant designs for daily use."
+  },
+  "restaurant-catering-sets": {
+    title: "Wholesale Restaurant & Catering Sets | Professional Grade",
+    description: "Commercial-grade dinnerware sets designed for high-volume restaurant and catering use. Stackable, durable and brand-customizable."
+  },
+  // Cups & Mugs 子分类
+  "cups-mugs": {
+    title: "Wholesale Ceramic Cups & Mugs | Coffee Service",
+    description: "Premium ceramic mugs and coffee cups for cafes, restaurants and corporate gifting. Custom printing and branding available."
+  },
+  "ceramic-mugs": {
+    title: "Wholesale Ceramic Mugs | Custom Branded Drinkware",
+    description: "Classic ceramic mugs perfect for coffee shops, offices and promotional merchandise. Multiple sizes with full-color custom printing."
+  },
+  "coffee-cups-saucers": {
+    title: "Wholesale Coffee Cups & Saucers | Espresso Sets",
+    description: "Elegant coffee cup and saucer sets for cafes and fine dining. Espresso, cappuccino and latte sizes with matching saucers."
+  },
+  "water-cups": {
+    title: "Wholesale Water Cups | Ceramic Drinkware",
+    description: "Simple and elegant ceramic water cups for restaurants and hospitality. Stackable design with various capacity options."
+  },
+  // Bakeware 子分类
+  "bakeware": {
+    title: "Wholesale Ceramic Bakeware | Oven-Safe Dishes",
+    description: "Professional ceramic bakeware for commercial kitchens and retail. Oven-safe, freezer-safe and perfect for cooking and serving."
+  },
+  "baking-dishes": {
+    title: "Wholesale Baking Dishes | Ceramic Casserole Pans",
+    description: "Versatile ceramic baking dishes for casseroles, lasagna and roasted dishes. Oven-to-table design with attractive glazes."
+  },
+  "ramekins": {
+    title: "Wholesale Ramekins | Individual Baking Cups",
+    description: "Classic ceramic ramekins for soufflés, crème brûlée and individual portions. Restaurant-quality with various sizes available."
+  },
+  "pie-pizza-plates": {
+    title: "Wholesale Pie & Pizza Plates | Ceramic Baking",
+    description: "Ceramic pie plates and pizza stones for bakeries and restaurants. Even heat distribution for perfect baking results."
+  },
+};
 
 // 树状分类数据结构
 const categoryTree = [
@@ -147,15 +248,22 @@ export default function SubcategoryPage() {
 
   const { parent: currentParent, child: currentChild } = findCurrentCategory()
   const displayName = currentChild?.name || currentParent?.name || "All Products"
+  
+  // 获取当前分类的标题和描述
+  const currentContent = subcategoryContent[currentSubcategory] || {
+    title: `Wholesale ${displayName} | Ceramic Tableware`,
+    description: `High-quality ceramic ${displayName.toLowerCase()} for restaurants, hotels and catering businesses. Factory direct with low MOQ and custom designs available.`
+  }
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       
-      {/* Breadcrumb */}
-      <section className="pt-28 pb-4 bg-[#f5f3ef]">
+      {/* Hero Section - 与一级分类页保持一致 */}
+      <section className="pt-32 pb-8 bg-[#f5f3ef]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-2 text-sm text-muted-foreground">
+          {/* Breadcrumb */}
+          <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
             <Link href={`/${locale}`} className="hover:text-foreground transition-colors">Home</Link>
             <ChevronRight className="w-4 h-4" />
             <Link href={`/${locale}/products/category`} className="hover:text-foreground transition-colors">Products</Link>
@@ -172,6 +280,31 @@ export default function SubcategoryPage() {
               <span className="text-foreground">{displayName}</span>
             )}
           </nav>
+          
+          {/* H1 Title */}
+          <h1 className="text-3xl sm:text-4xl font-serif font-normal text-foreground mb-4">
+            {currentContent.title}
+          </h1>
+          
+          {/* Description */}
+          <p className="text-muted-foreground mb-8 max-w-4xl">
+            {currentContent.description}
+          </p>
+
+          {/* Selling Points */}
+          <div className="flex flex-wrap justify-center gap-8 sm:gap-12 lg:gap-16">
+            {sellingPoints.map((point) => {
+              const IconComponent = point.icon;
+              return (
+                <div key={point.title} className="flex flex-col items-center">
+                  <div className="w-16 h-16 rounded-full border-2 border-[#8b7355] flex items-center justify-center mb-3">
+                    <IconComponent className="w-7 h-7 text-[#8b7355]" strokeWidth={1.5} />
+                  </div>
+                  <span className="text-sm font-medium text-[#1a1a1a]">{point.title}</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
