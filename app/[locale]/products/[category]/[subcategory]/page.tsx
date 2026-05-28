@@ -1,4 +1,3 @@
-import { Footer } from "@/components/layout/footer";
 import { SubcategoryClient } from "@/components/products/subcategory-client";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -66,12 +65,9 @@ export default async function SubcategoryPage({ params }: PageProps) {
   }
 
   return (
-    <>
-      <SubcategoryClient 
-        primaryCategory={category}
-        subcategory={subcategory}
-      />
-      <Footer />
-    </>
+    <SubcategoryClient 
+      primaryCategory={category}
+      subcategory={subcategory}
+    />
   );
 }

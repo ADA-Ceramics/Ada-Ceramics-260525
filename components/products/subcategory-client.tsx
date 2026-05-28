@@ -1,7 +1,55 @@
 "use client"
 
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+// 一级分类对应的二级子分类
+const categorySubcategories: Record<string, { slug: string; name: string }[]> = {
+  plates: [
+    { slug: "dinner-plates", name: "Dinner Plates" },
+    { slug: "dessert-side-plates", name: "Dessert & Side Plates" },
+    { slug: "soup-plates", name: "Soup Plates" },
+    { slug: "oval-serving-plates", name: "Oval & Serving Plates" },
+  ],
+  bowls: [
+    { slug: "soup-bowls", name: "Soup Bowls" },
+    { slug: "salad-bowls", name: "Salad Bowls" },
+    { slug: "ramen-bowls", name: "Ramen Bowls" },
+    { slug: "snack-bowls", name: "Snack Bowls" },
+  ],
+  "dinnerware-sets": [
+    { slug: "daily-tableware-sets", name: "Daily Tableware Sets" },
+    { slug: "restaurant-catering-sets", name: "Restaurant & Catering Sets" },
+  ],
+  "cups-mugs": [
+    { slug: "ceramic-mugs", name: "Ceramic Mugs" },
+    { slug: "coffee-cups-saucers", name: "Coffee Cups & Saucers" },
+    { slug: "water-cups", name: "Water Cups" },
+  ],
+  bakeware: [
+    { slug: "baking-dishes", name: "Baking Dishes" },
+    { slug: "ramekins", name: "Ramekins" },
+    { slug: "pie-pizza-plates", name: "Pie & Pizza Plates" },
+  ],
+};
+
+// 一级分类名称映射
+const categoryNames: Record<string, string> = {
+  plates: "Wholesale Plates",
+  bowls: "Wholesale Bowls",
+  "dinnerware-sets": "Wholesale Dinnerware Sets",
+  "cups-mugs": "Wholesale Cups & Mugs",
+  bakeware: "Wholesale Bakeware",
+};
+
+// 一级分类描述映射
+const categoryDescriptions: Record<string, string> = {
+  plates: "Premium ceramic plates for restaurants, hotels and retail. Dinner plates, dessert plates, soup plates and serving plates.",
+  bowls: "High-quality ceramic bowls in various sizes. Soup bowls, salad bowls, ramen bowls and snack bowls.",
+  "dinnerware-sets": "Complete ceramic dinnerware sets for daily home use, customizable combinations available.",
+  "cups-mugs": "Ceramic mugs, coffee cups and saucers, water cups. Perfect for cafes, hotels and promotional gifts.",
+  bakeware: "Oven-safe ceramic bakeware including baking dishes, ramekins, pie plates and pizza plates.",
+};
 
 interface SubcategoryClientProps {
   primaryCategory: string;
@@ -9,102 +57,59 @@ interface SubcategoryClientProps {
 }
 
 export function SubcategoryClient({ primaryCategory, subcategory }: SubcategoryClientProps) {
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1] || "en";
+  
+  // 获取当前一级分类的子分类列表
+  const subcategories = categorySubcategories[primaryCategory] || [];
+  const categoryName = categoryNames[primaryCategory] || "Products";
+  const categoryDescription = categoryDescriptions[primaryCategory] || "";
+
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      {/* Header */}
-      <Header />
+    <section className="py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* H1 Title */}
+        <h1 className="text-2xl sm:text-3xl font-serif font-normal text-[#1a1a1a] mb-3">
+          {categoryName}
+        </h1>
+        
+        {/* Description */}
+        <p className="text-[#6b7280] text-base mb-8 max-w-3xl">
+          {categoryDescription}
+        </p>
 
-      {/* Main Content */}
-      <main className="flex-1 pt-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          
-          {/* Two Column Layout */}
-          <div style={{ display: "flex", gap: "32px" }}>
-            
-            {/* Left Sidebar - Fixed 250px */}
-            <aside style={{ width: "250px", flexShrink: 0 }}>
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                <h2 className="font-semibold text-gray-900 mb-4 text-base">Categories</h2>
-                
-                {/* Wholesale Plates */}
-                <div className="mb-4">
-                  <div className="font-bold text-gray-900 text-sm mb-2">Wholesale Plates</div>
-                  <ul className="ml-3 border-l-2 border-gray-300 pl-3 space-y-1">
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "plates" && subcategory === "dinner-plates" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Dinner Plates</span></li>
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "plates" && subcategory === "dessert-side-plates" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Dessert & Side Plates</span></li>
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "plates" && subcategory === "soup-plates" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Soup Plates</span></li>
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "plates" && subcategory === "oval-serving-plates" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Oval & Serving Plates</span></li>
-                  </ul>
-                </div>
-
-                {/* Wholesale Bowls */}
-                <div className="mb-4">
-                  <div className="font-bold text-gray-900 text-sm mb-2">Wholesale Bowls</div>
-                  <ul className="ml-3 border-l-2 border-gray-300 pl-3 space-y-1">
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "bowls" && subcategory === "soup-bowls" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Soup Bowls</span></li>
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "bowls" && subcategory === "salad-bowls" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Salad Bowls</span></li>
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "bowls" && subcategory === "ramen-bowls" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Ramen Bowls</span></li>
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "bowls" && subcategory === "snack-bowls" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Snack Bowls</span></li>
-                  </ul>
-                </div>
-
-                {/* Wholesale Dinnerware Sets */}
-                <div className="mb-4">
-                  <div className="font-bold text-gray-900 text-sm mb-2">Wholesale Dinnerware Sets</div>
-                  <ul className="ml-3 border-l-2 border-gray-300 pl-3 space-y-1">
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "dinnerware-sets" && subcategory === "daily-tableware-sets" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Daily Tableware Sets</span></li>
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "dinnerware-sets" && subcategory === "restaurant-catering-sets" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Restaurant & Catering Sets</span></li>
-                  </ul>
-                </div>
-
-                {/* Wholesale Cups & Mugs */}
-                <div className="mb-4">
-                  <div className="font-bold text-gray-900 text-sm mb-2">Wholesale Cups & Mugs</div>
-                  <ul className="ml-3 border-l-2 border-gray-300 pl-3 space-y-1">
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "cups-mugs" && subcategory === "ceramic-mugs" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Ceramic Mugs</span></li>
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "cups-mugs" && subcategory === "coffee-cups-saucers" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Coffee Cups & Saucers</span></li>
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "cups-mugs" && subcategory === "water-cups" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Water Cups</span></li>
-                  </ul>
-                </div>
-
-                {/* Wholesale Bakeware */}
-                <div className="mb-4">
-                  <div className="font-bold text-gray-900 text-sm mb-2">Wholesale Bakeware</div>
-                  <ul className="ml-3 border-l-2 border-gray-300 pl-3 space-y-1">
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "bakeware" && subcategory === "baking-dishes" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Baking Dishes</span></li>
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "bakeware" && subcategory === "ramekins" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Ramekins</span></li>
-                    <li><span className={`block py-1 px-2 text-sm rounded ${primaryCategory === "bakeware" && subcategory === "pie-pizza-plates" ? "bg-[#8b7355] text-white" : "text-gray-600"}`}>Pie & Pizza Plates</span></li>
-                  </ul>
-                </div>
+        {/* Subcategory Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {subcategories.map((sub) => (
+            <div 
+              key={sub.slug} 
+              className="border border-gray-200 rounded-lg bg-white overflow-hidden hover:shadow-md transition-shadow"
+            >
+              {/* Image Placeholder */}
+              <div className="aspect-square bg-[#f5f3ef] flex items-center justify-center">
+                <svg className="w-16 h-16 text-[#d1ccc4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
               </div>
-            </aside>
-
-            {/* Right Product Area - Flexible */}
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <h1 className="text-2xl font-semibold text-gray-900 mb-6">
-                {subcategory.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")}
-              </h1>
               
-              {/* Static Product Grid - No Links */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <div key={i} className="border border-gray-200 rounded-lg bg-white overflow-hidden">
-                    <div className="aspect-square bg-gray-100"></div>
-                    <div className="p-4">
-                      <div className="h-4 bg-gray-200 rounded mb-3 w-3/4"></div>
-                      <div className="h-10 bg-[#8b7355] rounded"></div>
-                    </div>
-                  </div>
-                ))}
+              {/* Card Content */}
+              <div className="p-5">
+                <h3 className="text-base font-medium text-[#1a1a1a] mb-4">
+                  {sub.name}
+                </h3>
+                <Link
+                  href={`/${locale}/products/${primaryCategory}/${sub.slug}`}
+                  className="inline-flex items-center justify-center w-full px-4 py-2.5 text-sm font-medium text-white bg-[#8b7355] rounded-md hover:bg-[#6d5a43] transition-colors"
+                >
+                  View Details
+                </Link>
               </div>
             </div>
-
-          </div>
+          ))}
         </div>
-      </main>
 
-      {/* Footer */}
-      <Footer />
-    </div>
+      </div>
+    </section>
   );
 }
