@@ -508,13 +508,13 @@ export function OemOdmClient() {
       </section>
 
       {/* 9. 转化引导区 - Get In Touch 表单 */}
-      <section className="py-20 lg:py-28 bg-[#1a1a2e]">
+      <section className="py-20 lg:py-28 bg-[#f8f7f4]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
-            <h2 className="text-3xl sm:text-4xl font-serif font-normal text-white mb-4">
+            <h2 className="text-3xl sm:text-4xl font-serif font-normal text-[#1a1a2e] mb-4">
               Get In Touch
             </h2>
-            <p className="text-lg text-white/70 max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Tell us about your custom ceramic tableware needs. Our team will respond within 24 hours.
             </p>
           </div>
