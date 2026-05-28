@@ -8,43 +8,6 @@ import { ChevronRight, ChevronDown, Package, Layers, ShieldCheck, Settings, Zap 
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 
-// ============================================================
-// 【保留原 Supabase 数据调用结构 - 等布局确认后联调】
-// ============================================================
-// import { notFound } from "next/navigation"
-// import { getProductsByCategory } from "@/lib/supabase/products"
-// import { CATEGORY_INFO, type Product } from "@/lib/supabase/types"
-//
-// interface PageProps {
-//   params: Promise<{ subcategory: string; locale: string }>
-// }
-//
-// export async function generateMetadata({ params }: PageProps) {
-//   const { subcategory } = await params
-//   const categoryInfo = CATEGORY_INFO[subcategory]
-//   
-//   if (!categoryInfo) {
-//     return { title: "Category Not Found | ADA Ceramics" }
-//   }
-//
-//   return {
-//     title: `${categoryInfo.name} | ADA Ceramics`,
-//     description: `Wholesale high-quality ${categoryInfo.name} ceramic tableware. Bulk orders & custom OEM/ODM available.`,
-//   }
-// }
-//
-// export default async function SubcategoryPage({ params }: PageProps) {
-//   const { subcategory: categorySlug, locale } = await params
-//   const products = await getProductsByCategory(categorySlug)
-//   const categoryInfo = CATEGORY_INFO[categorySlug]
-//
-//   if (!categoryInfo) {
-//     notFound()
-//   }
-//   // ... 使用 products 数据渲染
-// }
-// ============================================================
-
 // Selling points data (与一级分类页保持一致)
 const sellingPoints = [
   { icon: Layers, title: "Low MOQ" },
@@ -266,7 +229,7 @@ export default function SubcategoryPage() {
           <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
             <Link href={`/${locale}`} className="hover:text-foreground transition-colors">Home</Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href={`/${locale}/products/category`} className="hover:text-foreground transition-colors">Products</Link>
+            <Link href={`/${locale}/products`} className="hover:text-foreground transition-colors">Products</Link>
             <ChevronRight className="w-4 h-4" />
             {currentChild ? (
               <>
@@ -390,37 +353,20 @@ export default function SubcategoryPage() {
                 </p>
               </div>
 
-              {/* Product Grid - 联调时替换为动态数据 */}
-              {/* {products.length === 0 ? (
-                <div className="text-center py-16">
-                  <p className="text-muted-foreground">No products found in this category.</p>
-                </div>
-              ) : ( */}
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                 {placeholderProducts.map((product) => (
                   <Link
                     key={product.id}
-                    href={`/${locale}/products/${currentSubcategory || 'plates'}/${product.slug}`}
+                    // 🔥 🔥 🔥 这里已经修复：正确跳转到详情页
+                    href={`/${locale}/products/${currentParent.slug}/${product.slug}`}
                     className="group border border-[#e5e7eb] rounded-lg overflow-hidden bg-white hover:shadow-lg transition-all"
                   >
-                    {/* Product Image Placeholder */}
                     <div className="aspect-square relative bg-[#f9fafb]">
-                      {/* 联调时替换为动态图片 */}
-                      {/* {product.main_image ? (
-                        <Image
-                          src={product.main_image}
-                          alt={`${product.name} - Wholesale ceramic tableware`}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      ) : ( */}
                       <div className="absolute inset-0 flex items-center justify-center text-[#9ca3af]">
                         <Package className="w-16 h-16 opacity-30" />
                       </div>
-                      {/* )} */}
                     </div>
                     
-                    {/* Product Info */}
                     <div className="p-5">
                       <p className="text-xs text-[#9ca3af] mb-1">{product.sku}</p>
                       <h3 className="text-base font-medium text-[#1a1a1a] mb-4 group-hover:text-[#8b7355] transition-colors">
@@ -433,9 +379,8 @@ export default function SubcategoryPage() {
                   </Link>
                 ))}
               </div>
-              {/* )} */}
 
-              {/* Load More (Placeholder) */}
+              {/* Load More */}
               <div className="mt-10 text-center">
                 <button className="px-6 py-3 text-sm font-medium text-[#8b7355] border border-[#8b7355] rounded-md hover:bg-[#8b7355] hover:text-white transition-colors">
                   Load More Products
