@@ -7,13 +7,13 @@ import { Menu, X, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 
-// 产品分类数据 - 链接到 /products/category 页面的对应区块
+// 产品分类数据 - 链接到二级分类页
 const PRODUCT_CATEGORIES = [
-  { id: "plates", name: "Wholesale Plates", description: "Dinner, dessert, soup & serving plates", hash: "wholesale-plates-tab" },
-  { id: "bowls", name: "Wholesale Bowls", description: "Soup, salad, ramen & snack bowls", hash: "wholesale-bowls-tab" },
-  { id: "sets", name: "Wholesale Dinnerware Sets", description: "Daily & restaurant tableware sets", hash: "dinnerware-sets-tab" },
-  { id: "cups", name: "Wholesale Cups & Mugs", description: "Ceramic mugs, coffee cups & water cups", hash: "cups-mugs-tab" },
-  { id: "bakeware", name: "Wholesale Bakeware", description: "Baking dishes, ramekins & pie plates", hash: "bakeware-tab" },
+  { id: "plates", name: "Wholesale Plates", description: "Dinner, dessert, soup & serving plates", slug: "plates" },
+  { id: "bowls", name: "Wholesale Bowls", description: "Soup, salad, ramen & snack bowls", slug: "bowls" },
+  { id: "sets", name: "Wholesale Dinnerware Sets", description: "Daily & restaurant tableware sets", slug: "dinnerware-sets" },
+  { id: "cups", name: "Wholesale Cups & Mugs", description: "Ceramic mugs, coffee cups & water cups", slug: "cups-mugs" },
+  { id: "bakeware", name: "Wholesale Bakeware", description: "Baking dishes, ramekins & pie plates", slug: "bakeware" },
 ]
 
 // 严格对应你本地实际文件名
@@ -209,7 +209,7 @@ export function Header() {
 
   const navItems = [
     { name: "Home", href: `/${currentLangCode}` },
-    { name: "Products", href: `/${currentLangCode}/products/category#all-products-section`, hasDropdown: true },
+    { name: "Products", href: `/${currentLangCode}/products`, hasDropdown: true },
     { name: "About Us", href: `/${currentLangCode}/about` },
     { name: "Factory", href: "/factory" },
     { name: "OEM / ODM", href: "/oem-odm" },
@@ -307,7 +307,7 @@ export function Header() {
                           {PRODUCT_CATEGORIES.map((category) => (
                             <Link
                               key={category.id}
-                              href={`/${currentLangCode}/products/category#${category.hash}`}
+                              href={`/${currentLangCode}/products/${category.slug}`}
                               className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50"
                               onClick={() => setIsProductsOpen(false)}
                             >
@@ -321,7 +321,7 @@ export function Header() {
                             </Link>
                           ))}
                           <div className="border-t mt-2 pt-2 px-4">
-                            <Link href={`/${currentLangCode}/products/category`} className="text-sm text-primary hover:underline">
+                            <Link href={`/${currentLangCode}/products`} className="text-sm text-primary hover:underline">
                               View All Products →
                             </Link>
                           </div>
@@ -470,7 +470,7 @@ export function Header() {
                       {PRODUCT_CATEGORIES.map((category) => (
                         <Link
                           key={category.id}
-                          href={`/${currentLangCode}/products/category#${category.hash}`}
+                          href={`/${currentLangCode}/products/${category.slug}`}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="block px-3 py-2 text-sm text-gray-600"
                         >
@@ -478,7 +478,7 @@ export function Header() {
                         </Link>
                       ))}
                       <Link
-                        href={`/${currentLangCode}/products/category`}
+                        href={`/${currentLangCode}/products`}
                         onClick={() => setIsMobileMenuOpen(false)}
                         className="block px-3 py-2 text-sm text-primary"
                       >
