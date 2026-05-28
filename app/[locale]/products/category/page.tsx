@@ -143,6 +143,20 @@ export function ProductsClient() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
+      
+      // 处理 #all-products-section 锚点
+      if (hash === '#all-products-section') {
+        setActiveTab('all');
+        setTimeout(() => {
+          const element = document.getElementById('all-products-section');
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
+        return;
+      }
+      
+      // 处理 #category-xxx 锚点
       if (hash.startsWith('#category-')) {
         const categoryId = hash.replace('#category-', '');
         const validTabs = categoryTabs.map(t => t.id);
@@ -150,7 +164,7 @@ export function ProductsClient() {
           setActiveTab(categoryId);
           // 滚动到分类区块
           setTimeout(() => {
-            const element = document.getElementById('category-tabs');
+            const element = document.getElementById('all-products-section');
             if (element) {
               element.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
@@ -197,7 +211,7 @@ export function ProductsClient() {
       </section>
 
       {/* Category Tabs and Product Cards */}
-      <section className="py-12 bg-white">
+      <section id="all-products-section" className="py-12 bg-white scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Category Tabs - 每个分类区块的锚点 */}
           <div id="category-tabs" className="flex flex-wrap justify-center gap-2 mb-10 scroll-mt-24">

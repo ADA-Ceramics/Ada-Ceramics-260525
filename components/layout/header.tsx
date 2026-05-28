@@ -208,9 +208,9 @@ export function Header() {
   const currentLang = LANGUAGES.find(item => item.code === currentLangCode) || LANGUAGES[0]
 
   const navItems = [
-    { name: "Home", href: "/" },
-    { name: "Products", href: "/products", hasDropdown: true },
-    { name: "About Us", href: "/about" },
+    { name: "Home", href: `/${currentLangCode}` },
+    { name: "Products", href: `/${currentLangCode}/products/category#all-products-section`, hasDropdown: true },
+    { name: "About Us", href: `/${currentLangCode}/about` },
     { name: "Factory", href: "/factory" },
     { name: "OEM / ODM", href: "/oem-odm" },
     { name: "Blog", href: "/blog" },
