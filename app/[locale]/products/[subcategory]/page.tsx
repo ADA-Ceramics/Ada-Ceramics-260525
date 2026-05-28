@@ -357,8 +357,8 @@ export default function SubcategoryPage() {
                 {placeholderProducts.map((product) => (
                   <Link
                     key={product.id}
-                    // 🔥 🔥 🔥 这里已经修复：正确跳转到详情页
-                    href={`/${locale}/products/${currentParent.slug}/${product.slug}`}
+                    // ✅ 🔥 最终正确详情页跳转
+                    href={`/${locale}/products/${currentSubcategory}/${product.slug}`}
                     className="group border border-[#e5e7eb] rounded-lg overflow-hidden bg-white hover:shadow-lg transition-all"
                   >
                     <div className="aspect-square relative bg-[#f9fafb]">
