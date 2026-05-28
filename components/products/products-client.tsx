@@ -31,6 +31,7 @@ const sellingPoints = [
 
 // Category tabs
 const categoryTabs = [
+  { id: "all", name: "All Products" },
   { id: "plates", name: "Wholesale Plates" },
   { id: "bowls", name: "Wholesale Bowls" },
   { id: "sets", name: "Wholesale Dinnerware Sets" },
@@ -40,6 +41,24 @@ const categoryTabs = [
 
 // Products by category
 const productsByCategory: Record<string, { name: string; slug: string; image: string }[]> = {
+  all: [
+    { name: "Dinner Plates", slug: "dinner-plates", image: "/images/categories/dinner-plates.jpg" },
+    { name: "Dessert & Side Plates", slug: "dessert-side-plates", image: "/images/categories/dessert-plates.jpg" },
+    { name: "Soup Plates", slug: "soup-plates", image: "/images/categories/soup-plates.jpg" },
+    { name: "Oval & Serving Plates", slug: "oval-serving-plates", image: "/images/categories/oval-plates.jpg" },
+    { name: "Soup Bowls", slug: "soup-bowls", image: "/images/categories/soup-bowls.jpg" },
+    { name: "Salad Bowls", slug: "salad-bowls", image: "/images/categories/salad-bowls.jpg" },
+    { name: "Ramen Bowls", slug: "ramen-bowls", image: "/images/categories/ramen-bowls.jpg" },
+    { name: "Snack Bowls", slug: "snack-bowls", image: "/images/categories/snack-bowls.jpg" },
+    { name: "Daily Tableware Sets", slug: "daily-tableware-sets", image: "/images/categories/daily-sets.jpg" },
+    { name: "Restaurant & Catering Sets", slug: "restaurant-catering-sets", image: "/images/categories/restaurant-sets.jpg" },
+    { name: "Ceramic Mugs", slug: "ceramic-mugs", image: "/images/categories/ceramic-mugs.jpg" },
+    { name: "Coffee Cups & Saucers", slug: "coffee-cups-saucers", image: "/images/categories/coffee-cups.jpg" },
+    { name: "Water Cups", slug: "water-cups", image: "/images/categories/water-cups.jpg" },
+    { name: "Baking Dishes", slug: "baking-dishes", image: "/images/categories/baking-dishes.jpg" },
+    { name: "Ramekins", slug: "ramekins", image: "/images/categories/ramekins.jpg" },
+    { name: "Pie & Pizza Plates", slug: "pie-pizza-plates", image: "/images/categories/pie-plates.jpg" },
+  ],
   plates: [
     { name: "Dinner Plates", slug: "dinner-plates", image: "/images/categories/dinner-plates.jpg" },
     { name: "Dessert & Side Plates", slug: "dessert-side-plates", image: "/images/categories/dessert-plates.jpg" },
@@ -131,7 +150,7 @@ const faqItems = [
 export function ProductsClient({ products, activeCat }: ProductsClientProps) {
   const pathname = usePathname()
   const locale = pathname.split('/')[1] || 'en'
-  const [activeTab, setActiveTab] = useState("plates");
+  const [activeTab, setActiveTab] = useState("all");
 
   const fixedCategories = [
     { slug: "all", name: "All Products" },
