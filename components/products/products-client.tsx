@@ -38,51 +38,51 @@ const categoryTabs = [
   { id: "bakeware", name: "Wholesale Bakeware" },
 ];
 
-// Products by category
-const productsByCategory: Record<string, { name: string; slug: string; image: string }[]> = {
+// Products by category with parent category info for routing
+const productsByCategory: Record<string, { name: string; slug: string; image: string; parentCategory: string }[]> = {
   all: [
-    { name: "Dinner Plates", slug: "dinner-plates", image: "/images/categories/dinner-plates.jpg" },
-    { name: "Dessert & Side Plates", slug: "dessert-side-plates", image: "/images/categories/dessert-plates.jpg" },
-    { name: "Soup Plates", slug: "soup-plates", image: "/images/categories/soup-plates.jpg" },
-    { name: "Oval & Serving Plates", slug: "oval-serving-plates", image: "/images/categories/oval-plates.jpg" },
-    { name: "Soup Bowls", slug: "soup-bowls", image: "/images/categories/soup-bowls.jpg" },
-    { name: "Salad Bowls", slug: "salad-bowls", image: "/images/categories/salad-bowls.jpg" },
-    { name: "Ramen Bowls", slug: "ramen-bowls", image: "/images/categories/ramen-bowls.jpg" },
-    { name: "Snack Bowls", slug: "snack-bowls", image: "/images/categories/snack-bowls.jpg" },
-    { name: "Daily Tableware Sets", slug: "daily-tableware-sets", image: "/images/categories/daily-sets.jpg" },
-    { name: "Restaurant & Catering Sets", slug: "restaurant-catering-sets", image: "/images/categories/restaurant-sets.jpg" },
-    { name: "Ceramic Mugs", slug: "ceramic-mugs", image: "/images/categories/ceramic-mugs.jpg" },
-    { name: "Coffee Cups & Saucers", slug: "coffee-cups-saucers", image: "/images/categories/coffee-cups.jpg" },
-    { name: "Water Cups", slug: "water-cups", image: "/images/categories/water-cups.jpg" },
-    { name: "Baking Dishes", slug: "baking-dishes", image: "/images/categories/baking-dishes.jpg" },
-    { name: "Ramekins", slug: "ramekins", image: "/images/categories/ramekins.jpg" },
-    { name: "Pie & Pizza Plates", slug: "pie-pizza-plates", image: "/images/categories/pie-plates.jpg" },
+    { name: "Dinner Plates", slug: "dinner-plates", image: "/images/categories/dinner-plates.jpg", parentCategory: "plates" },
+    { name: "Dessert & Side Plates", slug: "dessert-side-plates", image: "/images/categories/dessert-plates.jpg", parentCategory: "plates" },
+    { name: "Soup Plates", slug: "soup-plates", image: "/images/categories/soup-plates.jpg", parentCategory: "plates" },
+    { name: "Oval & Serving Plates", slug: "oval-serving-plates", image: "/images/categories/oval-plates.jpg", parentCategory: "plates" },
+    { name: "Soup Bowls", slug: "soup-bowls", image: "/images/categories/soup-bowls.jpg", parentCategory: "bowls" },
+    { name: "Salad Bowls", slug: "salad-bowls", image: "/images/categories/salad-bowls.jpg", parentCategory: "bowls" },
+    { name: "Ramen Bowls", slug: "ramen-bowls", image: "/images/categories/ramen-bowls.jpg", parentCategory: "bowls" },
+    { name: "Snack Bowls", slug: "snack-bowls", image: "/images/categories/snack-bowls.jpg", parentCategory: "bowls" },
+    { name: "Daily Tableware Sets", slug: "daily-tableware-sets", image: "/images/categories/daily-sets.jpg", parentCategory: "dinnerware-sets" },
+    { name: "Restaurant & Catering Sets", slug: "restaurant-catering-sets", image: "/images/categories/restaurant-sets.jpg", parentCategory: "dinnerware-sets" },
+    { name: "Ceramic Mugs", slug: "ceramic-mugs", image: "/images/categories/ceramic-mugs.jpg", parentCategory: "cups-mugs" },
+    { name: "Coffee Cups & Saucers", slug: "coffee-cups-saucers", image: "/images/categories/coffee-cups.jpg", parentCategory: "cups-mugs" },
+    { name: "Water Cups", slug: "water-cups", image: "/images/categories/water-cups.jpg", parentCategory: "cups-mugs" },
+    { name: "Baking Dishes", slug: "baking-dishes", image: "/images/categories/baking-dishes.jpg", parentCategory: "bakeware" },
+    { name: "Ramekins", slug: "ramekins", image: "/images/categories/ramekins.jpg", parentCategory: "bakeware" },
+    { name: "Pie & Pizza Plates", slug: "pie-pizza-plates", image: "/images/categories/pie-plates.jpg", parentCategory: "bakeware" },
   ],
   plates: [
-    { name: "Dinner Plates", slug: "dinner-plates", image: "/images/categories/dinner-plates.jpg" },
-    { name: "Dessert & Side Plates", slug: "dessert-side-plates", image: "/images/categories/dessert-plates.jpg" },
-    { name: "Soup Plates", slug: "soup-plates", image: "/images/categories/soup-plates.jpg" },
-    { name: "Oval & Serving Plates", slug: "oval-serving-plates", image: "/images/categories/oval-plates.jpg" },
+    { name: "Dinner Plates", slug: "dinner-plates", image: "/images/categories/dinner-plates.jpg", parentCategory: "plates" },
+    { name: "Dessert & Side Plates", slug: "dessert-side-plates", image: "/images/categories/dessert-plates.jpg", parentCategory: "plates" },
+    { name: "Soup Plates", slug: "soup-plates", image: "/images/categories/soup-plates.jpg", parentCategory: "plates" },
+    { name: "Oval & Serving Plates", slug: "oval-serving-plates", image: "/images/categories/oval-plates.jpg", parentCategory: "plates" },
   ],
   bowls: [
-    { name: "Soup Bowls", slug: "soup-bowls", image: "/images/categories/soup-bowls.jpg" },
-    { name: "Salad Bowls", slug: "salad-bowls", image: "/images/categories/salad-bowls.jpg" },
-    { name: "Ramen Bowls", slug: "ramen-bowls", image: "/images/categories/ramen-bowls.jpg" },
-    { name: "Snack Bowls", slug: "snack-bowls", image: "/images/categories/snack-bowls.jpg" },
+    { name: "Soup Bowls", slug: "soup-bowls", image: "/images/categories/soup-bowls.jpg", parentCategory: "bowls" },
+    { name: "Salad Bowls", slug: "salad-bowls", image: "/images/categories/salad-bowls.jpg", parentCategory: "bowls" },
+    { name: "Ramen Bowls", slug: "ramen-bowls", image: "/images/categories/ramen-bowls.jpg", parentCategory: "bowls" },
+    { name: "Snack Bowls", slug: "snack-bowls", image: "/images/categories/snack-bowls.jpg", parentCategory: "bowls" },
   ],
   sets: [
-    { name: "Daily Tableware Sets", slug: "daily-tableware-sets", image: "/images/categories/daily-sets.jpg" },
-    { name: "Restaurant & Catering Sets", slug: "restaurant-catering-sets", image: "/images/categories/restaurant-sets.jpg" },
+    { name: "Daily Tableware Sets", slug: "daily-tableware-sets", image: "/images/categories/daily-sets.jpg", parentCategory: "dinnerware-sets" },
+    { name: "Restaurant & Catering Sets", slug: "restaurant-catering-sets", image: "/images/categories/restaurant-sets.jpg", parentCategory: "dinnerware-sets" },
   ],
   cups: [
-    { name: "Ceramic Mugs", slug: "ceramic-mugs", image: "/images/categories/ceramic-mugs.jpg" },
-    { name: "Coffee Cups & Saucers", slug: "coffee-cups-saucers", image: "/images/categories/coffee-cups.jpg" },
-    { name: "Water Cups", slug: "water-cups", image: "/images/categories/water-cups.jpg" },
+    { name: "Ceramic Mugs", slug: "ceramic-mugs", image: "/images/categories/ceramic-mugs.jpg", parentCategory: "cups-mugs" },
+    { name: "Coffee Cups & Saucers", slug: "coffee-cups-saucers", image: "/images/categories/coffee-cups.jpg", parentCategory: "cups-mugs" },
+    { name: "Water Cups", slug: "water-cups", image: "/images/categories/water-cups.jpg", parentCategory: "cups-mugs" },
   ],
   bakeware: [
-    { name: "Baking Dishes", slug: "baking-dishes", image: "/images/categories/baking-dishes.jpg" },
-    { name: "Ramekins", slug: "ramekins", image: "/images/categories/ramekins.jpg" },
-    { name: "Pie & Pizza Plates", slug: "pie-pizza-plates", image: "/images/categories/pie-plates.jpg" },
+    { name: "Baking Dishes", slug: "baking-dishes", image: "/images/categories/baking-dishes.jpg", parentCategory: "bakeware" },
+    { name: "Ramekins", slug: "ramekins", image: "/images/categories/ramekins.jpg", parentCategory: "bakeware" },
+    { name: "Pie & Pizza Plates", slug: "pie-pizza-plates", image: "/images/categories/pie-plates.jpg", parentCategory: "bakeware" },
   ],
 };
 
@@ -217,7 +217,7 @@ export function ProductsClient({ products }: ProductsClientProps) {
                     {product.name}
                   </h3>
                   <Link
-                    href={`/${locale}/products?cat=${product.slug}`}
+                    href={`/${locale}/products/${product.parentCategory}/${product.slug}`}
                     className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-[#8b7355] rounded-md hover:bg-[#6d5a43] transition-colors"
                   >
                     View Details

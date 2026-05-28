@@ -5,12 +5,12 @@ import { ChevronRight, Check, Shield, Truck, MessageCircle } from "lucide-react"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { getProductBySlug, getProductsByCategory } from "@/lib/supabase/products"
-import { CATEGORY_INFO, type Product } from "@/lib/supabase/types"
+import { CATEGORY_INFO } from "@/lib/supabase/types"
 
 import ImageGallerySwitch from "./ImageGallerySwitch"
 
 interface PageProps {
-  params: Promise<{ category: string; slug: string; locale: string }>
+  params: Promise<{ category: string; subcategory: string; slug: string; locale: string }>
 }
 
 export async function generateMetadata({ params }: PageProps) {
@@ -30,22 +30,14 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { category, slug, locale } = await params
+  const { category, subcategory, slug, locale } = await params
   const product = await getProductBySlug(slug)
 
-  // ✅ 产品找不到才404（正常）
   if (!product) notFound()
 
-  const realCategorySlug = product.category_slug || category
-  const categoryInfo = CATEGORY_INFO[realCategorySlug]
-
-  // ==============================
-  // 🚨 【核心修复】这里不再强制404！
-  // ==============================
-  // if (!categoryInfo) notFound()
-
+  const categoryInfo = CATEGORY_INFO[category]
   const galleryImages = product.gallery_images ?? []
-  const relatedProducts = (await getProductsByCategory(realCategorySlug))
+  const relatedProducts = (await getProductsByCategory(category))
     .filter((p) => p.id !== product.id)
     .slice(0, 4)
 
@@ -55,21 +47,27 @@ export default async function Page({ params }: PageProps) {
       
       <section className="pt-28 pb-4 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-2 text-sm text-muted-foreground">
+          <nav className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
             <Link href={`/${locale}`} className="hover:text-foreground transition-colors">Home</Link>
             <ChevronRight className="w-4 h-4" />
             <Link href={`/${locale}/products`} className="hover:text-foreground transition-colors">Products</Link>
             <ChevronRight className="w-4 h-4" />
             
-            {/* 修复：分类不存在时不显示链接，避免崩溃 */}
+            {/* 一级分类 */}
             {categoryInfo ? (
               <>
-                <Link href={`/${locale}/products/${realCategorySlug}`} className="hover:text-foreground transition-colors">
+                <Link href={`/${locale}/products/${category}`} className="hover:text-foreground transition-colors">
                   {categoryInfo.name}
                 </Link>
                 <ChevronRight className="w-4 h-4" />
               </>
             ) : null}
+            
+            {/* 二级分类 */}
+            <Link href={`/${locale}/products/${category}/${subcategory}`} className="hover:text-foreground transition-colors capitalize">
+              {subcategory.replace(/-/g, ' ')}
+            </Link>
+            <ChevronRight className="w-4 h-4" />
             
             <span className="text-foreground">{product.name}</span>
           </nav>
@@ -88,10 +86,10 @@ export default async function Page({ params }: PageProps) {
 
             <div className="space-y-6">
               <div>
-                {/* 安全判断 */}
+                {/* 返回二级分类链接 */}
                 {categoryInfo && (
-                  <Link href={`/${locale}/products/${realCategorySlug}`} className="text-sm text-primary">
-                    {categoryInfo.name}
+                  <Link href={`/${locale}/products/${category}/${subcategory}`} className="text-sm text-primary capitalize">
+                    {subcategory.replace(/-/g, ' ')}
                   </Link>
                 )}
                 <h1 className="text-3xl md:text-4xl font-bold text-foreground mt-2 notranslate" translate="no">{product.name}</h1>
@@ -183,7 +181,7 @@ export default async function Page({ params }: PageProps) {
                 {relatedProducts.map((item) => (
                   <Link
                     key={item.id}
-                    href={`/${locale}/products/${realCategorySlug}/${item.slug}`}
+                    href={`/${locale}/products/${category}/${subcategory}/${item.slug}`}
                     className="group border rounded-xl overflow-hidden transition-shadow hover:shadow-lg"
                   >
                     {item.main_image && (
