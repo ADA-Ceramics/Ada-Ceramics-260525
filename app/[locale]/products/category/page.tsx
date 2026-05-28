@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Footer } from "@/components/layout/footer";
 import { QuoteForm } from "@/components/shared/quote-form";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Clock, Award, Package, Truck, Layers, Gift, Settings, Zap } from "lucide-react";
@@ -363,6 +364,14 @@ export function ProductsClient() {
 
       {/* Get in Touch / Quote Form */}
       <QuoteForm />
+      
+      {/* Footer */}
+      <Footer />
     </main>
   );
+}
+
+// Next.js App Router 默认导出
+export default function CategoryPage() {
+  return <ProductsClient />;
 }
