@@ -141,35 +141,28 @@ export function ProductsClient() {
 
   // 监听 URL hash 变化，自动切换到对应分类
   useEffect(() => {
+    // hash 到 tab id 的映射
+    const hashToTabMap: Record<string, string> = {
+      'all-products-section': 'all',
+      'wholesale-plates-tab': 'plates',
+      'wholesale-bowls-tab': 'bowls',
+      'dinnerware-sets-tab': 'sets',
+      'cups-mugs-tab': 'cups',
+      'bakeware-tab': 'bakeware',
+    };
+
     const handleHashChange = () => {
-      const hash = window.location.hash;
+      const hash = window.location.hash.replace('#', '');
       
-      // 处理 #all-products-section 锚点
-      if (hash === '#all-products-section') {
-        setActiveTab('all');
+      if (hash && hashToTabMap[hash]) {
+        setActiveTab(hashToTabMap[hash]);
+        // 滚动到产品区块
         setTimeout(() => {
           const element = document.getElementById('all-products-section');
           if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         }, 100);
-        return;
-      }
-      
-      // 处理 #category-xxx 锚点
-      if (hash.startsWith('#category-')) {
-        const categoryId = hash.replace('#category-', '');
-        const validTabs = categoryTabs.map(t => t.id);
-        if (validTabs.includes(categoryId)) {
-          setActiveTab(categoryId);
-          // 滚动到分类区块
-          setTimeout(() => {
-            const element = document.getElementById('all-products-section');
-            if (element) {
-              element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-          }, 100);
-        }
       }
     };
 

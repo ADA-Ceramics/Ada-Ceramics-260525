@@ -9,11 +9,11 @@ import Image from "next/image"
 
 // 产品分类数据 - 链接到 /products/category 页面的对应区块
 const PRODUCT_CATEGORIES = [
-  { id: "plates", name: "Wholesale Plates", description: "Dinner, dessert, soup & serving plates" },
-  { id: "bowls", name: "Wholesale Bowls", description: "Soup, salad, ramen & snack bowls" },
-  { id: "sets", name: "Wholesale Dinnerware Sets", description: "Daily & restaurant tableware sets" },
-  { id: "cups", name: "Wholesale Cups & Mugs", description: "Ceramic mugs, coffee cups & water cups" },
-  { id: "bakeware", name: "Wholesale Bakeware", description: "Baking dishes, ramekins & pie plates" },
+  { id: "plates", name: "Wholesale Plates", description: "Dinner, dessert, soup & serving plates", hash: "wholesale-plates-tab" },
+  { id: "bowls", name: "Wholesale Bowls", description: "Soup, salad, ramen & snack bowls", hash: "wholesale-bowls-tab" },
+  { id: "sets", name: "Wholesale Dinnerware Sets", description: "Daily & restaurant tableware sets", hash: "dinnerware-sets-tab" },
+  { id: "cups", name: "Wholesale Cups & Mugs", description: "Ceramic mugs, coffee cups & water cups", hash: "cups-mugs-tab" },
+  { id: "bakeware", name: "Wholesale Bakeware", description: "Baking dishes, ramekins & pie plates", hash: "bakeware-tab" },
 ]
 
 // 严格对应你本地实际文件名
@@ -307,7 +307,7 @@ export function Header() {
                           {PRODUCT_CATEGORIES.map((category) => (
                             <Link
                               key={category.id}
-                              href={`/${currentLangCode}/products/category#category-${category.id}`}
+                              href={`/${currentLangCode}/products/category#${category.hash}`}
                               className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50"
                               onClick={() => setIsProductsOpen(false)}
                             >
@@ -470,7 +470,7 @@ export function Header() {
                       {PRODUCT_CATEGORIES.map((category) => (
                         <Link
                           key={category.id}
-                          href={`/${currentLangCode}/products/category#category-${category.id}`}
+                          href={`/${currentLangCode}/products/category#${category.hash}`}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="block px-3 py-2 text-sm text-gray-600"
                         >
