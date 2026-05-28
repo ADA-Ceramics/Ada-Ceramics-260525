@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { ChevronRight, ChevronDown, Package, Layers, Gift, Settings, Zap } from "lucide-react"
+import { ChevronRight, ChevronDown, Package, Layers, ShieldCheck, Settings, Zap } from "lucide-react"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 
@@ -48,7 +48,7 @@ import { Footer } from "@/components/layout/footer"
 // Selling points data (与一级分类页保持一致)
 const sellingPoints = [
   { icon: Layers, title: "Low MOQ" },
-  { icon: Gift, title: "Free Samples" },
+  { icon: ShieldCheck, title: "FDA/LFGB Certified" },
   { icon: Settings, title: "Custom OEM/ODM" },
   { icon: Zap, title: "Fast Delivery" },
 ];
