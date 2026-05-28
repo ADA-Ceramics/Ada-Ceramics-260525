@@ -455,6 +455,17 @@ export function OemOdmClient() {
                   </li>
                 ))}
               </ul>
+              
+              {/* Tell Us Your Idea 按钮 */}
+              <div className="mt-8">
+                <Link
+                  href="/contact?type=inquiry"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#8b7355] text-white font-medium rounded-lg hover:bg-[#6d5a43] transition-colors"
+                >
+                  Tell Us Your Idea
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
