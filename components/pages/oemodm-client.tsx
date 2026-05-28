@@ -116,21 +116,8 @@ export function OemOdmClient() {
       <Header />
       
       {/* 2. 首屏横幅 - 简洁背景色风格 */}
-      <section className="bg-[#f5f5f0] pt-8 pb-16">
+      <section className="bg-[#f5f5f0] pt-12 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* 面包屑导航 */}
-          <nav className="mb-8" aria-label="Breadcrumb">
-            <ol className="flex items-center gap-2 text-sm">
-              <li>
-                <Link href="/en" className="text-[#8b7355] hover:underline">
-                  Home
-                </Link>
-              </li>
-              <li className="text-muted-foreground">&gt;</li>
-              <li className="text-muted-foreground">OEM/ODM</li>
-            </ol>
-          </nav>
-          
           {/* 标题和描述 */}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-normal text-[#1a1a2e] mb-6 leading-tight">
             Custom Ceramic Tableware | OEM & ODM Manufacturing
