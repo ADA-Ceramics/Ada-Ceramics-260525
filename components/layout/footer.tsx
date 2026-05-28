@@ -3,7 +3,6 @@
 import Link from "next/link"
 import { Mail, Phone, MapPin } from "lucide-react"
 import { companyInfo } from "@/lib/data"
-import { CATEGORY_INFO } from "@/lib/supabase/types"
 
 export function Footer() {
   return (
@@ -59,16 +58,46 @@ export function Footer() {
           <div>
             <h3 className="font-semibold text-lg mb-6">Products</h3>
             <ul className="space-y-3">
-              {Object.entries(CATEGORY_INFO).map(([slug, info]) => (
-                <li key={slug}>
-                  <Link 
-                    href={`/products/${slug}`}
-                    className="text-white/70 hover:text-white text-sm transition-colors"
-                  >
-                    {info.name}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link 
+                  href="/en/products?cat=plates"
+                  className="text-white/70 hover:text-white text-sm transition-colors cursor-pointer"
+                >
+                  Wholesale Plates
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/en/products?cat=bowls"
+                  className="text-white/70 hover:text-white text-sm transition-colors cursor-pointer"
+                >
+                  Wholesale Bowls
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/en/products?cat=sets"
+                  className="text-white/70 hover:text-white text-sm transition-colors cursor-pointer"
+                >
+                  Wholesale Dinnerware Sets
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/en/products?cat=cups"
+                  className="text-white/70 hover:text-white text-sm transition-colors cursor-pointer"
+                >
+                  Wholesale Cups & Mugs
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/en/products?cat=bakeware"
+                  className="text-white/70 hover:text-white text-sm transition-colors cursor-pointer"
+                >
+                  Wholesale Bakeware
+                </Link>
+              </li>
             </ul>
           </div>
 
