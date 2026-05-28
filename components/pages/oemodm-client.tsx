@@ -24,27 +24,31 @@ import { useState } from "react"
 export function OemOdmClient() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
-  // 定制服务数据
+  // 定制服务数据 - 用图片展示定制效果
   const customServices = [
     {
-      icon: Paintbrush,
-      title: "Custom Design",
-      description: "Create unique shapes, sizes and styles tailored to your brand identity."
+      title: "Custom Shape & Design",
+      description: "Unique shapes, sizes and styles tailored to your brand",
+      image: "/alice.webp",
+      features: ["3D modeling", "Prototype development", "Exclusive molds"]
     },
     {
-      icon: PenTool,
-      title: "Logo Printing",
-      description: "High-quality decal, screen printing and embossing for brand visibility."
+      title: "Logo & Pattern Printing",
+      description: "High-quality decal, screen printing and embossing",
+      image: "/color-glaze.webp",
+      features: ["Full-color printing", "Gold/silver accents", "Under-glaze safe"]
     },
     {
-      icon: Box,
-      title: "Private Label",
-      description: "Complete white-label solutions with your branding and packaging."
+      title: "Custom Colors & Glazes",
+      description: "Exclusive colors, textures and reactive glazes",
+      image: "/kiln-transformation.webp",
+      features: ["Pantone matching", "Matte/glossy finish", "Reactive glazes"]
     },
     {
-      icon: Palette,
-      title: "Custom Glazing",
-      description: "Exclusive colors, textures and finishes to match your vision."
+      title: "Private Label Packaging",
+      description: "Complete branding with custom packaging solutions",
+      image: "/alice.webp",
+      features: ["Gift boxes", "Retail packaging", "Bulk cartons"]
     }
   ]
 
@@ -201,7 +205,7 @@ export function OemOdmClient() {
         </div>
       </section>
 
-      {/* 4. 定制服务板块 - 四列卡片网格 */}
+      {/* 4. 定制服务板块 - 图片展示定制效果 */}
       <section className="py-20 lg:py-28 bg-[#f8f7f4]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -209,31 +213,69 @@ export function OemOdmClient() {
               Our Customization Services
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              From simple logo printing to complete product development — we offer 
-              comprehensive customization options for every need.
+              From simple logo printing to complete product development — see what we can create for your brand.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {customServices.map((service) => {
-              const IconComponent = service.icon
-              return (
-                <div 
-                  key={service.title}
-                  className="bg-white rounded-xl p-8 text-center shadow-sm hover:shadow-md transition-shadow"
-                >
-                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#8b7355]/10 flex items-center justify-center">
-                    <IconComponent className="w-8 h-8 text-[#8b7355]" strokeWidth={1.5} />
+          {/* 2x2 图片网格布局 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            {customServices.map((service, index) => (
+              <div 
+                key={service.title}
+                className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+              >
+                {/* 图片区域 */}
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={service.image}
+                    alt={`${service.title} - ceramic customization example`}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  {/* 渐变遮罩 */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                  
+                  {/* 序号标签 */}
+                  <div className="absolute top-4 left-4 w-10 h-10 rounded-full bg-[#8b7355] flex items-center justify-center text-white font-semibold text-lg">
+                    {index + 1}
                   </div>
-                  <h3 className="text-xl font-semibold text-[#1a1a2e] mb-3">
+                </div>
+                
+                {/* 内容区域 */}
+                <div className="p-6 lg:p-8">
+                  <h3 className="text-xl lg:text-2xl font-semibold text-[#1a1a2e] mb-3">
                     {service.title}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <p className="text-muted-foreground mb-5 leading-relaxed">
                     {service.description}
                   </p>
+                  
+                  {/* 特点标签 */}
+                  <div className="flex flex-wrap gap-2">
+                    {service.features.map((feature) => (
+                      <span 
+                        key={feature}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#8b7355]/10 text-[#8b7355] text-sm rounded-full"
+                      >
+                        <Check className="w-3.5 h-3.5" />
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              )
-            })}
+              </div>
+            ))}
+          </div>
+          
+          {/* 底部 CTA */}
+          <div className="mt-12 text-center">
+            <Link
+              href="/contact?type=custom"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[#8b7355] text-white text-lg font-medium rounded-lg hover:bg-[#6d5a43] transition-colors shadow-lg"
+            >
+              Start Your Custom Project
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>
