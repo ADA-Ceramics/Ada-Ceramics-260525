@@ -116,7 +116,7 @@ export function OemOdmClient() {
       <Header />
       
       {/* 2. 首屏横幅 - 简洁背景色风格 */}
-      <section className="bg-[#f5f5f0] pt-12 pb-16">
+      <section className="bg-[#f5f5f0] pt-20 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* 标题和描述 */}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-normal text-[#1a1a2e] mb-6 leading-tight">
