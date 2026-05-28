@@ -22,7 +22,6 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
     <>
       <ProductsClient 
         products={filteredProducts} 
-        activeCat={activeCat} 
       />
       <Footer />
     </>
