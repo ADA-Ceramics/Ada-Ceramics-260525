@@ -244,7 +244,7 @@ export function OemOdmClient() {
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  {/* 序号标签 */}
+                  {/* ���号标签 */}
                   <div className="absolute top-4 left-4 w-10 h-10 rounded-full bg-[#8b7355] flex items-center justify-center text-white font-semibold text-lg">
                     {index + 1}
                   </div>
@@ -413,6 +413,17 @@ export function OemOdmClient() {
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors" />
               </div>
             ))}
+          </div>
+          
+          {/* Explore All Wholesale Tableware 按钮 */}
+          <div className="mt-12 text-center">
+            <Link
+              href="/en/products"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[#8b7355] text-white text-lg font-medium rounded-lg hover:bg-[#6d5a43] transition-colors shadow-lg"
+            >
+              Explore All Wholesale Tableware
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>
