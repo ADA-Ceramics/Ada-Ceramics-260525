@@ -1,59 +1,134 @@
 "use client"
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, ChevronRight, Package } from "lucide-react";
+import { ChevronRight, Package, Layers, Gift, Settings, Zap } from "lucide-react";
 import { Header } from "@/components/layout/header";
 import { QuoteForm } from "@/components/shared/quote-form";
+
+// 卖点数据
+const sellingPoints = [
+  { icon: Layers, title: "Low MOQ" },
+  { icon: Gift, title: "Free Samples" },
+  { icon: Settings, title: "Custom OEM/ODM" },
+  { icon: Zap, title: "Fast Delivery" },
+];
 
 // 完整的分类结构数据
 const categoryStructure = {
   plates: {
     name: "Wholesale Plates",
     subcategories: [
-      { name: "Dinner Plates", slug: "dinner-plates", description: "Large plates for main courses, 10-12 inch diameter" },
-      { name: "Dessert & Side Plates", slug: "dessert-side-plates", description: "Smaller plates for desserts and sides, 6-8 inch" },
-      { name: "Soup Plates", slug: "soup-plates", description: "Deep rimmed plates for soups and pasta" },
-      { name: "Oval & Serving Plates", slug: "oval-serving-plates", description: "Oval platters and serving plates for sharing" },
+      { name: "Dinner Plates", slug: "dinner-plates" },
+      { name: "Dessert & Side Plates", slug: "dessert-side-plates" },
+      { name: "Soup Plates", slug: "soup-plates" },
+      { name: "Oval & Serving Plates", slug: "oval-serving-plates" },
     ],
   },
   bowls: {
     name: "Wholesale Bowls",
     subcategories: [
-      { name: "Soup Bowls", slug: "soup-bowls", description: "Deep bowls for soups and stews" },
-      { name: "Salad Bowls", slug: "salad-bowls", description: "Wide shallow bowls for salads" },
-      { name: "Ramen Bowls", slug: "ramen-bowls", description: "Large deep bowls for noodles and ramen" },
-      { name: "Snack Bowls", slug: "snack-bowls", description: "Small bowls for snacks and dips" },
+      { name: "Soup Bowls", slug: "soup-bowls" },
+      { name: "Salad Bowls", slug: "salad-bowls" },
+      { name: "Ramen Bowls", slug: "ramen-bowls" },
+      { name: "Snack Bowls", slug: "snack-bowls" },
     ],
   },
   "dinnerware-sets": {
     name: "Wholesale Dinnerware Sets",
     subcategories: [
-      { name: "Daily Tableware Sets", slug: "daily-tableware-sets", description: "Complete sets for everyday home use" },
-      { name: "Restaurant & Catering Sets", slug: "restaurant-catering-sets", description: "Durable sets for commercial use" },
+      { name: "Daily Tableware Sets", slug: "daily-tableware-sets" },
+      { name: "Restaurant & Catering Sets", slug: "restaurant-catering-sets" },
     ],
   },
   "cups-mugs": {
     name: "Wholesale Cups & Mugs",
     subcategories: [
-      { name: "Ceramic Mugs", slug: "ceramic-mugs", description: "Classic ceramic mugs for coffee and tea" },
-      { name: "Coffee Cups & Saucers", slug: "coffee-cups-saucers", description: "Elegant cups with matching saucers" },
-      { name: "Water Cups", slug: "water-cups", description: "Simple cups for water and beverages" },
+      { name: "Ceramic Mugs", slug: "ceramic-mugs" },
+      { name: "Coffee Cups & Saucers", slug: "coffee-cups-saucers" },
+      { name: "Water Cups", slug: "water-cups" },
     ],
   },
   bakeware: {
     name: "Wholesale Bakeware",
     subcategories: [
-      { name: "Baking Dishes", slug: "baking-dishes", description: "Oven-safe dishes for casseroles and baking" },
-      { name: "Ramekins", slug: "ramekins", description: "Small individual baking dishes" },
-      { name: "Pie & Pizza Plates", slug: "pie-pizza-plates", description: "Round plates for pies and pizzas" },
+      { name: "Baking Dishes", slug: "baking-dishes" },
+      { name: "Ramekins", slug: "ramekins" },
+      { name: "Pie & Pizza Plates", slug: "pie-pizza-plates" },
     ],
   },
 };
 
-// 模拟产品数据（每个二级分类下的产品）
-const productsBySubcategory: Record<string, { id: string; name: string; slug: string; image: string; price?: number }[]> = {
+// 二级分类的 H1 标题和描述配置
+const subcategoryMeta: Record<string, { h1: string; description: string }> = {
+  "dinner-plates": {
+    h1: "Ceramic Plates Wholesale For Restaurants, Hotels",
+    description: "Explore our ceramic plates wholesale collection and find premium dinnerware for your catering business. We offer a variety of styles and sizes of ceramic plates wholesale, including dinner plates, salad plates and dessert plates, to suit different dining needs.",
+  },
+  "dessert-side-plates": {
+    h1: "Wholesale Dessert & Side Plates | Ceramic Factory",
+    description: "Browse our dessert and side plates collection, perfect for appetizers, desserts, and bread service. Quality ceramic plates available in bulk for restaurants and retailers.",
+  },
+  "soup-plates": {
+    h1: "Wholesale Ceramic Soup Plates | Deep Rim Design",
+    description: "Discover our ceramic soup plates with deep rim design, ideal for soups, pasta, and risotto. Premium quality wholesale soup plates for hotels and restaurants.",
+  },
+  "oval-serving-plates": {
+    h1: "Wholesale Oval & Serving Plates | Ceramic Platters",
+    description: "Shop our oval and serving plates collection for elegant food presentation. Ceramic platters and serving dishes available for wholesale buyers.",
+  },
+  "soup-bowls": {
+    h1: "Wholesale Ceramic Soup Bowls | Factory Direct",
+    description: "Premium ceramic soup bowls for restaurants and hotels. Deep bowls perfect for soups, stews, and chili. Bulk orders with custom options available.",
+  },
+  "salad-bowls": {
+    h1: "Wholesale Ceramic Salad Bowls | All Sizes",
+    description: "Ceramic salad bowls in various sizes for restaurants and catering. Wide shallow bowls ideal for salads, poke bowls, and grain bowls.",
+  },
+  "ramen-bowls": {
+    h1: "Wholesale Ramen & Noodle Bowls | Large Deep Bowls",
+    description: "Large ceramic ramen bowls and noodle bowls for Asian restaurants. Deep design perfect for ramen, pho, and noodle soups.",
+  },
+  "snack-bowls": {
+    h1: "Wholesale Snack Bowls & Dip Bowls | Small Ceramic",
+    description: "Small ceramic snack bowls and dip bowls for appetizers and condiments. Perfect for restaurants, bars, and catering services.",
+  },
+  "daily-tableware-sets": {
+    h1: "Wholesale Daily Tableware Sets | Complete Dinnerware",
+    description: "Complete daily tableware sets for home and restaurant use. Ceramic dinnerware sets including plates, bowls, and mugs at wholesale prices.",
+  },
+  "restaurant-catering-sets": {
+    h1: "Restaurant & Catering Tableware Sets | Bulk Orders",
+    description: "Professional tableware sets designed for restaurants and catering businesses. Durable ceramic sets with consistent quality for commercial use.",
+  },
+  "ceramic-mugs": {
+    h1: "Wholesale Ceramic Mugs | Custom Coffee Mugs",
+    description: "Classic ceramic coffee mugs for cafes, restaurants, and promotional use. Custom printing and OEM services available for bulk orders.",
+  },
+  "coffee-cups-saucers": {
+    h1: "Wholesale Coffee Cups & Saucers | Espresso Sets",
+    description: "Elegant coffee cups with matching saucers for cafes and hotels. Espresso cups, cappuccino cups, and tea cup sets at factory prices.",
+  },
+  "water-cups": {
+    h1: "Wholesale Ceramic Water Cups | Simple & Elegant",
+    description: "Simple ceramic water cups and juice cups for restaurants and events. Handleless design cups available in various sizes.",
+  },
+  "baking-dishes": {
+    h1: "Wholesale Ceramic Baking Dishes | Oven Safe",
+    description: "Oven-safe ceramic baking dishes for casseroles, lasagna, and roasting. Professional bakeware for restaurants and home use.",
+  },
+  "ramekins": {
+    h1: "Wholesale Ceramic Ramekins | Souffle Dishes",
+    description: "Small ceramic ramekins for individual portions. Perfect for creme brulee, souffle, and desserts. Available in 4oz and 8oz sizes.",
+  },
+  "pie-pizza-plates": {
+    h1: "Wholesale Pie & Pizza Plates | Ceramic Bakeware",
+    description: "Ceramic pie dishes and pizza plates for bakeries and restaurants. Round baking plates with various depths and sizes.",
+  },
+};
+
+// 模拟产品数据
+const productsBySubcategory: Record<string, { id: string; name: string; slug: string; image: string }[]> = {
   "dinner-plates": [
     { id: "dp-1", name: "Classic White Dinner Plate 10.5\"", slug: "classic-white-dinner-plate", image: "" },
     { id: "dp-2", name: "Rimmed Dinner Plate 11\"", slug: "rimmed-dinner-plate", image: "" },
@@ -159,91 +234,106 @@ interface SubcategoryClientProps {
 export function SubcategoryClient({ primaryCategory, subcategory }: SubcategoryClientProps) {
   const pathname = usePathname();
   const locale = pathname.split('/')[1] || 'en';
-  
-  // 控制侧边栏的展开状态
-  const [expandedCategories, setExpandedCategories] = useState<string[]>([primaryCategory]);
-
-  const toggleCategory = (categoryId: string) => {
-    setExpandedCategories(prev => 
-      prev.includes(categoryId) 
-        ? prev.filter(id => id !== categoryId)
-        : [...prev, categoryId]
-    );
-  };
 
   // 获取当前二级分类的产品
   const products = productsBySubcategory[subcategory] || [];
   
   // 获取当前二级分类的信息
   const currentCategory = categoryStructure[primaryCategory as keyof typeof categoryStructure];
-  const currentSubcategory = currentCategory?.subcategories.find(sub => sub.slug === subcategory);
+  
+  // 获取 H1 和描述
+  const meta = subcategoryMeta[subcategory] || {
+    h1: currentCategory?.subcategories.find(sub => sub.slug === subcategory)?.name || "Products",
+    description: "Browse our collection of premium ceramic products.",
+  };
 
   return (
     <main className="min-h-screen bg-background">
       <Header />
       
-      {/* Breadcrumb */}
-      <section className="pt-28 pb-4 bg-[#f5f3ef]">
+      {/* Hero Section with H1 and Selling Points */}
+      <section className="pt-32 pb-12 bg-[#f5f3ef]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-2 text-sm text-muted-foreground">
+          {/* Breadcrumb */}
+          <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6 flex-wrap">
             <Link href={`/${locale}`} className="hover:text-foreground transition-colors">Home</Link>
             <ChevronRight className="w-4 h-4" />
             <Link href={`/${locale}/products`} className="hover:text-foreground transition-colors">Products</Link>
             <ChevronRight className="w-4 h-4" />
             <Link href={`/${locale}/products`} className="hover:text-foreground transition-colors">{currentCategory?.name}</Link>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-foreground">{currentSubcategory?.name}</span>
+            <span className="text-foreground">{currentCategory?.subcategories.find(sub => sub.slug === subcategory)?.name}</span>
           </nav>
+
+          {/* H1 Title */}
+          <h1 className="text-3xl sm:text-4xl font-serif font-normal text-foreground mb-4">
+            {meta.h1}
+          </h1>
+          
+          {/* Description */}
+          <p className="text-muted-foreground mb-8 max-w-4xl">
+            {meta.description}
+          </p>
+
+          {/* Selling Points */}
+          <div className="flex flex-wrap justify-center gap-8 sm:gap-12 lg:gap-16">
+            {sellingPoints.map((point) => {
+              const IconComponent = point.icon;
+              return (
+                <div key={point.title} className="flex flex-col items-center">
+                  <div className="w-16 h-16 rounded-full border-2 border-[#8b7355] flex items-center justify-center mb-3">
+                    <IconComponent className="w-7 h-7 text-[#8b7355]" strokeWidth={1.5} />
+                  </div>
+                  <span className="text-sm font-medium text-[#1a1a1a]">{point.title}</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="py-12">
+      {/* Main Content with Sidebar and Product Grid */}
+      <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-8">
-            {/* Left Sidebar */}
+            
+            {/* Left Sidebar - Tree Structure Categories */}
             <aside className="w-full lg:w-72 flex-shrink-0">
-              <div className="bg-white border border-[#e5e7eb] rounded-lg p-4 sticky top-28">
-                <h2 className="text-lg font-semibold text-[#1a1a1a] mb-4">Product Categories</h2>
+              <div className="bg-white border border-[#e5e7eb] rounded-lg p-5 sticky top-28">
+                <h2 className="text-lg font-semibold text-[#1a1a1a] mb-5 pb-3 border-b border-[#e5e7eb]">
+                  Product Categories
+                </h2>
                 
-                <div className="space-y-1">
+                <div className="space-y-4">
                   {Object.entries(categoryStructure).map(([catId, category]) => (
                     <div key={catId}>
-                      {/* Primary Category Header */}
-                      <button
-                        onClick={() => toggleCategory(catId)}
-                        className={`w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${
-                          catId === primaryCategory
-                            ? "bg-[#8b7355]/10 text-[#8b7355]"
-                            : "text-[#4b5563] hover:bg-[#f5f3ef]"
-                        }`}
+                      {/* Primary Category - Bold Dark Text */}
+                      <Link
+                        href={`/${locale}/products?cat=${catId}`}
+                        className="block text-[15px] font-semibold text-[#1a1a1a] mb-2 hover:text-[#8b7355] transition-colors"
                       >
-                        <span>{category.name}</span>
-                        <ChevronDown 
-                          className={`w-4 h-4 transition-transform ${
-                            expandedCategories.includes(catId) ? "rotate-180" : ""
-                          }`} 
-                        />
-                      </button>
+                        {category.name}
+                      </Link>
                       
-                      {/* Subcategories */}
-                      {expandedCategories.includes(catId) && (
-                        <div className="ml-3 mt-1 space-y-0.5 border-l border-[#e5e7eb] pl-3">
-                          {category.subcategories.map((sub) => (
+                      {/* Subcategories - Indented with Lighter Color */}
+                      <div className="ml-4 space-y-1">
+                        {category.subcategories.map((sub) => {
+                          const isActive = catId === primaryCategory && sub.slug === subcategory;
+                          return (
                             <Link
                               key={sub.slug}
                               href={`/${locale}/products/${catId}/${sub.slug}`}
                               className={`block px-3 py-2 text-sm rounded-md transition-colors ${
-                                sub.slug === subcategory
+                                isActive
                                   ? "bg-[#8b7355] text-white font-medium"
                                   : "text-[#6b7280] hover:text-[#1a1a1a] hover:bg-[#f5f3ef]"
                               }`}
                             >
                               {sub.name}
                             </Link>
-                          ))}
-                        </div>
-                      )}
+                          );
+                        })}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -252,17 +342,7 @@ export function SubcategoryClient({ primaryCategory, subcategory }: SubcategoryC
 
             {/* Right Content - Product Grid */}
             <div className="flex-1">
-              {/* Category Header */}
-              <div className="mb-8">
-                <h1 className="text-2xl md:text-3xl font-serif font-semibold text-[#1a1a1a] mb-2">
-                  {currentSubcategory?.name}
-                </h1>
-                {currentSubcategory?.description && (
-                  <p className="text-[#6b7280]">{currentSubcategory.description}</p>
-                )}
-              </div>
-
-              {/* Product Grid */}
+              {/* Product Grid - Same style as main products page */}
               {products.length === 0 ? (
                 <div className="text-center py-16 bg-[#f9fafb] rounded-lg">
                   <Package className="w-16 h-16 text-[#9ca3af] mx-auto mb-4 opacity-50" />
@@ -272,10 +352,9 @@ export function SubcategoryClient({ primaryCategory, subcategory }: SubcategoryC
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {products.map((product) => (
-                    <Link
+                    <div
                       key={product.id}
-                      href={`/${locale}/products/${primaryCategory}/${subcategory}/${product.slug}`}
-                      className="group bg-white border border-[#e5e7eb] rounded-lg overflow-hidden hover:shadow-lg transition-all"
+                      className="group border border-[#e5e7eb] rounded-lg overflow-hidden bg-white hover:shadow-lg transition-all"
                     >
                       <div className="aspect-square relative bg-[#f9fafb]">
                         {product.image ? (
@@ -290,15 +369,18 @@ export function SubcategoryClient({ primaryCategory, subcategory }: SubcategoryC
                           </div>
                         )}
                       </div>
-                      <div className="p-4">
-                        <h3 className="text-base font-medium text-[#1a1a1a] group-hover:text-[#8b7355] transition-colors line-clamp-2">
+                      <div className="p-5">
+                        <h3 className="text-base font-medium text-[#1a1a1a] mb-4">
                           {product.name}
                         </h3>
-                        {product.price && (
-                          <p className="text-[#8b7355] font-semibold mt-2">${product.price.toFixed(2)}</p>
-                        )}
+                        <Link
+                          href={`/${locale}/products/${primaryCategory}/${subcategory}/${product.slug}`}
+                          className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-[#8b7355] rounded-md hover:bg-[#6d5a43] transition-colors"
+                        >
+                          View Details
+                        </Link>
                       </div>
-                    </Link>
+                    </div>
                   ))}
                 </div>
               )}
