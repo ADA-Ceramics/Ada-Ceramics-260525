@@ -328,40 +328,52 @@ export function ProductsClient({ products, activeCat }: ProductsClientProps) {
 
       {/* One-Stop Ceramic Tableware Sourcing */}
       <section className="py-16 bg-[#f5f3ef]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <p className="text-[#8b7355] text-xs font-medium mb-3 tracking-widest uppercase">
-              OUR SERVICES
-            </p>
-            <h2 className="font-serif text-3xl md:text-4xl font-normal text-[#1a1a1a]">
-              One-Stop Ceramic Tableware Sourcing
-            </h2>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Title */}
+          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-[#1a1a1a] text-center mb-16">
+            One-Stop Ceramic Tableware Sourcing
+          </h2>
+
+          {/* Module 1: Image Left + Text Right */}
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 mb-16">
+            <div className="w-full md:w-1/2">
+              <div className="aspect-[4/3] bg-[#e5e1db] rounded-xl flex items-center justify-center">
+                <Package className="w-20 h-20 text-[#8b7355] opacity-30" />
+              </div>
+            </div>
+            <div className="w-full md:w-1/2">
+              <p className="text-[#4b5563] leading-relaxed text-base">
+                We supply a full range of daily-use ceramic tableware, including plates, bowls, mugs and bakeware to fully cover your product sourcing needs. Equipped with an in-house R&D team, we provide professional 3D design and 3D printing services to turn your original ideas and concepts into accurate visual drafts and real samples.
+              </p>
+            </div>
           </div>
-          <div className="prose prose-lg max-w-none text-[#4b5563] leading-relaxed space-y-6">
-            <p>
-              We supply a full range of daily-use{" "}
-              <Link href="/en/products" className="text-[#8b7355] hover:underline">
-                ceramic tableware
-              </Link>
-              , including{" "}
-              <Link href="/en/products" className="text-[#8b7355] hover:underline">
-                plates, bowls, mugs and bakeware
-              </Link>{" "}
-              to fully cover your product sourcing needs. Equipped with an in-house R&D team, we provide professional 3D design and 3D printing services to turn your original ideas and concepts into accurate visual drafts and real samples.
-            </p>
-            <p>
-              We master complete ceramic decoration technologies such as underglaze color, in-glaze color, overglaze decal, digital inkjet printing and pad printing.
-            </p>
-            <p>
-              We support full{" "}
-              <Link href="/en/custom-oem-odm" className="text-[#8b7355] hover:underline">
-                customization
-              </Link>{" "}
-              of colors, patterns, logos, packaging and private labels. Every procedure from design development, sample making to mass production is strictly controlled in our own factory.
-            </p>
-            <p>
-              We accept both small trial orders and large bulk orders, and provide reliable door-to-door delivery services to simplify your entire purchasing process.
-            </p>
+
+          {/* Module 2: Text Left + Image Right */}
+          <div className="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 mb-16">
+            <div className="w-full md:w-1/2">
+              <div className="aspect-[4/3] bg-[#e5e1db] rounded-xl flex items-center justify-center">
+                <Package className="w-20 h-20 text-[#8b7355] opacity-30" />
+              </div>
+            </div>
+            <div className="w-full md:w-1/2">
+              <p className="text-[#4b5563] leading-relaxed text-base">
+                We master complete ceramic decoration technologies such as underglaze color, in-glaze color, overglaze decal, digital inkjet printing and pad printing.
+              </p>
+            </div>
+          </div>
+
+          {/* Module 3: Image Left + Text Right */}
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            <div className="w-full md:w-1/2">
+              <div className="aspect-[4/3] bg-[#e5e1db] rounded-xl flex items-center justify-center">
+                <Package className="w-20 h-20 text-[#8b7355] opacity-30" />
+              </div>
+            </div>
+            <div className="w-full md:w-1/2">
+              <p className="text-[#4b5563] leading-relaxed text-base">
+                We support full customization of colors, patterns, logos, packaging and private labels. Every procedure from design development, sample making to mass production is strictly controlled in our own factory. We accept both small trial orders and large bulk orders, and provide reliable door-to-door delivery services to simplify your entire purchasing process.
+              </p>
+            </div>
           </div>
         </div>
       </section>
