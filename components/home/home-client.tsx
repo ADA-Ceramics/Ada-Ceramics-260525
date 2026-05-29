@@ -249,15 +249,38 @@ Details: ${formData.details}`;
               </div>
             </div>
             
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100">
-              {/* 工厂图片替换为 Next.js Image */}
-              <Image 
-                src="/factory.webp" 
-                alt="ADA Ceramics factory workshop - Professional ceramic tableware production line" 
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
+            {/* 右侧三图拼接 */}
+            <div className="grid grid-cols-2 grid-rows-2 gap-0 rounded-2xl overflow-hidden">
+              {/* 左上 - 仓库图 */}
+              <div className="relative aspect-square">
+                <Image 
+                  src="/alice.webp" 
+                  alt="ADA Ceramics warehouse with ceramic products on shelves" 
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
+                />
+              </div>
+              {/* 右上+右下 - 工厂外观 */}
+              <div className="relative row-span-2">
+                <Image 
+                  src="/factory.webp" 
+                  alt="ADA Ceramics factory building exterior" 
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
+                />
+              </div>
+              {/* 左下 - 工人图 */}
+              <div className="relative aspect-square">
+                <Image 
+                  src="/color-glaze.webp" 
+                  alt="Skilled worker inspecting ceramic tableware quality" 
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
+                />
+              </div>
             </div>
           </div>
         </div>
