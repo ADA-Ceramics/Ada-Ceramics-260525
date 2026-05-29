@@ -263,6 +263,53 @@ Details: ${formData.details}`;
         </div>
       </section>
 
+      {/* Who We Serve - 产品适用场景 */}
+      <section className="py-20 bg-white">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <div className="text-center mb-12">
+            <p className="text-[#8b7355] text-xs font-medium uppercase tracking-widest mb-4">Who We Serve</p>
+            <h2 className="font-serif text-4xl md:text-[56px] text-[#1a1a1a] mb-5 leading-tight">
+              Ceramic Solutions for Every Industry
+            </h2>
+            <p className="text-gray-400 text-base max-w-[680px] mx-auto leading-relaxed">
+              From luxury hotels to cozy cafes, our ceramic tableware serves diverse industries worldwide. 
+              Quality products tailored to meet your unique business needs.
+            </p>
+          </div>
+          
+          {/* 8张图片卡片 - 2行4列 */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+            {[
+              { title: "Hotels & Resorts", image: "/alice.webp", alt: "Ceramic tableware for hotels and resorts" },
+              { title: "Restaurants", image: "/color-glaze.webp", alt: "Ceramic plates and bowls for restaurants" },
+              { title: "Cafes & Bistros", image: "/kiln-transformation.webp", alt: "Ceramic mugs and cups for cafes" },
+              { title: "Catering Services", image: "/alice.webp", alt: "Bulk ceramic tableware for catering" },
+              { title: "Retail Stores", image: "/color-glaze.webp", alt: "Wholesale ceramics for retail" },
+              { title: "Online Sellers", image: "/kiln-transformation.webp", alt: "Ceramic products for e-commerce" },
+              { title: "Corporate Gifts", image: "/alice.webp", alt: "Custom ceramic gifts for corporate" },
+              { title: "Home & Living", image: "/color-glaze.webp", alt: "Ceramic homeware for daily use" },
+            ].map((item, index) => (
+              <Link 
+                key={index}
+                href="/en/products"
+                className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer"
+              >
+                <Image
+                  src={item.image}
+                  alt={item.alt}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <h3 className="text-white font-medium text-lg">{item.title}</h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 bg-gray-50">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="text-center mb-12">
