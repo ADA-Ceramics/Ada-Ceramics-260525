@@ -304,13 +304,20 @@ Details: ${formData.details}`;
             </div>
           </div>
           
-          {/* More About Us 按钮 */}
-          <div>
+          {/* 内链按钮组 */}
+          <div className="flex flex-col sm:flex-row gap-4">
             <Link
-              href="/en/about"
+              href="/en/products"
               className="inline-flex items-center gap-2 px-6 py-3 bg-[#8b7355] text-white font-medium rounded-lg hover:bg-[#6d5a43] transition-colors"
             >
-              More About Us
+              View Stock Products
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              href="/en/oem-odm"
+              className="inline-flex items-center gap-2 px-6 py-3 border-2 border-[#8b7355] text-[#8b7355] font-medium rounded-lg hover:bg-[#8b7355] hover:text-white transition-colors"
+            >
+              Custom Service
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
