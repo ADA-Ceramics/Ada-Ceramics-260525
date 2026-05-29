@@ -249,37 +249,40 @@ Details: ${formData.details}`;
               </div>
             </div>
             
-            {/* 右侧三图拼接 */}
-            <div className="grid grid-cols-2 grid-rows-2 gap-0 rounded-2xl overflow-hidden">
-              {/* 左上 - 仓库图 */}
-              <div className="relative aspect-square">
+            {/* 右侧三图拼接 - 3:2宽高比，左60%大图+右40%上下两小图 */}
+            <div className="flex rounded-2xl overflow-hidden" style={{ aspectRatio: '3/2' }}>
+              {/* 左侧大图 - 60%宽度 */}
+              <div className="relative w-[60%] h-full">
                 <Image 
                   src="/alice.webp" 
-                  alt="ADA Ceramics warehouse with ceramic products on shelves" 
+                  alt="White ceramic dinnerware plates and bowls wholesale" 
                   fill
                   className="object-cover"
-                  sizes="(max-width: 1024px) 50vw, 25vw"
+                  sizes="(max-width: 1024px) 60vw, 30vw"
                 />
               </div>
-              {/* 右上+右下 - 工厂外观 */}
-              <div className="relative row-span-2">
-                <Image 
-                  src="/factory.webp" 
-                  alt="ADA Ceramics factory building exterior" 
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 50vw, 25vw"
-                />
-              </div>
-              {/* 左下 - 工人图 */}
-              <div className="relative aspect-square">
-                <Image 
-                  src="/color-glaze.webp" 
-                  alt="Skilled worker inspecting ceramic tableware quality" 
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 50vw, 25vw"
-                />
+              {/* 右侧上下两图 - 40%宽度 */}
+              <div className="flex flex-col w-[40%] h-full">
+                {/* 右上 - 工厂外观 */}
+                <div className="relative h-1/2">
+                  <Image 
+                    src="/factory.webp" 
+                    alt="ADA Ceramics factory building exterior" 
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 40vw, 20vw"
+                  />
+                </div>
+                {/* 右下 - 彩色咖啡杯 */}
+                <div className="relative h-1/2">
+                  <Image 
+                    src="/color-glaze.webp" 
+                    alt="Colorful ceramic coffee cups and saucers" 
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 40vw, 20vw"
+                  />
+                </div>
               </div>
             </div>
           </div>
