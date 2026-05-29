@@ -273,7 +273,7 @@ Details: ${formData.details}`;
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
             <div className="bg-white rounded-xl p-7 border border-gray-200">
               <div className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center mb-6">
                 <Award size={24} className="text-white" />
@@ -302,6 +302,17 @@ Details: ${formData.details}`;
               <h3 className="text-lg font-semibold text-[#1a1a1a] mb-3 leading-snug">Global Shipping</h3>
               <p className="text-gray-400 text-sm leading-relaxed">Reliable worldwide shipping to meet your delivery needs.</p>
             </div>
+          </div>
+          
+          {/* More About Us 按钮 */}
+          <div>
+            <Link
+              href="/en/about"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#8b7355] text-white font-medium rounded-lg hover:bg-[#6d5a43] transition-colors"
+            >
+              More About Us
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>
