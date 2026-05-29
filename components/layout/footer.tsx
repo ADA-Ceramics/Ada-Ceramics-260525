@@ -59,16 +59,46 @@ export function Footer() {
           <div>
             <h3 className="font-semibold text-lg mb-6">Products</h3>
             <ul className="space-y-3">
-              {Object.entries(CATEGORY_INFO).map(([slug, info]) => (
-                <li key={slug}>
-                  <Link 
-                    href={`/products/${slug}`}
-                    className="text-white/70 hover:text-white text-sm transition-colors"
-                  >
-                    {info.name}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link 
+                  href="/en/products/plates"
+                  className="text-white/70 hover:text-white text-sm transition-colors"
+                >
+                  Wholesale Plates
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/en/products/bowls"
+                  className="text-white/70 hover:text-white text-sm transition-colors"
+                >
+                  Wholesale Bowls
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/en/products/dinnerware-sets"
+                  className="text-white/70 hover:text-white text-sm transition-colors"
+                >
+                  Wholesale Dinnerware Sets
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/en/products/cups-mugs"
+                  className="text-white/70 hover:text-white text-sm transition-colors"
+                >
+                  Wholesale Cups & Mugs
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/en/products/bakeware"
+                  className="text-white/70 hover:text-white text-sm transition-colors"
+                >
+                  Wholesale Bakeware
+                </Link>
+              </li>
             </ul>
           </div>
 
