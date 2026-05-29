@@ -236,6 +236,17 @@ Details: ${formData.details}`;
                   <div className="text-gray-600 text-sm">Quality Rate</div>
                 </div>
               </div>
+              
+              {/* Visit Our Factory 按钮 */}
+              <div className="mt-8">
+                <Link
+                  href="/en/factory"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#8b7355] text-white font-medium rounded-lg hover:bg-[#6d5a43] transition-colors"
+                >
+                  Visit Our Factory Online
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </div>
             </div>
             
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100">
