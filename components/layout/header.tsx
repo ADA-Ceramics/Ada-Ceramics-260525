@@ -210,9 +210,9 @@ export function Header() {
   const navItems = [
     { name: "Home", href: `/${currentLangCode}` },
     { name: "Products", href: `/${currentLangCode}/products`, hasDropdown: true },
+    { name: "OEM / ODM", href: "/oem-odm" },
     { name: "About Us", href: `/${currentLangCode}/about` },
     { name: "Factory", href: "/factory" },
-    { name: "OEM / ODM", href: "/oem-odm" },
     { name: "Blog", href: "/blog" },
     { name: "Contact", href: "/contact" },
   ]
