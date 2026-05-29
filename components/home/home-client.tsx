@@ -371,6 +371,52 @@ Details: ${formData.details}`;
         </div>
       </section>
 
+      {/* Trusted By International Partners */}
+      <section className="py-20 bg-white">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <div className="text-center mb-12">
+            <p className="text-[#8b7355] text-xs font-medium uppercase tracking-widest mb-4">Global Reach</p>
+            <h2 className="font-serif text-4xl md:text-[56px] text-[#1a1a1a] mb-5 leading-tight">
+              Trusted By International Partners
+            </h2>
+            <p className="text-gray-400 text-base max-w-[720px] mx-auto leading-relaxed">
+              We proudly serve wholesalers, retailers and hospitality businesses across 50+ countries. 
+              Our ceramic tableware has earned the trust of international partners through consistent quality, 
+              reliable delivery and exceptional customer service.
+            </p>
+          </div>
+          
+          {/* 6张图片卡片 - 2行3列 */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
+            {[
+              { title: "Europe", subtitle: "UK, Germany, France & more", image: "/alice.webp" },
+              { title: "North America", subtitle: "USA, Canada & Mexico", image: "/color-glaze.webp" },
+              { title: "Middle East", subtitle: "UAE, Saudi Arabia & Qatar", image: "/kiln-transformation.webp" },
+              { title: "Asia Pacific", subtitle: "Australia, Japan & Korea", image: "/alice.webp" },
+              { title: "South America", subtitle: "Brazil, Chile & Argentina", image: "/color-glaze.webp" },
+              { title: "Africa", subtitle: "South Africa, Nigeria & Egypt", image: "/kiln-transformation.webp" },
+            ].map((item, index) => (
+              <div 
+                key={index}
+                className="group relative aspect-[4/3] rounded-xl overflow-hidden"
+              >
+                <Image
+                  src={item.image}
+                  alt={`Ceramic tableware export to ${item.title}`}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <h3 className="text-white font-semibold text-xl mb-1">{item.title}</h3>
+                  <p className="text-white/70 text-sm">{item.subtitle}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section id="contact" className="py-20 bg-white">
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center mb-12">
