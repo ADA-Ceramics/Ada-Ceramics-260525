@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 import { AlertCircle, Search, ArrowRight } from "lucide-react"
 import { useState } from "react"
 import type { BlogPost } from "@/lib/notion"
+import { Header } from "@/components/layout/header"
 
 interface BlogListProps {
   posts: BlogPost[]
@@ -42,43 +43,23 @@ export function BlogList({ posts, error }: BlogListProps) {
   )
 
   return (
-    <main className="min-h-screen bg-background">
-      {/* Hero Banner with Background Image */}
-      <section className="relative pt-24 pb-16 bg-[#1a1a2e]">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/alice.webp"
-            alt="Ceramic tableware blog and industry news"
-            fill
-            className="object-cover opacity-40"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a2e]/70 to-[#1a1a2e]/90" />
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          {/* Breadcrumb */}
-          <nav className="mb-6" aria-label="Breadcrumb">
-            <ol className="flex items-center justify-center gap-2 text-sm text-white/70">
-              <li>
-                <Link href={`/${locale}`} className="hover:text-white transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li>&rarr;</li>
-              <li className="text-white">Blogs & News</li>
-            </ol>
-          </nav>
-          
-          <h1 className="text-4xl sm:text-5xl font-serif font-normal text-white mb-6">
-            Blogs & News
-          </h1>
-          <p className="text-lg text-white/80 max-w-3xl mx-auto leading-relaxed">
-            Welcome to ADA Ceramics Blog! Here you will find the latest industry news, product updates, 
-            design trends, and professional knowledge about ceramic tableware. We share usage and 
-            maintenance tips to help you better understand our products.
-          </p>
-        </div>
-      </section>
+    <>
+      {/* Header - 保持全站一致性 */}
+      <Header />
+      
+      <main className="min-h-screen bg-background">
+        {/* Hero Section - 简洁背景色风格，与全站一致 */}
+        <section className="bg-[#f5f5f0] pt-20 pb-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-normal text-[#1a1a2e] mb-6 leading-tight">
+              Blogs & News
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-3xl leading-relaxed">
+              Welcome to ADA Ceramics Blog. Here you will find the latest industry news, product updates, 
+              design trends, and professional knowledge about ceramic tableware wholesale and manufacturing.
+            </p>
+          </div>
+        </section>
 
       {/* Main Content */}
       <section className="py-16 bg-white">
@@ -258,5 +239,6 @@ export function BlogList({ posts, error }: BlogListProps) {
         </div>
       </section>
     </main>
+    </>
   )
 }
