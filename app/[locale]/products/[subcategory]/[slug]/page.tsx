@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronRight, Layers, ShieldCheck, Settings, Zap, Check, Package, MessageCircle } from "lucide-react"
-import { getProductBySlug } from "@/lib/supabase/products"
+import { getProductBySlug, getProductsByCategory } from "@/lib/supabase/products"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { QuoteForm } from "@/components/shared/quote-form"
@@ -132,6 +132,12 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
   const { parent: currentParent, child: currentChild } = findCurrentCategory()
   const categoryName = currentChild?.name || currentParent?.name || "Products"
+
+  // 获取同类目下的相关产品（排除当前产品，最多5个）
+  const allCategoryProducts = await getProductsByCategory(currentParent.slug)
+  const relatedProducts = allCategoryProducts
+    .filter(p => p.slug !== product.slug)
+    .slice(0, 5)
 
   const specifications = product.specifications || {}
   const features = product.features || []
@@ -374,6 +380,63 @@ export default async function ProductDetailPage({ params }: PageProps) {
           </div>
         </div>
       </section>
+
+      {/* Related Products Section */}
+      {relatedProducts.length > 0 && (
+        <section className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-serif font-normal text-[#1a1a2e] mb-3">
+                Related Products
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Explore more wholesale {categoryName.toLowerCase()} from our collection. 
+                All products are FDA/LFGB certified with factory-direct pricing.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+              {relatedProducts.map((relatedProduct) => (
+                <Link
+                  key={relatedProduct.id}
+                  href={`/${locale}/products/${subcategory}/${relatedProduct.slug}`}
+                  className="group block bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300"
+                >
+                  <div className="relative aspect-square overflow-hidden bg-gray-50">
+                    <Image
+                      src={relatedProduct.main_image || "/alice.webp"}
+                      alt={`${relatedProduct.name} - Wholesale ceramic tableware`}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="text-sm font-medium text-[#1a1a2e] line-clamp-2 group-hover:text-[#8b7355] transition-colors">
+                      {relatedProduct.name}
+                    </h3>
+                    {relatedProduct.min_order_quantity && (
+                      <p className="text-xs text-muted-foreground mt-1">
+                        MOQ: {relatedProduct.min_order_quantity} pcs
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+            
+            <div className="mt-10 text-center">
+              <Link
+                href={`/${locale}/products/${currentParent.slug}`}
+                className="inline-flex items-center gap-2 px-6 py-3 text-[#8b7355] border border-[#8b7355] rounded-lg hover:bg-[#8b7355] hover:text-white transition-colors"
+              >
+                View All {currentParent.name}
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       <div id="quote-form">
         <QuoteForm />
