@@ -141,3 +141,75 @@
 header {
   z-index: 9999 !important;
 }
+
+/* 隐藏 Google Translate 所有 UI 元素 */
+.goog-te-banner-frame,
+.goog-te-balloon-frame,
+.goog-te-menu-frame,
+.goog-te-spinner-pos,
+.goog-te-spinner,
+.goog-te-ftab,
+.goog-te-ftab-link,
+.goog-te-progress-bar,
+.goog-te-progress-bar-container,
+.goog-text-highlight,
+#goog-gt-tt,
+#google_translate_element,
+.goog-te-gadget,
+.goog-logo-link,
+.goog-te-menu-value,
+.VIpgJd-ZVi9od-ORHb-OEVmcd,
+.VIpgJd-ZVi9od-xl07Ob-lTBxed,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf-ti6hGc,
+.VIpgJd-ZVi9od-ORHb {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 移除 Google Translate 在 body 顶部添加的边距 */
+body {
+  top: 0 !important;
+  position: static !important;
+}
+
+/* 隐藏 skiptranslate 类元素但保持可被 JS 访问 */
+.skiptranslate {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  opacity: 0 !important;
+}
+
+/* 隐藏 iframe 翻译框 */
+iframe.goog-te-banner-frame,
+iframe.goog-te-menu-frame,
+iframe[name="google_translate_element"] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+}
+
+/* 确保 goog-te-combo 可被 JS 访问但不可见 */
+.goog-te-combo {
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* 隐藏翻译组件的容器 */
+#google_translate_widget {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+}
