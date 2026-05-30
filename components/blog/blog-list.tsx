@@ -220,6 +220,15 @@ export function BlogList({ posts, error }: BlogListProps) {
                       </Link>
                     ))}
                   </div>
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <Link
+                      href={`/${locale}/products`}
+                      className="inline-flex items-center gap-1 text-sm font-medium text-[#8b7355] hover:text-[#6d5a43] transition-colors"
+                    >
+                      View More Products
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
                 </div>
 
                 {/* CTA Banner */}
