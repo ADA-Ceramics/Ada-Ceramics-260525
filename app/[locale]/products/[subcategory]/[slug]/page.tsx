@@ -204,179 +204,132 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
       {/* Main Content */}
       <section className="py-8 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Product Content - Full Width Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
-            {/* Left Sidebar */}
-            <aside className="w-full lg:w-64 flex-shrink-0 hidden lg:block">
-              <div className="lg:sticky lg:top-28 bg-[#f9fafb] rounded-lg border border-[#e5e7eb] p-4">
-                <h2 className="text-base font-semibold text-[#1a1a1a] mb-4 pb-3 border-b border-[#e5e7eb]">
-                  Categories
-                </h2>
-                <nav className="space-y-1">
-                  {categoryTree.map((category) => (
-                    <div key={category.id}>
-                      <Link
-                        href={`/${locale}/products/${category.slug}`}
-                        className={`block py-2 px-3 text-sm rounded transition-colors ${
-                          currentParent?.id === category.id
-                            ? "text-[#8b7355] bg-[#8b7355]/10 font-medium"
-                            : "text-[#1a1a1a] hover:text-[#8b7355] hover:bg-[#f5f3ef]"
-                        }`}
-                      >
-                        {category.name}
-                      </Link>
-                      {currentParent?.id === category.id && (
-                        <div className="ml-3 mt-1 space-y-1">
-                          {category.children.map((child) => (
-                            <Link
-                              key={child.id}
-                              href={`/${locale}/products/${child.slug}`}
-                              className={`block py-1.5 px-3 text-sm rounded transition-colors ${
-                                currentChild?.id === child.id
-                                  ? "text-[#8b7355] font-medium"
-                                  : "text-[#6b7280] hover:text-[#8b7355]"
-                              }`}
-                            >
-                              {child.name}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </nav>
-              </div>
-            </aside>
-
-            {/* Right Content */}
-            <main className="flex-1">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-
-                {/* Product Image */}
-                <div className="space-y-4">
-                  <div className="aspect-square relative bg-[#f9fafb] rounded-lg overflow-hidden border border-[#e5e7eb]">
-                    {product.main_image ? (
-                      <Image
-                        src={product.main_image}
-                        alt={product.name}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        priority
-                      />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Package className="w-24 h-24 text-[#d1d5db]" />
-                      </div>
-                    )}
+            {/* Product Image */}
+            <div className="space-y-4">
+              <div className="aspect-square relative bg-[#f9fafb] rounded-lg overflow-hidden border border-[#e5e7eb]">
+                {product.main_image ? (
+                  <Image
+                    src={product.main_image}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Package className="w-24 h-24 text-[#d1d5db]" />
                   </div>
-                  <div className="flex gap-3">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div key={i} className="w-20 h-20 bg-[#f9fafb] rounded border border-[#e5e7eb] flex items-center justify-center">
-                        <Package className="w-8 h-8 text-[#d1d5db]" />
-                      </div>
+                )}
+              </div>
+              <div className="flex gap-3">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="w-20 h-20 bg-[#f9fafb] rounded border border-[#e5e7eb] flex items-center justify-center">
+                    <Package className="w-8 h-8 text-[#d1d5db]" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Product Info */}
+            <div className="space-y-6">
+              <div>
+                <p className="text-sm text-[#8b7355] font-medium mb-2">{categoryName}</p>
+                <h1 className="text-2xl sm:text-3xl font-serif font-normal text-[#1a1a1a] mb-3">
+                  {product.name}
+                </h1>
+                <p className="text-sm text-[#6b7280]">SKU: {product.id}</p>
+              </div>
+
+              {product.description && (
+                <div>
+                  <h2 className="text-lg font-semibold text-[#1a1a1a] mb-2">Product Description</h2>
+                  <p className="text-[#4b5563] leading-relaxed">{product.description}</p>
+                </div>
+              )}
+
+              {features.length > 0 && (
+                <div>
+                  <h2 className="text-lg font-semibold text-[#1a1a1a] mb-3">Key Features</h2>
+                  <ul className="space-y-2">
+                    {features.map((feature: string, index: number) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <Check className="w-5 h-5 text-[#8b7355] flex-shrink-0 mt-0.5" />
+                        <span className="text-[#4b5563]">{feature}</span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
+              )}
 
-                {/* Product Info */}
-                <div className="space-y-6">
-                  <div>
-                    <p className="text-sm text-[#8b7355] font-medium mb-2">{categoryName}</p>
-                    <h1 className="text-2xl sm:text-3xl font-serif font-normal text-[#1a1a1a] mb-3">
-                      {product.name}
-                    </h1>
-                    <p className="text-sm text-[#6b7280]">SKU: {product.id}</p>
-                  </div>
-
-                  {product.description && (
-                    <div>
-                      <h2 className="text-lg font-semibold text-[#1a1a1a] mb-2">Product Description</h2>
-                      <p className="text-[#4b5563] leading-relaxed">{product.description}</p>
-                    </div>
-                  )}
-
-                  {features.length > 0 && (
-                    <div>
-                      <h2 className="text-lg font-semibold text-[#1a1a1a] mb-3">Key Features</h2>
-                      <ul className="space-y-2">
-                        {features.map((feature: string, index: number) => (
-                          <li key={index} className="flex items-start gap-2">
-                            <Check className="w-5 h-5 text-[#8b7355] flex-shrink-0 mt-0.5" />
-                            <span className="text-[#4b5563]">{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {Object.keys(specifications).length > 0 && (
-                    <div>
-                      <h2 className="text-lg font-semibold text-[#1a1a1a] mb-3">Specifications</h2>
-                      <div className="bg-[#f9fafb] rounded-lg p-4">
-                        <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                          {Object.entries(specifications).map(([key, value]) => (
-                            <div key={key} className="contents">
-                              <dt className="text-[#6b7280]">{key}</dt>
-                              <dd className="text-[#1a1a1a] font-medium">{value as string}</dd>
-                            </div>
-                          ))}
-                        </dl>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* CTA Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <Link
-                      href="#quote-form"
-                      className="inline-flex items-center justify-center gap-2 px-6 py-3 text-base font-medium text-white bg-[#8b7355] rounded-md hover:bg-[#6d5a43] transition-colors"
-                    >
-                      <MessageCircle className="w-5 h-5" />
-                      Request a Quote
-                    </Link>
-                    <Link
-                      href={`/${locale}/products/${subcategory}`}
-                      className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-[#8b7355] border border-[#8b7355] rounded-md hover:bg-[#8b7355] hover:text-white transition-colors"
-                    >
-                      View More Products
-                    </Link>
-                  </div>
-
-                  {/* Trust Badges */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-[#e5e7eb]">
-                    {sellingPoints.map((point) => {
-                      const IconComponent = point.icon
-                      return (
-                        <div key={point.title} className="text-center">
-                          <IconComponent className="w-6 h-6 text-[#8b7355] mx-auto mb-1" strokeWidth={1.5} />
-                          <p className="text-xs font-medium text-[#1a1a1a]">{point.title}</p>
-                          <p className="text-xs text-[#6b7280]">{point.description}</p>
+              {Object.keys(specifications).length > 0 && (
+                <div>
+                  <h2 className="text-lg font-semibold text-[#1a1a1a] mb-3">Specifications</h2>
+                  <div className="bg-[#f9fafb] rounded-lg p-4">
+                    <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                      {Object.entries(specifications).map(([key, value]) => (
+                        <div key={key} className="contents">
+                          <dt className="text-[#6b7280]">{key}</dt>
+                          <dd className="text-[#1a1a1a] font-medium">{value as string}</dd>
                         </div>
-                      )
-                    })}
+                      ))}
+                    </dl>
                   </div>
                 </div>
+              )}
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Link
+                  href="#quote-form"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 text-base font-medium text-white bg-[#8b7355] rounded-md hover:bg-[#6d5a43] transition-colors"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  Request a Quote
+                </Link>
+                <Link
+                  href={`/${locale}/products/${subcategory}`}
+                  className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-[#8b7355] border border-[#8b7355] rounded-md hover:bg-[#8b7355] hover:text-white transition-colors"
+                >
+                  View More Products
+                </Link>
               </div>
 
-              {/* SEO Content */}
-              <div className="mt-12 pt-8 border-t border-[#e5e7eb]">
-                <h2 className="text-xl font-serif font-normal text-[#1a1a1a] mb-4">
-                  Why Choose ADA Ceramics for Wholesale {categoryName}?
-                </h2>
-                <div className="prose prose-sm max-w-none text-[#4b5563]">
-                  <p>
-                    As a leading ceramic tableware manufacturer in China, ADA Ceramics specializes in producing
-                    high-quality {categoryName.toLowerCase()} for the global hospitality industry.
-                  </p>
-                  <p className="mt-3">
-                    All our ceramic products are FDA and LFGB certified, ensuring they meet the highest food
-                    safety standards. We offer competitive factory-direct pricing with flexible MOQ options.
-                  </p>
-                </div>
+              {/* Trust Badges */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-[#e5e7eb]">
+                {sellingPoints.map((point) => {
+                  const IconComponent = point.icon
+                  return (
+                    <div key={point.title} className="text-center">
+                      <IconComponent className="w-6 h-6 text-[#8b7355] mx-auto mb-1" strokeWidth={1.5} />
+                      <p className="text-xs font-medium text-[#1a1a1a]">{point.title}</p>
+                      <p className="text-xs text-[#6b7280]">{point.description}</p>
+                    </div>
+                  )
+                })}
               </div>
-            </main>
+            </div>
+          </div>
+
+          {/* SEO Content */}
+          <div className="mt-12 pt-8 border-t border-[#e5e7eb]">
+            <h2 className="text-xl font-serif font-normal text-[#1a1a1a] mb-4">
+              Why Choose ADA Ceramics for Wholesale {categoryName}?
+            </h2>
+            <div className="prose prose-sm max-w-none text-[#4b5563]">
+              <p>
+                As a leading ceramic tableware manufacturer in China, ADA Ceramics specializes in producing
+                high-quality {categoryName.toLowerCase()} for the global hospitality industry.
+              </p>
+              <p className="mt-3">
+                All our ceramic products are FDA and LFGB certified, ensuring they meet the highest food
+                safety standards. We offer competitive factory-direct pricing with flexible MOQ options.
+              </p>
+            </div>
           </div>
         </div>
       </section>
